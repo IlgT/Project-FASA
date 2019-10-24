@@ -1,10 +1,3 @@
-# Project-FASA
+# FASA-Frontend
 
-Finance and Shopping Assistant
-
-## Branches
-
-| Branch            | Content                                                                     |
-| ----------------- | --------------------------------------------------------------------------- |
-| master            | Dummy branch                                                                |
-| FASA-Frontend     | Angular Frontend of this Project                                            |
+The ExpenseTracker-Backend for the FASA - Project.
