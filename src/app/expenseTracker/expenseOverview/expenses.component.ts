@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Expense } from '../../expense';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
+import * as ExpenseActions from '../stateManagement/expense.action';
 import * as fromExpense from '../stateManagement/expense.reducer';
 import * as fromApp from '../../stateManagement/app.reducer';
 
@@ -23,6 +24,7 @@ export class ExpensesComponent implements OnInit {
     //this.subscription = 
     this.store.select('expense').subscribe(
       (expenseState: fromExpense.ExpenseState) => this.expenseState = expenseState);
+    this.store.dispatch(new ExpenseActions.InitializeExpense(this.expenseState));
     this.expenses = this.expenseState.expenses
   }
 

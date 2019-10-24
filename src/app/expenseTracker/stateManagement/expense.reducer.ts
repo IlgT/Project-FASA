@@ -16,7 +16,7 @@ export const initialState: ExpenseState = {
     month: 11,
     expenses: EXPENSES,
     totalSum: {
-        value: 0,
+        value: 200.00,
         currency: 'EUR'
     },
     actualExpense: null,
