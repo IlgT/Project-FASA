@@ -9,8 +9,9 @@ The angular Frontend for the FASA - Project.
   
 ### Install Angular NGRX
   npm install @ngrx/store --save
-  or
-  ng add @ngrx/store
+  
+### Install Angular NGRX-Devtools
+  ng add @ngrx/store-devtools
 
 ## Angular Basics
 ### Development server
