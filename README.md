@@ -9,5 +9,3 @@ Finance and Shopping Assistant
   
 ### Install Angular NGRX
   npm install @ngrx/store --save
-  or
-  ng add @ngrx/store
