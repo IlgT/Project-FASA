@@ -7,7 +7,9 @@ export const ADD_EXPENSE = '[ExpenseTracker] Add expense';
 export const START_MODIFY_EXPENSE = '[ExpenseTracker] Start modifying expense';
 export const MODIFY_EXPENSE = '[ExpenseTracker] Modify expense';
 export const STOP_MODIFY_EXPENSE = '[ExpenseTracker] Stop modifying expense';
+export const START_DELETE_EXPENSE = '[ExpenseTracker] Start deleting expense';
 export const DELETE_EXPENSE = '[ExpenseTracker] Delete expense';
+export const STOP_DELETE_EXPENSE = '[ExpenseTracker] Stop modifying expense';
 
 export class InitializeExpense implements Action {
     readonly type = INITIALIZE_EXPENSE;
@@ -37,8 +39,18 @@ export class StopModifyExpense implements Action {
     readonly type = STOP_MODIFY_EXPENSE;
 }
 
+export class StartDeleteExpense implements Action {
+    readonly type = START_DELETE_EXPENSE;
+   
+    constructor(public payload: number) {}
+}
+
 export class DeleteExpense implements Action {
     readonly type = DELETE_EXPENSE;
+}
+
+export class StopDeleteExpense implements Action {
+    readonly type = STOP_DELETE_EXPENSE;
 }
 
 export type Actions = InitializeExpense
@@ -46,4 +58,6 @@ export type Actions = InitializeExpense
                     | StartModifyExpense
                     | ModifyExpense
                     | StopModifyExpense
-                    | DeleteExpense;
+                    | StartDeleteExpense
+                    | DeleteExpense
+                    | StopDeleteExpense;

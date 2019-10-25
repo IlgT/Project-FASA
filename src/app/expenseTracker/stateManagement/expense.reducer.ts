@@ -36,7 +36,11 @@ export function expenseReducer(state: ExpenseState = initialState, action: Expen
             return {
                 ...state,
                 month: action.payload.month,
-                expenses: [...state.expenses, action.payload.expense]
+                expenses: [...state.expenses, action.payload.expense],
+                totalSum: {
+                    ...state.totalSum,
+                    value: +state.totalSum.value + +action.payload.expense.amount.value
+                }
             };
 
         case ExpenseActions.START_MODIFY_EXPENSE:
@@ -58,7 +62,11 @@ export function expenseReducer(state: ExpenseState = initialState, action: Expen
 
             return {
                 ...state,
-                expenses: updatedExpenses
+                expenses: updatedExpenses,
+                totalSum: {
+                    ...state.totalSum,
+                    value: +state.totalSum + +currentExpense.amount.value
+                }
             };
 
         case ExpenseActions.STOP_MODIFY_EXPENSE:
@@ -68,15 +76,33 @@ export function expenseReducer(state: ExpenseState = initialState, action: Expen
                 modifiedExpense: null
             };
 
+        case ExpenseActions.START_DELETE_EXPENSE:
+            return {
+                ...state,
+                actualExpenseIndex: action.payload,
+                modifiedExpense: { ...state.expenses[action.payload] }
+            }
+
         case ExpenseActions.DELETE_EXPENSE:
             return {
                 ...state,
                 expenses: state.expenses.filter((expense, expenseIndex) => {
                     return expenseIndex !== state.actualExpenseIndex;
                 }),
+                totalSum: {
+                    ...state.totalSum,
+                    value: +state.totalSum.value - +state.actualExpense.amount.value
+                },
                 actualExpense: null,
                 actualExpenseIndex: -1
             }
+
+        case ExpenseActions.STOP_DELETE_EXPENSE:
+            return {
+                ...state,
+                modifiedExpenseIndex: -1,
+                modifiedExpense: null
+            };
 
         default:
             return state;
