@@ -32,6 +32,12 @@ export function expenseReducer(state: ExpenseState = initialState, action: Expen
                 ...action.payload
             };
 
+        case ExpenseActions.START_ADD_EXPENSE:
+            return {
+                ...state,
+                actualExpense: action.payload
+            }
+
         case ExpenseActions.ADD_EXPENSE:
             return {
                 ...state,
@@ -43,7 +49,7 @@ export function expenseReducer(state: ExpenseState = initialState, action: Expen
                 }
             };
 
-        case ExpenseActions.START_MODIFY_EXPENSE:
+        case ExpenseActions.START_MODIFY_EXPENSE, ExpenseActions.START_DELETE_EXPENSE:
             return {
                 ...state,
                 modifiedExpenseIndex: action.payload,
@@ -69,19 +75,12 @@ export function expenseReducer(state: ExpenseState = initialState, action: Expen
                 }
             };
 
-        case ExpenseActions.STOP_MODIFY_EXPENSE:
+        case ExpenseActions.STOP_ADD_EXPENSE, ExpenseActions.STOP_MODIFY_EXPENSE, ExpenseActions.STOP_DELETE_EXPENSE:
             return {
                 ...state,
                 modifiedExpenseIndex: -1,
                 modifiedExpense: null
             };
-
-        case ExpenseActions.START_DELETE_EXPENSE:
-            return {
-                ...state,
-                actualExpenseIndex: action.payload,
-                modifiedExpense: { ...state.expenses[action.payload] }
-            }
 
         case ExpenseActions.DELETE_EXPENSE:
             return {
@@ -96,13 +95,6 @@ export function expenseReducer(state: ExpenseState = initialState, action: Expen
                 actualExpense: null,
                 actualExpenseIndex: -1
             }
-
-        case ExpenseActions.STOP_DELETE_EXPENSE:
-            return {
-                ...state,
-                modifiedExpenseIndex: -1,
-                modifiedExpense: null
-            };
 
         default:
             return state;

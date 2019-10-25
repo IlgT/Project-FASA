@@ -3,7 +3,9 @@ import { Expense } from '../../expense';
 import { expenseReducer, ExpenseState } from './expense.reducer';
 
 export const INITIALIZE_EXPENSE = '[ExpenseTracker] Initialize expenses list';
+export const START_ADD_EXPENSE = '[ExpenseTracker] Start adding new expense';
 export const ADD_EXPENSE = '[ExpenseTracker] Add expense';
+export const STOP_ADD_EXPENSE = '[ExpenseTracker] Stop adding new expense';
 export const START_MODIFY_EXPENSE = '[ExpenseTracker] Start modifying expense';
 export const MODIFY_EXPENSE = '[ExpenseTracker] Modify expense';
 export const STOP_MODIFY_EXPENSE = '[ExpenseTracker] Stop modifying expense';
@@ -17,10 +19,20 @@ export class InitializeExpense implements Action {
     constructor(public payload: ExpenseState) {}
 }
 
+export class StartAddExpense implements Action {
+    readonly type = START_ADD_EXPENSE;
+   
+    constructor(public payload: Expense) {}
+}
+
 export class AddExpense implements Action {
     readonly type = ADD_EXPENSE;
 
     constructor(public payload: {month: number, expense: Expense}) {}
+}
+
+export class StopAddExpense implements Action {
+    readonly type = STOP_ADD_EXPENSE;
 }
 
 export class StartModifyExpense implements Action {
@@ -54,7 +66,9 @@ export class StopDeleteExpense implements Action {
 }
 
 export type Actions = InitializeExpense
+                    | StartAddExpense
                     | AddExpense
+                    | StopAddExpense
                     | StartModifyExpense
                     | ModifyExpense
                     | StopModifyExpense
