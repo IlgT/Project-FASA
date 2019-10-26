@@ -24,7 +24,7 @@ export class ExpensesComponent implements OnInit {
     this.store.select('expense').subscribe(
       (expenseState: fromExpense.ExpenseState) => this.expenseState = expenseState);
     this.expenses = this.expenseState.expenses
-    this.store.dispatch(new ExpenseActions.InitializeExpense(this.expenseState));
+    this.store.dispatch(new ExpenseActions.InitializeExpenseSuccess(this.expenseState));
   }
 
   /** Gets the total cost of all expenses. */

@@ -3,13 +3,15 @@ import { Expense } from '../../expense';
 import { Money } from '../../Money';
 import * as ExpenseActions from './expense.action';
 import { EXPENSES } from '../../expense.testdata';
+import { defaultExpense } from '../expense.defaultdata';
 
 export interface ExpenseState {
     month: number;
     expenses: Expense[];
     totalSum: Money;
     actualExpense: Expense | null;
-    actualExpenseIndex: number;
+    actualExpenseIndex: number | null;
+    errorMessage: String;
   }
 
 export const initialState: ExpenseState = {
@@ -20,33 +22,59 @@ export const initialState: ExpenseState = {
         currency: 'EUR'
     },
     actualExpense: null,
-    actualExpenseIndex: -1
+    actualExpenseIndex: -1,
+    errorMessage: null
 }
 
 export function expenseReducer(state: ExpenseState = initialState, action: ExpenseActions.Actions) {
     console.log(action.type, state)
 
     switch(action.type) {
-        case ExpenseActions.INITIALIZE_EXPENSE:
+        //case ExpenseActions.INITIALIZE_EXPENSE:
+            //return {
+                //...state
+            //};
+
+        case ExpenseActions.INITIALIZE_EXPENSE_SUCCESS:
             return {
                 ...action.payload
             };
 
+        case ExpenseActions.INITIALIZE_EXPENSE_FAILURE:
+            return {
+                ...state,
+                errorMessage: action.payload
+            };
+        
         case ExpenseActions.START_ADD_EXPENSE:
             return {
                 ...state,
-                actualExpense: action.payload
-            }
+                actualExpense: defaultExpense
+            };
 
         case ExpenseActions.ADD_EXPENSE:
             return {
                 ...state,
-                month: action.payload.month,
-                expenses: [...state.expenses, action.payload.expense],
+                actualExpense: action.payload
+            };
+            
+        case ExpenseActions.ADD_EXPENSE_SUCCESS:
+            return {
+                ...state,
+                //month: state.actualExpense.date,
+                expenses: [...state.expenses, state.actualExpense],
                 totalSum: {
                     ...state.totalSum,
-                    value: +state.totalSum.value + +action.payload.expense.amount.value
-                }
+                    value: +state.totalSum.value + +state.actualExpense.amount.value
+                },
+                actualExpense: null
+            };
+
+        case ExpenseActions.ADD_EXPENSE_FAILURE:
+            return {
+                ...state,
+                actualExpense: null,
+                errorMessage: action.payload
             };
 
         case ExpenseActions.START_MODIFY_EXPENSE, ExpenseActions.START_DELETE_EXPENSE:
@@ -57,36 +85,51 @@ export function expenseReducer(state: ExpenseState = initialState, action: Expen
             };
         
         case ExpenseActions.MODIFY_EXPENSE:
-            const currentExpense = state.actualExpense;
             const modifiedExpense = {
-                ...currentExpense,
+                ...state.actualExpense,
                 ...action.payload
             };
 
+            return {
+                ...state,
+                actualExpense: modifiedExpense,
+            };
+
+        case ExpenseActions.MODIFY_EXPENSE_SUCCESS:
             const updatedExpenses = {...state.expenses};
-            updatedExpenses[state.actualExpenseIndex] = modifiedExpense;
+            updatedExpenses[state.actualExpenseIndex] = state.actualExpense;
 
             return {
                 ...state,
-                expenses: updatedExpenses,
+                //month: state.actualExpense.date,
                 totalSum: {
                     ...state.totalSum,
-                    value: +state.totalSum + +currentExpense.amount.value
-                }
+                    value: +state.totalSum.value - +state.expenses[state.actualExpenseIndex] + +state.actualExpense.amount.value
+                },
+                expenses: updatedExpenses,
+                actualExpense: null,
+                actualExpenseIndex: -1
             };
 
-        case ExpenseActions.STOP_ADD_EXPENSE, ExpenseActions.STOP_MODIFY_EXPENSE, ExpenseActions.STOP_DELETE_EXPENSE:
+        case ExpenseActions.MODIFY_EXPENSE_FAILURE:
             return {
                 ...state,
-                modifiedExpenseIndex: -1,
-                modifiedExpense: null
+                actualExpense: null,
+                actualExpenseIndex: -1,
+                errorMessage: action.payload
             };
+            
+        //case ExpenseActions.DELETE_EXPENSE:
+            //return {
+                //...state
+            //};
 
-        case ExpenseActions.DELETE_EXPENSE:
+        case ExpenseActions.DELETE_EXPENSE_SUCCESS:
             return {
                 ...state,
+                //month: state.actualExpense.date,
                 expenses: state.expenses.filter((expense, expenseIndex) => {
-                    return expenseIndex !== state.actualExpenseIndex;
+                        return expenseIndex !== state.actualExpenseIndex;
                 }),
                 totalSum: {
                     ...state.totalSum,
@@ -94,6 +137,14 @@ export function expenseReducer(state: ExpenseState = initialState, action: Expen
                 },
                 actualExpense: null,
                 actualExpenseIndex: -1
+            };
+        
+        case ExpenseActions.DELETE_EXPENSE_FAILURE:
+            return {
+                ...state,
+                actualExpense: null,
+                actualExpenseIndex: -1,
+                errorMessage: action.payload
             }
 
         default:
