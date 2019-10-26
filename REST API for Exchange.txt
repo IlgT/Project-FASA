@@ -1,0 +1,28 @@
+ 
+
+// "latest" endpoint - request the most recent exchange rate data
+
+http://data.fixer.io/api/latest
+
+    ? access_key = YOUR_ACCESS_KEY
+    & base = GBP
+    & symbols = USD,AUD,CAD,PLN,MXN
+
+// Tobias, click on the URL above to get the most recent exchange
+// rates for USD, AUD, CAD, PLN and MXN
+
+// "historical" endpoint - request historical rates for a specific day
+
+http://data.fixer.io/api/YYYY-MM-DD
+
+    ? access_key = YOUR_ACCESS_KEY
+    & base = JPY
+    & symbols = USD,AUD,CAD,PLN,MXN
+
+// Tobias, click on the URL above to request historical data from
+// 2013-03-16 for the currencies USD, AUD, CAD, PLN and MXN
+
+
+ODER
+
+https://exchangeratesapi.io/

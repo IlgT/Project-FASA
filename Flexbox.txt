@@ -1,0 +1,13 @@
+Flexbox
+
+Flexcontainer:
+display: flex --> responsive;	inline-flex ---> blocklike
+flex-flow: flex-direction flex-wrap; start of axis and direction, how to wrap if more space is needed
+align-items: align flexitems referring to the crossaxis
+justify-content: align flexitems referring to the mainaxis
+align-content: align flexitems referring to the crossaxis but with more then one line (so extra space)
+
+Flexitems:
+
+
+GRID

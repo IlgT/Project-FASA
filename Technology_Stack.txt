@@ -1,0 +1,10 @@
+Frontend:
+	Angular
+	Angular Material
+	Ngrx
+
+Backend:
+	Java 11
+	Spring Boot
+	Swagger2
+	log4j2 / logback
