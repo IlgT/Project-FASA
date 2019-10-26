@@ -1,4 +1,4 @@
-Flexbox
+Flexbox (https://codepen.io/enxaneta/full/adLPwv/)
 
 Flexcontainer:
 display: flex --> responsive;	inline-flex ---> blocklike
@@ -8,6 +8,3 @@ justify-content: align flexitems referring to the mainaxis
 align-content: align flexitems referring to the crossaxis but with more then one line (so extra space)
 
 Flexitems:
-
-
-GRID
