@@ -6,7 +6,7 @@ import * as fromExpense from '../stateManagement/expense.reducer';
 import * as fromApp from '../../stateManagement/app.reducer';
 
 @Component({
-  selector: 'expensesSubDlg',
+  selector: 'expenseTracker-overview',
   templateUrl: './expenses.component.html',
   styleUrls: ['./expenses.component.css']
 })
