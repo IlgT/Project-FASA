@@ -1,0 +1,52 @@
+<div class="container">
+    <h1>Add/Edit Expense</h1>
+    <form #editExpenseForm="ngForm">
+      <div class="form-group">
+        <label for="reason">Reason</label>
+        <input type="text" class="form-control" id="reason"
+            required
+            [(ngModel)]="actualExpense.reason" name="reason"
+            #reason="ngModel">
+        <div [hidden]="reason.valid || reason.pristine"
+        class="alert alert-danger">
+        Reason is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="amount">Amount</label>
+        <input type="number" class="form-control" id="amount"
+            required
+            [(ngModel)]="actualExpense.amount.value" name="amount"
+            #amount="ngModel">
+        <div [hidden]="amount.valid || amount.pristine"
+        class="alert alert-danger">
+        Amount is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="date">Date</label>
+        <input type="date" class="form-control" id="date"
+            required
+            [(ngModel)]="actualExpense.date" name="date"
+            #date="ngModel">
+        <div [hidden]="date.valid || date.pristine"
+        class="alert alert-danger">
+        Date is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="tag">Tag</label>
+        <select class="form-control" id="tag"
+            required
+            [(ngModel)]="actualExpense.tag" name="tag">
+          <option *ngFor="let tag of tags" [value]="tag">{{tag.name}}</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-success">Submit</button>
+
+    </form>
+</div>

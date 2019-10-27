@@ -9,15 +9,19 @@ import { ExpensesComponent } from './expenseTracker/expenseOverview/expenses.com
 import * as fromApp from './stateManagement/app.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
+import { FormsModule } from '@angular/forms';
+import { EditExpenseComponent } from './expenseTracker/edit-expense/edit-expense.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ExpensesComponent
+    ExpensesComponent,
+    EditExpenseComponent
   ],
   imports: [
     BrowserModule,
     MatTableModule,
+    FormsModule,
     BrowserAnimationsModule,
     StoreModule.forRoot(fromApp.appReducer, {
       runtimeChecks: {
