@@ -16,14 +16,11 @@ export class EditExpenseComponent implements OnInit {
     id:1,
     reason: '',
     amount: {
-      value: 0,
+      value: null,
       currency: '€'
     },
-    date: new Date(),
-    tag: {
-      id:1,
-      name:'Shopping'
-    }
+    date: null,
+    tag: null
   };
 
   constructor() {
