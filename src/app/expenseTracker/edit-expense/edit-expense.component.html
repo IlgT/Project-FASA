@@ -43,7 +43,7 @@
             required
             [(ngModel)]="actualExpense.tag" name="tag"
             #tag="ngModel">
-            <option [ngValue]="null" selected>Please selecet a tag</option>
+            <option disabled [ngValue]="null" selected>Please selecet a tag</option>
             <option *ngFor="let tag of tags" [value]="tag">{{tag.name}}</option>
         </select>
         <div [hidden]="tag.valid || tag.pristine"
