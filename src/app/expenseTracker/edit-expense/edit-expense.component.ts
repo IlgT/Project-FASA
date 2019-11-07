@@ -13,7 +13,7 @@ export class EditExpenseComponent implements OnInit {
   tags: Tag[];
 
   actualExpense: Expense = {
-    id:1,
+    id:null,
     reason: '',
     amount: {
       value: null,
@@ -30,7 +30,7 @@ export class EditExpenseComponent implements OnInit {
   ngOnInit() {
   }
 
-
-  // TODO: Remove this when we're done
-  get diagnostic() { return JSON.stringify(this.actualExpense); }
+  onSubmit() {
+    console.log(this.actualExpense);
+  }
 }

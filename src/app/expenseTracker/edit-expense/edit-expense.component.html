@@ -1,6 +1,6 @@
 <div class="container">
     <h1>Add/Edit Expense</h1>
-    <form #editExpenseForm="ngForm">
+    <form (ngSubmit)="onSubmit()" #editExpenseForm="ngForm">
       <div class="form-group">
         <label for="reason">Reason</label>
         <input type="text" class="form-control" id="reason"
@@ -44,7 +44,7 @@
             [(ngModel)]="actualExpense.tag" name="tag"
             #tag="ngModel">
             <option disabled [ngValue]="null" selected>Please selecet a tag</option>
-            <option *ngFor="let tag of tags" [value]="tag">{{tag.name}}</option>
+            <option *ngFor="let tag of tags" [ngValue]="tag">{{tag.name}}</option>
         </select>
         <div [hidden]="tag.valid || tag.pristine"
         class="alert alert-danger">
@@ -52,7 +52,7 @@
         </div>
       </div>
 
-      <button type="submit" class="btn btn-success">Submit</button>
+      <button type="submit" [disabled]="editExpenseForm.invalid " class="btn btn-success">Submit</button>
 
     </form>
 </div>
