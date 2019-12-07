@@ -11,7 +11,7 @@ import * as fromApp from '../../stateManagement/app.reducer';
   styleUrls: ['./expenses.component.css']
 })
 export class ExpensesComponent implements OnInit {
-  headers: string[] = ["id", "value", "reason", "date", "exchangeValue", "exchangeRate", "tag"];
+  displayedColumns: string[] = ["id", "value", "reason", "date", "exchangeValue", "exchangeRate", "tag", "more"];
 
   expenseState: fromExpense.ExpenseState;
   expenses: Expense[];

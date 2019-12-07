@@ -52,7 +52,8 @@
         </div>
       </div>
 
-      <button type="submit" [disabled]="editExpenseForm.invalid " class="btn btn-success">Submit</button>
+      <button type="submit" [disabled]="editExpenseForm.invalid " class="btn btn-success"
+        [routerLink]="['/expense-overview']">Submit</button>
 
     </form>
 </div>

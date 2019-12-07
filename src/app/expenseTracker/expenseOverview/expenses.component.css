@@ -1,16 +1,37 @@
-.example-container {
-    height: 270px;
+.table-container {
+    width: 100%;
     overflow: auto;
-}
+  }
   
 table {
+    min-width: 800px;
     width: 100%;
 }
-  
+
 tr.mat-footer-row {
     font-weight: bold;
 }
   
 .mat-table-sticky {
     border-top: 1px solid #e0e0e0;
+}
+
+th.mat-column-position, td.mat-column-position {
+    padding-left: 25px;
+}
+
+td.mat-column-star {
+    width: 20px;
+    padding-right: 8px;
+}
+
+.add-button {
+    background-color: green;
+    color: white;
+}
+
+.mobile-position-add-button {
+    position:fixed;
+    bottom:5px;
+    right:5px;
 }

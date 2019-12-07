@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { MatTableModule } from '@angular/material';
+import { MatTableModule, MatIconModule, MatButtonModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
 import { ExpensesComponent } from './expenseTracker/expenseOverview/expenses.component';
@@ -11,6 +11,14 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { FormsModule } from '@angular/forms';
 import { EditExpenseComponent } from './expenseTracker/edit-expense/edit-expense.component';
+import { RouterModule, Routes } from '@angular/router';
+
+const appRoutes: Routes = [
+  { path: 'expense-overview', component: ExpensesComponent },
+  { path: 'edit-expense',      component: EditExpenseComponent },
+  { path: '', redirectTo: '/expense-overview', pathMatch: 'full'},
+  /*{ path: '**', component: PageNotFoundComponent }*/
+];
 
 @NgModule({
   declarations: [
@@ -21,8 +29,11 @@ import { EditExpenseComponent } from './expenseTracker/edit-expense/edit-expense
   imports: [
     BrowserModule,
     MatTableModule,
+    MatIconModule,
+    MatButtonModule,
     FormsModule,
     BrowserAnimationsModule,
+    RouterModule.forRoot(appRoutes),
     StoreModule.forRoot(fromApp.appReducer, {
       runtimeChecks: {
         strictStateImmutability: true,

@@ -4,7 +4,7 @@ import { TAGS } from './tag.testdata';
 import { Expense } from 'src/app/expense';
 
 @Component({
-  selector: 'expensetracker-edit',
+  selector: 'expenseTracker-edit',
   templateUrl: './edit-expense.component.html',
   styleUrls: ['./edit-expense.component.css']
 })

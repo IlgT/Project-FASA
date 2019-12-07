@@ -25,7 +25,7 @@ export const EXPENSES: Expense[] = [
       value: 114.14,
       currency: "EUR"
     },
-    reason: "Kaufland",
+    reason: "Walt Disney World Resort",
     date: new Date(),
     exchangeValue: {
       value: 85.86,
