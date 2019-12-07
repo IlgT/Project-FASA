@@ -5,13 +5,16 @@ The angular Frontend for the FASA - Project.
 ## Installation guide after cloning:
 
 ### Install Angular material
-  npm install --save @angular/material @angular/cdk
+   npm install --save @angular/material @angular/cdk
+  
+### Install Angular icons
+  	npm install material-icons --save
   
 ### Install Angular NGRX
-  npm install @ngrx/store --save
+   npm install @ngrx/store --save
   
 ### Install Angular NGRX-Devtools
-  ng add @ngrx/store-devtools
+   ng add @ngrx/store-devtools
 
 ## Angular Basics
 ### Development server
