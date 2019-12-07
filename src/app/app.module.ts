@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { MatTableModule, MatIconModule, MatButtonModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
-import { ExpensesComponent } from './expenseTracker/expenseOverview/expenses.component';
+import { ExpenseOverviewComponent } from './expenseTracker/expenseOverview/expense-overview.component';
 import * as fromApp from './stateManagement/app.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
@@ -14,7 +14,7 @@ import { EditExpenseComponent } from './expenseTracker/edit-expense/edit-expense
 import { RouterModule, Routes } from '@angular/router';
 
 const appRoutes: Routes = [
-  { path: 'expense-overview', component: ExpensesComponent },
+  { path: 'expense-overview', component: ExpenseOverviewComponent },
   { path: 'edit-expense',      component: EditExpenseComponent },
   { path: '', redirectTo: '/expense-overview', pathMatch: 'full'},
   /*{ path: '**', component: PageNotFoundComponent }*/
@@ -23,7 +23,7 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    ExpensesComponent,
+    ExpenseOverviewComponent,
     EditExpenseComponent
   ],
   imports: [

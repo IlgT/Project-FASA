@@ -7,10 +7,10 @@ import * as fromApp from '../../stateManagement/app.reducer';
 
 @Component({
   selector: 'expenseTracker-overview',
-  templateUrl: './expenses.component.html',
-  styleUrls: ['./expenses.component.css']
+  templateUrl: './expense-overview.component.html',
+  styleUrls: ['./expense-overview.component.css']
 })
-export class ExpensesComponent implements OnInit {
+export class ExpenseOverviewComponent implements OnInit {
   displayedColumns: string[] = ["id", "value", "reason", "date", "exchangeValue", "exchangeRate", "tag", "more"];
 
   expenseState: fromExpense.ExpenseState;
