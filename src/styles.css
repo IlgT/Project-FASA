@@ -4,8 +4,14 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+.flex-container {
+    display: flex;
+    justify-content: center;
+}
+
 #content-desktop {
-    display: block;
+    display: flex;
+    justify-content: center;
 }
 #content-mobile {
     display: none;
@@ -17,6 +23,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
         display: none;
     }
     #content-mobile {
-        display: block;
+        display: flex;
+        justify-content: center;
     }
 }

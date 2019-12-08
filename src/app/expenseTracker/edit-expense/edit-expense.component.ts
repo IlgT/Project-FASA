@@ -33,4 +33,17 @@ export class EditExpenseComponent implements OnInit {
   onSubmit() {
     console.log(this.actualExpense);
   }
+
+  onReset() {
+    this.actualExpense = {
+      id:null,
+      reason: '',
+      amount: {
+        value: null,
+        currency: '€'
+      },
+      date: null,
+      tag: null
+    };
+  }
 }

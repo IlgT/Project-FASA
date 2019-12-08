@@ -52,8 +52,13 @@
         </div>
       </div>
 
-      <button type="submit" [disabled]="editExpenseForm.invalid " class="btn btn-success"
-        [routerLink]="['/expense-overview']">Submit</button>
+      <div class="button-row">
+        <button type="submit" [disabled]="editExpenseForm.invalid " class="btn btn-success"
+          [routerLink]="['/expense-overview']">Submit</button>
+        <button type="reset" class="btn btn-info">Reset</button>
+        <button type="button" class="btn btn-danger"
+          [routerLink]="['/expense-overview']">Cancel</button>
+      </div>
 
     </form>
 </div>

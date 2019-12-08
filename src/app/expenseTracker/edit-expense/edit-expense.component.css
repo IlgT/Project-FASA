@@ -1,7 +1,13 @@
 .ng-valid[required], .ng-valid.required  {
-    border-left: 7px solid green;
-  }
+  border-left: 7px solid green;
+}
   
-  .ng-invalid:not(form)  {
-    border-left: 7px solid red;
-  }
+.ng-invalid:not(form)  {
+  border-left: 7px solid red;
+}
+
+.button-row {
+  width: 250px;
+  display: flex;
+  justify-content: space-between;
+}

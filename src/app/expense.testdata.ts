@@ -36,5 +36,203 @@ export const EXPENSES: Expense[] = [
       id: 1,
       name: "Lebensmittel"
     }
+  },
+  {
+    id: 3,
+    amount: {
+      value: 114.14,
+      currency: "EUR"
+    },
+    reason: "Walt Disney World Resort",
+    date: new Date(),
+    exchangeValue: {
+      value: 85.86,
+      currency: "USD"
+    },
+    exchangeRate: 1.329,
+    tag: {
+      id: 1,
+      name: "Lebensmittel"
+    }
+  },
+  {
+    id: 4,
+    amount: {
+      value: 114.14,
+      currency: "EUR"
+    },
+    reason: "Walt Disney World Resort",
+    date: new Date(),
+    exchangeValue: {
+      value: 85.86,
+      currency: "USD"
+    },
+    exchangeRate: 1.329,
+    tag: {
+      id: 1,
+      name: "Lebensmittel"
+    }
+  },
+  {
+    id: 5,
+    amount: {
+      value: 114.14,
+      currency: "EUR"
+    },
+    reason: "Walt Disney World Resort",
+    date: new Date(),
+    exchangeValue: {
+      value: 85.86,
+      currency: "USD"
+    },
+    exchangeRate: 1.329,
+    tag: {
+      id: 1,
+      name: "Lebensmittel"
+    }
+  },
+  {
+    id: 6,
+    amount: {
+      value: 114.14,
+      currency: "EUR"
+    },
+    reason: "Walt Disney World Resort",
+    date: new Date(),
+    exchangeValue: {
+      value: 85.86,
+      currency: "USD"
+    },
+    exchangeRate: 1.329,
+    tag: {
+      id: 1,
+      name: "Lebensmittel"
+    }
+  },
+  {
+    id: 7,
+    amount: {
+      value: 114.14,
+      currency: "EUR"
+    },
+    reason: "Walt Disney World Resort",
+    date: new Date(),
+    exchangeValue: {
+      value: 85.86,
+      currency: "USD"
+    },
+    exchangeRate: 1.329,
+    tag: {
+      id: 1,
+      name: "Lebensmittel"
+    }
+  },
+  {
+    id: 8,
+    amount: {
+      value: 114.14,
+      currency: "EUR"
+    },
+    reason: "Walt Disney World Resort",
+    date: new Date(),
+    exchangeValue: {
+      value: 85.86,
+      currency: "USD"
+    },
+    exchangeRate: 1.329,
+    tag: {
+      id: 1,
+      name: "Lebensmittel"
+    }
+  },
+  {
+    id: 9,
+    amount: {
+      value: 114.14,
+      currency: "EUR"
+    },
+    reason: "Walt Disney World Resort",
+    date: new Date(),
+    exchangeValue: {
+      value: 85.86,
+      currency: "USD"
+    },
+    exchangeRate: 1.329,
+    tag: {
+      id: 1,
+      name: "Lebensmittel"
+    }
+  },
+  {
+    id: 10,
+    amount: {
+      value: 114.14,
+      currency: "EUR"
+    },
+    reason: "Walt Disney World Resort",
+    date: new Date(),
+    exchangeValue: {
+      value: 85.86,
+      currency: "USD"
+    },
+    exchangeRate: 1.329,
+    tag: {
+      id: 1,
+      name: "Lebensmittel"
+    }
+  },
+  {
+    id: 11,
+    amount: {
+      value: 114.14,
+      currency: "EUR"
+    },
+    reason: "Walt Disney World Resort",
+    date: new Date(),
+    exchangeValue: {
+      value: 85.86,
+      currency: "USD"
+    },
+    exchangeRate: 1.329,
+    tag: {
+      id: 1,
+      name: "Lebensmittel"
+    }
+  },
+  {
+    id: 12,
+    amount: {
+      value: 114.14,
+      currency: "EUR"
+    },
+    reason: "Walt Disney World Resort",
+    date: new Date(),
+    exchangeValue: {
+      value: 85.86,
+      currency: "USD"
+    },
+    exchangeRate: 1.329,
+    tag: {
+      id: 1,
+      name: "Lebensmittel"
+    }
+  },
+  {
+    id: 13,
+    amount: {
+      value: 114.14,
+      currency: "EUR"
+    },
+    reason: "Walt Disney World Resort",
+    date: new Date(),
+    exchangeValue: {
+      value: 85.86,
+      currency: "USD"
+    },
+    exchangeRate: 1.329,
+    tag: {
+      id: 1,
+      name: "Lebensmittel"
+    }
   }
   ];

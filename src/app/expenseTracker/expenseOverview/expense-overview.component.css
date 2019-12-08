@@ -1,5 +1,5 @@
 .table-container {
-    width: 100%;
+    height: 100%;
     overflow: auto;
   }
   
@@ -28,6 +28,7 @@ td.mat-column-star {
 .add-button {
     background-color: green;
     color: white;
+    z-index: 100;
 }
 
 .mobile-position-add-button {
