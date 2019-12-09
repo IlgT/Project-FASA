@@ -22,19 +22,19 @@ export const EXPENSES: Expense[] = [
   {
     id: 2,
     amount: {
-      value: 114.14,
+      value: 132.90,
       currency: "EUR"
     },
     reason: "Walt Disney World Resort",
     date: new Date(),
     exchangeValue: {
-      value: 85.86,
+      value: 100.00,
       currency: "USD"
     },
     exchangeRate: 1.329,
     tag: {
       id: 1,
-      name: "Lebensmittel"
+      name: "Fun"
     }
   },
   {
