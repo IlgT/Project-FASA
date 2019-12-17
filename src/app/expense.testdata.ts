@@ -25,16 +25,20 @@ export const EXPENSES: Expense[] = [
       value: 132.90,
       currency: "EUR"
     },
-    reason: "Walt Disney World Resort",
+    reason: "KFZ-Versicherung",
     date: new Date(),
     exchangeValue: {
-      value: 100.00,
-      currency: "USD"
+      value: 132.90,
+      currency: "EUR"
     },
-    exchangeRate: 1.329,
+    exchangeRate: 1,
     tags: [{
       id: 1,
-      name: "Fun"
+      name: "Versicherung"
+    },
+    {
+      id: 2,
+      name: "Jährlich"
     }]
   },
   {

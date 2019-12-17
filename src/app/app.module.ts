@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { MatTableModule, MatIconModule, MatButtonModule, MatSortModule } from '@angular/material';
+import { MatTableModule, MatIconModule, MatButtonModule, MatSortModule, MatChipsModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
 import { ExpenseOverviewComponent } from './expenseTracker/expenseOverview/expense-overview.component';
@@ -32,6 +32,7 @@ const appRoutes: Routes = [
     MatSortModule,
     MatIconModule,
     MatButtonModule,
+    MatChipsModule,
     FormsModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(appRoutes),
