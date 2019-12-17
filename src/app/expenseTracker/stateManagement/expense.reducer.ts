@@ -7,7 +7,7 @@ import { defaultExpense } from '../expense.defaultdata';
 
 export interface ExpenseState {
     month: number;
-    tag: String;
+    tags: String[];
     expenses: Expense[];
     totalSum: Money;
     actualExpense: Expense | null;
@@ -17,7 +17,7 @@ export interface ExpenseState {
 
 export const initialState: ExpenseState = {
     month: 11,
-    tag: '',
+    tags: [],
     expenses: EXPENSES,
     totalSum: {
         value: 200.00,

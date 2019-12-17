@@ -40,11 +40,10 @@
       <div class="form-group">
         <label for="tag">Tag</label>
         <select class="form-control" id="tag"
-            required
-            [(ngModel)]="actualExpense.tag" name="tag"
+            [(ngModel)]="actualExpense.tags[0]" name="tag"
             #tag="ngModel">
             <option disabled [ngValue]="null" selected>Please selecet a tag</option>
-            <option *ngFor="let tag of tags" [ngValue]="tag">{{tag.name}}</option>
+            <option *ngFor="let predefinedTag of predefinedTags" [ngValue]="predefinedTag">{{predefinedTag.name}}</option>
         </select>
         <div [hidden]="tag.valid || tag.pristine"
         class="alert alert-danger">
@@ -53,8 +52,7 @@
       </div>
 
       <div class="button-row">
-        <button type="submit" [disabled]="editExpenseForm.invalid " class="btn btn-success"
-          [routerLink]="['/expense-overview']">Submit</button>
+        <button type="submit" [disabled]="editExpenseForm.invalid " class="btn btn-success">Submit</button>
         <button type="reset" class="btn btn-info">Reset</button>
         <button type="button" class="btn btn-danger"
           [routerLink]="['/expense-overview']">Cancel</button>

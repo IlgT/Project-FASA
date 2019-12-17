@@ -37,7 +37,7 @@ export class ExpenseOverviewComponent implements OnInit {
     this.expenses.sortingDataAccessor = (expense, property) => {
       switch (property) {
         case 'value': return expense.amount.value;
-        case 'tag': return expense.tag.name;
+        case 'tag': return expense.tags[0].name;
         case 'exchangeValue': return expense.exchangeValue.value;
         default: return expense[property];
       }

@@ -8,5 +8,5 @@ export class Expense {
     date: Date;
     exchangeValue?: Money;
     exchangeRate?: number;
-    tag: Tag;
+    tags: Tag[];
 }

@@ -14,10 +14,10 @@ export const EXPENSES: Expense[] = [
       currency: "€"
     },
     exchangeRate: 1,
-    tag: {
+    tags: [{
       id: 1,
       name: "Lebensmittel"
-    }
+    }]
   },
   {
     id: 2,
@@ -32,10 +32,10 @@ export const EXPENSES: Expense[] = [
       currency: "USD"
     },
     exchangeRate: 1.329,
-    tag: {
+    tags: [{
       id: 1,
       name: "Fun"
-    }
+    }]
   },
   {
     id: 3,
@@ -50,10 +50,10 @@ export const EXPENSES: Expense[] = [
       currency: "USD"
     },
     exchangeRate: 1.329,
-    tag: {
+    tags: [{
       id: 1,
       name: "Lebensmittel"
-    }
+    }]
   },
   {
     id: 4,
@@ -68,10 +68,10 @@ export const EXPENSES: Expense[] = [
       currency: "USD"
     },
     exchangeRate: 1.329,
-    tag: {
+    tags: [{
       id: 1,
       name: "Lebensmittel"
-    }
+    }]
   },
   {
     id: 5,
@@ -86,10 +86,10 @@ export const EXPENSES: Expense[] = [
       currency: "USD"
     },
     exchangeRate: 1.329,
-    tag: {
+    tags: [{
       id: 1,
       name: "Lebensmittel"
-    }
+    }]
   },
   {
     id: 6,
@@ -104,10 +104,10 @@ export const EXPENSES: Expense[] = [
       currency: "USD"
     },
     exchangeRate: 1.329,
-    tag: {
+    tags: [{
       id: 1,
       name: "Lebensmittel"
-    }
+    }]
   },
   {
     id: 7,
@@ -122,10 +122,10 @@ export const EXPENSES: Expense[] = [
       currency: "USD"
     },
     exchangeRate: 1.329,
-    tag: {
+    tags: [{
       id: 1,
       name: "Lebensmittel"
-    }
+    }]
   },
   {
     id: 8,
@@ -140,10 +140,10 @@ export const EXPENSES: Expense[] = [
       currency: "USD"
     },
     exchangeRate: 1.329,
-    tag: {
+    tags: [{
       id: 1,
       name: "Lebensmittel"
-    }
+    }]
   },
   {
     id: 9,
@@ -158,10 +158,10 @@ export const EXPENSES: Expense[] = [
       currency: "USD"
     },
     exchangeRate: 1.329,
-    tag: {
+    tags: [{
       id: 1,
       name: "Lebensmittel"
-    }
+    }]
   },
   {
     id: 10,
@@ -176,10 +176,10 @@ export const EXPENSES: Expense[] = [
       currency: "USD"
     },
     exchangeRate: 1.329,
-    tag: {
+    tags: [{
       id: 1,
       name: "Lebensmittel"
-    }
+    }]
   },
   {
     id: 11,
@@ -194,10 +194,10 @@ export const EXPENSES: Expense[] = [
       currency: "USD"
     },
     exchangeRate: 1.329,
-    tag: {
+    tags: [{
       id: 1,
       name: "Lebensmittel"
-    }
+    }]
   },
   {
     id: 12,
@@ -212,10 +212,10 @@ export const EXPENSES: Expense[] = [
       currency: "USD"
     },
     exchangeRate: 1.329,
-    tag: {
+    tags: [{
       id: 1,
       name: "Lebensmittel"
-    }
+    }]
   },
   {
     id: 13,
@@ -230,9 +230,9 @@ export const EXPENSES: Expense[] = [
       currency: "USD"
     },
     exchangeRate: 1.329,
-    tag: {
+    tags: [{
       id: 1,
       name: "Lebensmittel"
-    }
+    }]
   }
   ];

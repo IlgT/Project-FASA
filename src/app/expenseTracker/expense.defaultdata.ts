@@ -1,20 +1,17 @@
 import { Expense } from '../expense';
 
 export const defaultExpense: Expense = {
-    id: 1,
+    id: null,
+    reason: "",
     amount: {
-      value: 85.86,
-      currency: "EUR"
+      value: null,
+      currency: "€"
     },
-    reason: "Kaufland",
-    date: new Date(),
+    date: null,
     exchangeValue: {
-      value: 85.86,
+      value: null,
       currency: "€"
     },
     exchangeRate: 1,
-    tag: {
-      id: 1,
-      name: "Lebensmittel"
-    }
+    tags: [null]
   }

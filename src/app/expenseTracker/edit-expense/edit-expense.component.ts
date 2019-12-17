@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Tag } from 'src/app/Tag';
-import { TAGS } from './tag.testdata';
 import { Expense } from 'src/app/expense';
+import { Tag } from 'src/app/Tag';
+import { defaultExpense } from '../expense.defaultdata';
+import { TAGS } from './tag.testdata';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'expenseTracker-edit',
@@ -10,21 +12,12 @@ import { Expense } from 'src/app/expense';
 })
 export class EditExpenseComponent implements OnInit {
 
-  tags: Tag[];
+  predefinedTags: Tag[];
 
-  actualExpense: Expense = {
-    id:null,
-    reason: '',
-    amount: {
-      value: null,
-      currency: '€'
-    },
-    date: null,
-    tag: null
-  };
+  actualExpense: Expense = defaultExpense;
 
-  constructor() {
-    this.tags = TAGS;
+  constructor(private router: Router) {
+    this.predefinedTags = TAGS;
   }
 
   ngOnInit() {
@@ -32,18 +25,6 @@ export class EditExpenseComponent implements OnInit {
 
   onSubmit() {
     console.log(this.actualExpense);
-  }
-
-  onReset() {
-    this.actualExpense = {
-      id:null,
-      reason: '',
-      amount: {
-        value: null,
-        currency: '€'
-      },
-      date: null,
-      tag: null
-    };
+    this.router.navigate(['/expense-overview']);
   }
 }
