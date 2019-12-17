@@ -1,6 +1,7 @@
 <div class="container">
     <h1>Add/Edit Expense</h1>
-    <form (ngSubmit)="onSubmit()" #editExpenseForm="ngForm">
+    <form #editExpenseForm="ngForm" (ngSubmit)="onSubmit(); editExpenseForm.reset()"
+      #editExpenseForm="ngForm">
       <div class="form-group">
         <label for="reason">Reason</label>
         <input type="text" class="form-control" id="reason"
