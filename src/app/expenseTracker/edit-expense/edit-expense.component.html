@@ -85,7 +85,7 @@
       <div class="button-row">
         <button type="submit" [disabled]="editExpenseForm.invalid " class="btn btn-success">Submit</button>
         <button type="button" class="btn btn-info" (click)="resetTags(); editExpenseForm.reset()">Reset</button>
-        <button type="button" class="btn btn-danger"
+        <button type="button" class="btn btn-danger" (click)="editExpenseForm.reset()"
           [routerLink]="['/expense-overview']">Cancel</button>
       </div>
 
