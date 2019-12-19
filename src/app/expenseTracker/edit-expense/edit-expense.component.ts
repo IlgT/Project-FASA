@@ -10,6 +10,8 @@ import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { SnackbarUserFeedbackComponent } from 'src/app/snackbar-user-feedback/snackbar-user-feedback.component';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'expenseTracker-edit',
@@ -33,7 +35,8 @@ export class EditExpenseComponent implements OnInit {
 
   actualExpense: Expense = defaultExpense;
 
-  constructor(private router: Router) {
+  constructor(private router: Router,
+              private _snackBar: MatSnackBar) {
     this.predefinedTags = TAGS;
     this.filteredTags = this.tagControl.valueChanges.pipe(
         startWith(null),
@@ -108,5 +111,11 @@ export class EditExpenseComponent implements OnInit {
 
   resetTags() {
     this.actualExpense.tags = [];
+  }
+
+  openSnackBar(message: string) {
+    this._snackBar.openFromComponent(SnackbarUserFeedbackComponent, {
+      data: message,
+    });
   }
 }

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { MatTableModule, MatIconModule, MatButtonModule, MatSortModule, MatChipsModule,
-         MatInputModule, MatFormFieldModule, MatAutocompleteModule } from '@angular/material';
+         MatInputModule, MatFormFieldModule, MatAutocompleteModule, MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
 import { ExpenseOverviewComponent } from './expenseTracker/expenseOverview/expense-overview.component';
@@ -13,6 +13,7 @@ import { environment } from '../environments/environment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditExpenseComponent } from './expenseTracker/edit-expense/edit-expense.component';
 import { RouterModule, Routes } from '@angular/router';
+import { SnackbarUserFeedbackComponent } from './snackbar-user-feedback/snackbar-user-feedback.component';
 
 const appRoutes: Routes = [
   { path: 'expense-overview', component: ExpenseOverviewComponent },
@@ -25,7 +26,8 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     ExpenseOverviewComponent,
-    EditExpenseComponent
+    EditExpenseComponent,
+    SnackbarUserFeedbackComponent
   ],
   imports: [
     BrowserModule,
@@ -36,6 +38,7 @@ const appRoutes: Routes = [
     MatFormFieldModule,
     MatChipsModule,
     MatInputModule,
+    MatSnackBarModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
     FormsModule,
@@ -53,7 +56,13 @@ const appRoutes: Routes = [
       ? StoreDevtoolsModule.instrument()
       : []
   ],
-  providers: [],
+  entryComponents: [
+    SnackbarUserFeedbackComponent,
+  ],
+  providers: [
+    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: 
+      {duration: 750,  panelClass: ['black-lightblue-snackbar']}}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
