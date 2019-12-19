@@ -7,7 +7,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .black-lightblue-snackbar {
     background: black;
     color: lightblue;
-    text-align: center;
 }
 
 .flex-container {

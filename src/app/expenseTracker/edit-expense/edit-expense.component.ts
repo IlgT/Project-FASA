@@ -10,7 +10,6 @@ import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { SnackbarUserFeedbackComponent } from 'src/app/snackbar-user-feedback/snackbar-user-feedback.component';
 import { MatSnackBar } from '@angular/material';
 
 @Component({
@@ -114,8 +113,6 @@ export class EditExpenseComponent implements OnInit {
   }
 
   openSnackBar(message: string) {
-    this._snackBar.openFromComponent(SnackbarUserFeedbackComponent, {
-      data: message,
-    });
+    this._snackBar.open(message);
   }
 }
