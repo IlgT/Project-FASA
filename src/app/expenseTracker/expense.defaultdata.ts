@@ -13,5 +13,5 @@ export const defaultExpense: Expense = {
       currency: "€"
     },
     exchangeRate: 1,
-    tags: [null]
+    tags: []
   }

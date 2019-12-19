@@ -41,20 +41,50 @@
       <div class="form-group">
         <label for="tag">Tag</label>
         <select class="form-control" id="tag"
-            [(ngModel)]="actualExpense.tags[0]" name="tag"
-            #tag="ngModel">
-            <option disabled [ngValue]="null" selected>Please selecet a tag</option>
+            [(ngModel)]="selectedTag" name="tag"
+            #tagSelection="ngModel"
+            (change)="onTagSelection(); tagSelection.reset()">
+            <option disabled [ngValue]="null" selected>Add a tag</option>
             <option *ngFor="let predefinedTag of predefinedTags" [ngValue]="predefinedTag">{{predefinedTag.name}}</option>
         </select>
-        <div [hidden]="tag.valid || tag.pristine"
+        <div [hidden]="tagSelection.valid || tagSelection.pristine"
         class="alert alert-danger">
         Tag is required
         </div>
       </div>
 
+      <div class="form-group">
+        <mat-chip-list #tagList aria-label="Tag selection"
+          class="form-control">
+          <mat-chip
+            *ngFor="let tag of actualExpense.tags"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="remove(tag)">
+            {{tag.name}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            placeholder="Add tag"
+            #tagInput
+            [formControl]="tagControl"
+            [matAutocomplete]="auto"
+            [matChipInputFor]="tagList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="addOnBlur"
+            (matChipInputTokenEnd)="add($event)"
+            class="borderless">
+        </mat-chip-list>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+          <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
+            {{tag.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </div>
+
       <div class="button-row">
         <button type="submit" [disabled]="editExpenseForm.invalid " class="btn btn-success">Submit</button>
-        <button type="reset" class="btn btn-info">Reset</button>
+        <button type="button" class="btn btn-info" (click)="resetTags(); editExpenseForm.reset()">Reset</button>
         <button type="button" class="btn btn-danger"
           [routerLink]="['/expense-overview']">Cancel</button>
       </div>
