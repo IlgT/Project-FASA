@@ -103,8 +103,7 @@ export class EditExpenseComponent implements OnInit {
 
   onSubmit() {
     console.log(JSON.stringify(this.actualExpense));
-    console.log(JSON.stringify(this.selectedTag));
-    //this.router.navigate(['/expense-overview']);
+    this.router.navigate(['/expense-overview']);
   }
 
   resetTags() {
