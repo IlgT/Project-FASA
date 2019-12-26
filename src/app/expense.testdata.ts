@@ -8,7 +8,7 @@ export const EXPENSES: Expense[] = [
       currency: "EUR"
     },
     reason: "Kaufland",
-    date: new Date(),
+    date: new Date("12 01 2019"),
     exchangeValue: {
       value: 85.86,
       currency: "€"
@@ -26,7 +26,7 @@ export const EXPENSES: Expense[] = [
       currency: "EUR"
     },
     reason: "KFZ-Versicherung",
-    date: new Date(),
+    date: new Date("12 01 2019"),
     exchangeValue: {
       value: 132.90,
       currency: "EUR"
@@ -48,7 +48,7 @@ export const EXPENSES: Expense[] = [
       currency: "EUR"
     },
     reason: "Walt Disney World Resort",
-    date: new Date(),
+    date: new Date("12-04-2019"),
     exchangeValue: {
       value: 85.86,
       currency: "USD"
@@ -66,7 +66,7 @@ export const EXPENSES: Expense[] = [
       currency: "EUR"
     },
     reason: "Walt Disney World Resort",
-    date: new Date(),
+    date: new Date("09 10 2019"),
     exchangeValue: {
       value: 85.86,
       currency: "USD"
@@ -84,7 +84,7 @@ export const EXPENSES: Expense[] = [
       currency: "EUR"
     },
     reason: "Walt Disney World Resort",
-    date: new Date(),
+    date: new Date("12 01 2019"),
     exchangeValue: {
       value: 85.86,
       currency: "USD"
@@ -102,7 +102,7 @@ export const EXPENSES: Expense[] = [
       currency: "EUR"
     },
     reason: "Walt Disney World Resort",
-    date: new Date(),
+    date: new Date("12 01 2019"),
     exchangeValue: {
       value: 85.86,
       currency: "USD"
@@ -120,7 +120,7 @@ export const EXPENSES: Expense[] = [
       currency: "EUR"
     },
     reason: "Walt Disney World Resort",
-    date: new Date(),
+    date: new Date("12 01 2019"),
     exchangeValue: {
       value: 85.86,
       currency: "USD"
@@ -138,7 +138,7 @@ export const EXPENSES: Expense[] = [
       currency: "EUR"
     },
     reason: "Walt Disney World Resort",
-    date: new Date(),
+    date: new Date("12 01 2019"),
     exchangeValue: {
       value: 85.86,
       currency: "USD"
@@ -156,7 +156,7 @@ export const EXPENSES: Expense[] = [
       currency: "EUR"
     },
     reason: "Walt Disney World Resort",
-    date: new Date(),
+    date: new Date("12 01 2019"),
     exchangeValue: {
       value: 85.86,
       currency: "USD"
@@ -174,7 +174,7 @@ export const EXPENSES: Expense[] = [
       currency: "EUR"
     },
     reason: "Walt Disney World Resort",
-    date: new Date(),
+    date: new Date("12 01 2019"),
     exchangeValue: {
       value: 85.86,
       currency: "USD"
@@ -192,7 +192,7 @@ export const EXPENSES: Expense[] = [
       currency: "EUR"
     },
     reason: "Walt Disney World Resort",
-    date: new Date(),
+    date: new Date("12 01 2019"),
     exchangeValue: {
       value: 85.86,
       currency: "USD"
@@ -210,7 +210,7 @@ export const EXPENSES: Expense[] = [
       currency: "EUR"
     },
     reason: "Walt Disney World Resort",
-    date: new Date(),
+    date: new Date("12 01 2019"),
     exchangeValue: {
       value: 85.86,
       currency: "USD"
@@ -228,7 +228,7 @@ export const EXPENSES: Expense[] = [
       currency: "EUR"
     },
     reason: "Walt Disney World Resort",
-    date: new Date(),
+    date: new Date("12 01 2019"),
     exchangeValue: {
       value: 85.86,
       currency: "USD"

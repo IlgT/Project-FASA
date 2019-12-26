@@ -66,3 +66,10 @@ td.mat-column-star {
     bottom: 5px;
     right: 5px;
 }
+
+/*Mobile and Tablet version*/
+@media screen and (max-width: 768px) {    
+    #more {
+        padding: 50%;
+    }
+}

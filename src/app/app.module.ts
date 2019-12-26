@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { MatTableModule, MatIconModule, MatButtonModule, MatSortModule, MatChipsModule,
-         MatInputModule, MatFormFieldModule, MatAutocompleteModule, MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material';
+         MatInputModule, MatFormFieldModule, MatAutocompleteModule, MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSelectModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
 import { ExpenseOverviewComponent } from './expenseTracker/expenseOverview/expense-overview.component';
@@ -15,9 +15,9 @@ import { EditExpenseComponent } from './expenseTracker/edit-expense/edit-expense
 import { RouterModule, Routes } from '@angular/router';
 
 const appRoutes: Routes = [
-  { path: 'expense-overview', component: ExpenseOverviewComponent },
-  { path: 'edit-expense',      component: EditExpenseComponent },
-  { path: '', redirectTo: '/expense-overview', pathMatch: 'full'},
+  { path: 'expenses', component: ExpenseOverviewComponent },
+  { path: 'expense/:type', component: EditExpenseComponent },
+  { path: '', redirectTo: '/expenses', pathMatch: 'full'},
   /*{ path: '**', component: PageNotFoundComponent }*/
 ];
 
@@ -36,6 +36,7 @@ const appRoutes: Routes = [
     MatFormFieldModule,
     MatChipsModule,
     MatInputModule,
+    MatSelectModule,
     MatSnackBarModule,
     MatAutocompleteModule,
     ReactiveFormsModule,
