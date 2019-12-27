@@ -57,7 +57,7 @@ const appRoutes: Routes = [
   ],
   providers: [
     {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: 
-      {duration: 750000,  panelClass: ['black-lightblue-snackbar']}}
+      {duration: 1500,  panelClass: ['black-lightblue-snackbar']}}
   ],
   bootstrap: [AppComponent]
 })

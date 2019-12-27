@@ -105,6 +105,7 @@ export class EditExpenseComponent implements OnInit {
 
   onSubmit() {
     console.log(JSON.stringify(this.actualExpense));
+    this.resetTags();
     this.router.navigate(['/expenses']);
   }
 
