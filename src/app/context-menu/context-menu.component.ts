@@ -20,8 +20,8 @@ export class ContextMenuComponent implements OnInit {
   ngOnInit() {
     const matDialogConfig: MatDialogConfig = new MatDialogConfig();
     const rect = this.triggerElementRef.nativeElement.getBoundingClientRect();
-    matDialogConfig.position = { left: `${rect.left - 130}px`, top: `${rect.bottom - 72}px` };
-    matDialogConfig.width = '130px';
+    matDialogConfig.position = { left: `${rect.left - 140}px`, top: `${rect.bottom - 72}px` };
+    matDialogConfig.width = '140px';
     matDialogConfig.height = '72px';
     this._matDialogRef.updateSize(matDialogConfig.width, matDialogConfig.height);
     this._matDialogRef.updatePosition(matDialogConfig.position);
