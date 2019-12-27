@@ -2,11 +2,11 @@
 @import url('https://unpkg.com/bootstrap@4.3.1/dist/css/bootstrap.min.css');
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; color: white;}
 
 .black-lightblue-snackbar {
-    background: black;
-    color: lightblue;
+    background: lightgray;
+    color: blue;
 }
 
 .flex-container {
@@ -22,6 +22,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     display: none;
 }
 
+.form-dialog {
+    max-width: 500px;
+    background-color: grey;
+    height: 100%;
+}
+
 /*Mobile and Tablet version*/
 @media screen and (max-width: 768px) {
     #content-desktop {
@@ -30,5 +36,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     #content-mobile {
         display: flex;
         justify-content: center;
+    }
+    .form-dialog {
+        background-color: grey; 
     }
 }

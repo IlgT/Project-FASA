@@ -9,7 +9,7 @@
 table {
     min-width: 800px;
     width: 100%;
-    background-color: dodgerblue;
+    background-color: black;
 }
 
 th {
@@ -41,7 +41,7 @@ td.mat-column-star {
     align-items: center;
     justify-content: space-start;
     color: white;
-    background-color: dodgerblue;
+    background-color: grey;
     border-width: 2px 5px 5px 5px;
     border-style: solid;
     border-color: lightgray;

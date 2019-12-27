@@ -3,7 +3,7 @@ import { Expense } from 'src/app/expense';
 import { Tag } from 'src/app/Tag';
 import { defaultExpense } from '../expense.defaultdata';
 import { TAGS } from './tag.testdata';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material/autocomplete';
@@ -18,6 +18,9 @@ import { MatSnackBar } from '@angular/material';
   styleUrls: ['./edit-expense.component.css']
 })
 export class EditExpenseComponent implements OnInit {
+
+  title: string = "Ausgabe ";
+  type: string = "";
   
   visible = true;
   selectable = true;
@@ -35,7 +38,8 @@ export class EditExpenseComponent implements OnInit {
   actualExpense: Expense = defaultExpense;
 
   constructor(private router: Router,
-              private _snackBar: MatSnackBar) {
+              private _snackBar: MatSnackBar,
+              private route: ActivatedRoute) {
     this.predefinedTags = TAGS;
     this.filteredTags = this.tagControl.valueChanges.pipe(
         startWith(null),
@@ -43,6 +47,12 @@ export class EditExpenseComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.route.snapshot.paramMap.get('type') === 'add') {
+      this.type = 'Hinzufügen';
+    } else {
+      this.type = 'Überarbeiten';
+    }
+      this.title = this.title + this.type;
   }
 
   onTagSelection(): void {
@@ -105,7 +115,6 @@ export class EditExpenseComponent implements OnInit {
 
   onSubmit() {
     console.log(JSON.stringify(this.actualExpense));
-    this.resetTags();
     this.router.navigate(['/expenses']);
   }
 
@@ -113,7 +122,19 @@ export class EditExpenseComponent implements OnInit {
     this.actualExpense.tags = [];
   }
 
-  openSnackBar(message: string) {
-    this._snackBar.open(message);
+  resetingSnackBar() {
+    this._snackBar.open('Alles wurde zurückgesetzt');
+  }
+
+  closingSnackBar(buttonType: string) {
+    if (buttonType === 'cancle') {
+      this._snackBar.open(this.type + ' wurde abgerbochen');
+    } else {
+      if (this.type === 'Hinzufügen') {
+        this._snackBar.open('Ausgabe wurde ' + 'hinzugefügt');
+      } else {
+        this._snackBar.open('Ausgabe wurde ' + 'überarbeitet');
+      }
+    }
   }
 }
