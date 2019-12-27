@@ -70,4 +70,5 @@ td.mat-column-star {
 #more {
     left: 40%;
     width: 25px;
+    outline: 0px;
 }
