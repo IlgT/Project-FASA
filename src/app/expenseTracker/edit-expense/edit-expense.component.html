@@ -83,10 +83,10 @@
       </div>
 
       <div class="button-row">
-        <button type="submit" [disabled]="editExpenseForm.invalid " class="btn btn-success">Submit</button>
-        <button type="button" class="btn btn-info" (click)="resetTags(); editExpenseForm.reset(); resetingSnackBar()">Reset</button>
+        <button type="submit" [disabled]="editExpenseForm.invalid " class="btn btn-success">{{type}}</button>
+        <button type="button" class="btn btn-info" (click)="resetTags(); editExpenseForm.reset(); resetingSnackBar()">Zurücksetzen</button>
         <button type="button" class="btn btn-danger" (click)="resetTags(); editExpenseForm.reset(); closingSnackBar('cancle')"
-          [routerLink]="['/expenses']">Cancel</button>
+          [routerLink]="['/expenses']">Abbrechen</button>
       </div>
 
     </form>

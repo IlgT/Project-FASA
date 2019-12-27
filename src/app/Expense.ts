@@ -4,8 +4,8 @@ import {Tag} from './Tag'
 export class Expense {
     id: number;
     amount: Money;
-    reason: String;
-    date: Date;
+    reason: string;
+    date: string;
     exchangeValue?: Money;
     exchangeRate?: number;
     tags: Tag[];

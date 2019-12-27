@@ -14,6 +14,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditExpenseComponent } from './expenseTracker/edit-expense/edit-expense.component';
 import { RouterModule, Routes } from '@angular/router';
 import { ContextMenuComponent } from './context-menu/context-menu.component';
+import { NoMistakeComponent } from './no-mistake/no-mistake.component';
 
 const appRoutes: Routes = [
   { path: 'expenses', component: ExpenseOverviewComponent },
@@ -28,6 +29,7 @@ const appRoutes: Routes = [
     ExpenseOverviewComponent,
     EditExpenseComponent,
     ContextMenuComponent,
+    NoMistakeComponent,
   ],
   imports: [
     BrowserModule,
@@ -59,7 +61,8 @@ const appRoutes: Routes = [
       : []
   ],
   entryComponents: [
-    ContextMenuComponent
+    ContextMenuComponent,
+    NoMistakeComponent
   ],
   providers: [
     {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: 

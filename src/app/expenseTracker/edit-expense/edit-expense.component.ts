@@ -11,6 +11,10 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material';
+import { Store } from '@ngrx/store';
+import * as fromApp from '../../stateManagement/app.reducer';
+import * as ExpenseActions from '../stateManagement/expense.action';
+import * as fromExpense from '../stateManagement/expense.reducer';
 
 @Component({
   selector: 'expenseTracker-edit',
@@ -21,6 +25,7 @@ export class EditExpenseComponent implements OnInit {
 
   title: string = "Ausgabe ";
   type: string = "";
+  expenseState: fromExpense.ExpenseState;
   
   visible = true;
   selectable = true;
@@ -36,8 +41,10 @@ export class EditExpenseComponent implements OnInit {
   @ViewChild('auto', {static: false}) matAutocomplete: MatAutocomplete;
 
   actualExpense: Expense = defaultExpense;
+  actualDate: Date = null;
 
-  constructor(private router: Router,
+  constructor(private store: Store<fromApp.AppState>,
+              private router: Router,
               private _snackBar: MatSnackBar,
               private route: ActivatedRoute) {
     this.predefinedTags = TAGS;
@@ -51,6 +58,10 @@ export class EditExpenseComponent implements OnInit {
       this.type = 'Hinzufügen';
     } else {
       this.type = 'Überarbeiten';
+      this.store.select('expense').subscribe(
+        (expenseState: fromExpense.ExpenseState) => this.expenseState = expenseState);
+      console.log(JSON.stringify(this.expenseState.actualExpense));
+      this.actualExpense = this.expenseState.actualExpense;
     }
       this.title = this.title + this.type;
   }

@@ -60,9 +60,9 @@ export class ExpenseOverviewComponent implements OnInit {
     const target = new ElementRef(evt.currentTarget);
     const dialogRef = this._matDialog.open(ContextMenuComponent, {
       data: {
-        trigger: target
-      },
-      panelClass: 'custom-dialog-container'
+        trigger: target,
+        id: 2
+      }
     });
     dialogRef.afterClosed().subscribe( _res => {
       console.log(_res);

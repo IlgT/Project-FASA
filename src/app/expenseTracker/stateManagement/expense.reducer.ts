@@ -79,11 +79,11 @@ export function expenseReducer(state: ExpenseState = initialState, action: Expen
                 errorMessage: action.payload
             };
 
-        case ExpenseActions.START_MODIFY_EXPENSE, ExpenseActions.START_DELETE_EXPENSE:
+        case ExpenseActions.START_MODIFY_EXPENSE || ExpenseActions.START_DELETE_EXPENSE:
             return {
                 ...state,
-                modifiedExpenseIndex: action.payload,
-                modifiedExpense: { ...state.expenses[action.payload] }
+                actualExpenseIndex: action.payload,
+                actualExpense: { ...state.expenses[action.payload] }
             };
         
         case ExpenseActions.MODIFY_EXPENSE:
