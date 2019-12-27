@@ -85,8 +85,8 @@
       <div class="button-row">
         <button type="submit" [disabled]="editExpenseForm.invalid " class="btn btn-success">Submit</button>
         <button type="button" class="btn btn-info" (click)="resetTags(); editExpenseForm.reset(); openSnackBar('Alles wurde zurückgesetzt')">Reset</button>
-        <button type="button" class="btn btn-danger" (click)="editExpenseForm.reset()"
-          [routerLink]="['/expense-overview']">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="resetTags(); editExpenseForm.reset(); openSnackBar('Hinzufügen/Modifizieren wurde abgebrochen')"
+          [routerLink]="['/expenses']">Cancel</button>
       </div>
 
     </form>
