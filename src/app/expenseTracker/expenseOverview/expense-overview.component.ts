@@ -56,12 +56,12 @@ export class ExpenseOverviewComponent implements OnInit {
     return this.expenses.data.map(expense => expense.amount.value).reduce((acc, value) => acc + value, 0);
   }
 
-  onShowDialog(evt: MouseEvent): void {
-    const target = new ElementRef(evt.currentTarget);
+  onShowDialog(event: MouseEvent, index: number): void {
+    const target = new ElementRef(event.currentTarget);
     const dialogRef = this._matDialog.open(ContextMenuComponent, {
       data: {
         trigger: target,
-        id: 2
+        index: index
       }
     });
     dialogRef.afterClosed().subscribe( _res => {

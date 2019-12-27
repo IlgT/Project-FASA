@@ -16,16 +16,16 @@ export class ContextMenuComponent implements OnInit {
   
   private readonly _matDialogRef: MatDialogRef<ContextMenuComponent>;
   private readonly triggerElementRef: ElementRef;
-  private readonly id: number;
+  private readonly index: number;
 
   constructor(private store: Store<fromApp.AppState>,
     private router: Router,
     _matDialogRef: MatDialogRef<ContextMenuComponent>,
-    @Inject(MAT_DIALOG_DATA) dialogData: { trigger: ElementRef, id: number },
+    @Inject(MAT_DIALOG_DATA) dialogData: { trigger: ElementRef, index: number },
     private noMistakeDialog: MatDialog) {
       this._matDialogRef = _matDialogRef;
       this.triggerElementRef = dialogData.trigger;
-      this.id = dialogData.id;
+      this.index = dialogData.index;
  }
 
   ngOnInit() {
@@ -44,7 +44,7 @@ export class ContextMenuComponent implements OnInit {
     this._matDialogRef.close();
     const dialogRef = this.noMistakeDialog.open(NoMistakeComponent, {
       maxWidth: '350px',
-      data: {id: this.id}
+      data: {id: this.index}
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -54,8 +54,7 @@ export class ContextMenuComponent implements OnInit {
 
   onEdit() {
     this._matDialogRef.close();
-    console.log('ID=' + this.id);
-    this.store.dispatch(new ExpenseActions.StartModifyExpense(this.id));
+    this.store.dispatch(new ExpenseActions.StartModifyExpense(this.index));
     this.router.navigate(['/expense/edit']);
   }
 

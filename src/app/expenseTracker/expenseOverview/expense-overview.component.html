@@ -53,8 +53,8 @@
         <!-- More Column -->
         <ng-container matColumnDef="more" stickyEnd>
             <th mat-header-cell *matHeaderCellDef> </th>
-            <td mat-cell *matCellDef="let expense">
-                <button mat-icon-button id="more" (click)="onShowDialog($event)">
+            <td mat-cell *matCellDef="let index = index">
+                <button mat-icon-button id="more" (click)="onShowDialog($event, index)">
                     <mat-icon>more_vert</mat-icon>
                 </button>
             </td>

@@ -120,6 +120,13 @@ export function expenseReducer(state: ExpenseState = initialState, action: Expen
                 actualExpenseIndex: -1,
                 errorMessage: action.payload
             };
+
+        case ExpenseActions.MODIFY_EXPENSE_CANCELED:
+            return {
+                ...state,
+                actualExpense: null,
+                actualExpenseIndex: -1,
+            }; 
             
         //case ExpenseActions.DELETE_EXPENSE:
             //return {

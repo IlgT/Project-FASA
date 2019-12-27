@@ -13,6 +13,7 @@ export const START_MODIFY_EXPENSE = '[ExpenseTracker] Start modifying expense';
 export const MODIFY_EXPENSE = '[ExpenseTracker] Modify expense';
 export const MODIFY_EXPENSE_SUCCESS = '[ExpenseTracker] Modify expense was successful';
 export const MODIFY_EXPENSE_FAILURE = '[ExpenseTracker] Modify expense failed';
+export const MODIFY_EXPENSE_CANCELED = '[ExpenseTracker] Modify expense was cancled';
 export const START_DELETE_EXPENSE = '[ExpenseTracker] Start deleting expense';
 export const DELETE_EXPENSE = '[ExpenseTracker] Delete expense';
 export const DELETE_EXPENSE_SUCCESS = '[ExpenseTracker] Delete expense was successful';
@@ -76,6 +77,10 @@ export class ModifyExpenseFailure implements Action {
     constructor(public payload: String) {}
 }
 
+export class ModifyExpenseCanceled implements Action {
+    readonly type = MODIFY_EXPENSE_CANCELED;
+}
+
 export class StartDeleteExpense implements Action {
     readonly type = START_DELETE_EXPENSE;
    
@@ -107,6 +112,7 @@ export type Actions = InitializeExpense
                     | ModifyExpense
                     | ModifyExpenseSuccess
                     | ModifyExpenseFailure
+                    | ModifyExpenseCanceled
                     | StartDeleteExpense
                     | DeleteExpense
                     | DeleteExpenseSuccess

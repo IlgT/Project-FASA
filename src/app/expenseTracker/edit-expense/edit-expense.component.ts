@@ -24,7 +24,8 @@ import * as fromExpense from '../stateManagement/expense.reducer';
 export class EditExpenseComponent implements OnInit {
 
   title: string = "Ausgabe ";
-  type: string = "";
+  mode: string = "";
+  isEditMode: boolean = false;
   expenseState: fromExpense.ExpenseState;
   
   visible = true;
@@ -41,12 +42,10 @@ export class EditExpenseComponent implements OnInit {
   @ViewChild('auto', {static: false}) matAutocomplete: MatAutocomplete;
 
   actualExpense: Expense = defaultExpense;
-  actualDate: Date = null;
 
   constructor(private store: Store<fromApp.AppState>,
               private router: Router,
-              private _snackBar: MatSnackBar,
-              private route: ActivatedRoute) {
+              private _snackBar: MatSnackBar) {
     this.predefinedTags = TAGS;
     this.filteredTags = this.tagControl.valueChanges.pipe(
         startWith(null),
@@ -54,16 +53,20 @@ export class EditExpenseComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.route.snapshot.paramMap.get('type') === 'add') {
-      this.type = 'Hinzufügen';
+    this.store.select('expense').subscribe(
+      (expenseState: fromExpense.ExpenseState) => this.expenseState = expenseState);
+    if (this.expenseState.actualExpenseIndex === -1) {
+      this.mode = "Hinzufügen";
+      this.title = this.title + this.mode;
     } else {
-      this.type = 'Überarbeiten';
-      this.store.select('expense').subscribe(
-        (expenseState: fromExpense.ExpenseState) => this.expenseState = expenseState);
-      console.log(JSON.stringify(this.expenseState.actualExpense));
-      this.actualExpense = this.expenseState.actualExpense;
+      this.isEditMode = true;
+      this.mode = "Überarbeiten";
+      this.title = this.title + this.mode;
+      this.actualExpense.reason = this.expenseState.actualExpense.reason;
+      this.actualExpense.amount.value = this.expenseState.actualExpense.amount.value;
+      this.actualExpense.date = this.expenseState.actualExpense.date;
+      this.actualExpense.tags = [...this.expenseState.actualExpense.tags];
     }
-      this.title = this.title + this.type;
   }
 
   onTagSelection(): void {
@@ -138,14 +141,17 @@ export class EditExpenseComponent implements OnInit {
   }
 
   closingSnackBar(buttonType: string) {
-    if (buttonType === 'cancle') {
-      this._snackBar.open(this.type + ' wurde abgerbochen');
+    if (buttonType === 'cancel') {
+      this._snackBar.open(this.mode + ' wurde abgerbochen');
+      this.store.dispatch(new ExpenseActions.ModifyExpenseCanceled());
     } else {
-      if (this.type === 'Hinzufügen') {
-        this._snackBar.open('Ausgabe wurde ' + 'hinzugefügt');
+      var cancledMode: string = "";
+      if (this.isEditMode === false) {
+        cancledMode = 'hinzugefügt';
       } else {
-        this._snackBar.open('Ausgabe wurde ' + 'überarbeitet');
+        cancledMode = 'überarbeitet';
       }
+      this._snackBar.open('Ausgabe wurde ' + cancledMode);
     }
   }
 }
