@@ -1,0 +1,11 @@
+mat-dialog-container {
+    padding: 0px !important;
+}
+.delete {
+    background-color: red;
+    width: 100%;
+}
+
+.edit {
+    background-color: green;
+}

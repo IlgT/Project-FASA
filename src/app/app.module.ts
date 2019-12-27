@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { MatTableModule, MatIconModule, MatButtonModule, MatSortModule, MatChipsModule,
-         MatInputModule, MatFormFieldModule, MatAutocompleteModule, MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSelectModule } from '@angular/material';
+         MatInputModule, MatFormFieldModule, MatAutocompleteModule, MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSelectModule, MatDialogModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
 import { ExpenseOverviewComponent } from './expenseTracker/expenseOverview/expense-overview.component';
@@ -13,6 +13,7 @@ import { environment } from '../environments/environment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditExpenseComponent } from './expenseTracker/edit-expense/edit-expense.component';
 import { RouterModule, Routes } from '@angular/router';
+import { ContextMenuComponent } from './context-menu/context-menu.component';
 
 const appRoutes: Routes = [
   { path: 'expenses', component: ExpenseOverviewComponent },
@@ -26,6 +27,7 @@ const appRoutes: Routes = [
     AppComponent,
     ExpenseOverviewComponent,
     EditExpenseComponent,
+    ContextMenuComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,6 +37,7 @@ const appRoutes: Routes = [
     MatButtonModule,
     MatFormFieldModule,
     MatChipsModule,
+    MatDialogModule,
     MatInputModule,
     MatSelectModule,
     MatSnackBarModule,
@@ -54,6 +57,9 @@ const appRoutes: Routes = [
     !environment.production
       ? StoreDevtoolsModule.instrument()
       : []
+  ],
+  entryComponents: [
+    ContextMenuComponent
   ],
   providers: [
     {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: 
