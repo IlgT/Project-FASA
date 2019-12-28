@@ -1,4 +1,4 @@
-<div id="content-mobile">
+<div *ngIf="responsiveDesignService.isMobile() | async">
     <mat-accordion>
         <mat-expansion-panel class="black-theme">
           <mat-expansion-panel-header>
@@ -33,7 +33,7 @@
     </mat-accordion>
 </div>
 
-<div id="content-desktop" class="filter-border">
+<div *ngIf="!(responsiveDesignService.isMobile() | async)" class="filter-border">
     <label>
         Filter:
     </label>

@@ -71,7 +71,7 @@
     <div id="footer-value">{{getTotalCost() | currency: 'EUR'}}</div>
 </div>
 
-<button mat-fab class="add-button mobile-position-add-button" id="content-mobile"
+<button mat-fab class="add-button mobile-position-add-button" *ngIf="responsiveDesignService.isMobile() | async"
     [routerLink]="['/expense/add']">
     <mat-icon>add</mat-icon>
 </button>

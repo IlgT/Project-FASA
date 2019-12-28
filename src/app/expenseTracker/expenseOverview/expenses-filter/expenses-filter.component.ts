@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Tag } from 'src/app/Tag';
+import { Observable, fromEvent } from 'rxjs';
+import { debounceTime, map, startWith } from 'rxjs/operators';
+import { ResponsiveDesignService } from 'src/app/responsive-design.service';
 
 @Component({
   selector: 'app-expenses-filter',
@@ -16,9 +19,8 @@ export class ExpensesFilterComponent implements OnInit {
   usedMonths: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
   usedTags: Tag[] = [{id: null, name: "Shopping"}];
 
-  constructor() { }
+  constructor(public responsiveDesignService: ResponsiveDesignService) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
 }

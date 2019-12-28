@@ -14,14 +14,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; color: whit
     justify-content: center;
 }
 
-#content-desktop {
-    display: flex;
-    justify-content: center;
-}
-#content-mobile {
-    display: none;
-}
-
 .form-dialog {
     max-width: 500px;
     background-color: grey;
@@ -34,13 +26,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; color: whit
 
 /*Mobile and Tablet version*/
 @media screen and (max-width: 768px) {
-    #content-desktop {
-        display: none;
-    }
-    #content-mobile {
-        display: flex;
-        justify-content: center;
-    }
     .form-dialog {
         background-color: grey; 
     }

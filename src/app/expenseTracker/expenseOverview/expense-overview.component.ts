@@ -10,6 +10,7 @@ import { isNgTemplate } from '@angular/compiler';
 import { FormControl } from '@angular/forms';
 import { ContextMenuComponent } from 'src/app/context-menu/context-menu.component';
 import { MatDialog } from '@angular/material';
+import { ResponsiveDesignService } from 'src/app/responsive-design.service';
 
 @Component({
   selector: 'expenseTracker-overview',
@@ -28,7 +29,8 @@ export class ExpenseOverviewComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   
   constructor(private store: Store<fromApp.AppState>,
-              private _matDialog: MatDialog) {}
+              private _matDialog: MatDialog,
+              public responsiveDesignService: ResponsiveDesignService) {}
 
   ngOnInit() {
     //this.subscription = 

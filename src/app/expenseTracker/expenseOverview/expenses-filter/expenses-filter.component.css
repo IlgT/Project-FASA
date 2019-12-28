@@ -6,6 +6,7 @@ div {
     border-width: 5px 5px 0px 5px;
     border-style: solid;
     border-color: lightgray;
+    justify-content: space-around;
 }
 
 .black-theme {
@@ -20,10 +21,6 @@ label, button {
 
 button {
     background-color: green;
-}
-
-#content-desktop {
-    justify-content: space-around;
 }
 
 /*Mobile and Tablet version*/
