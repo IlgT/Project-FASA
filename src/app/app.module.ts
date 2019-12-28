@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { MatTableModule, MatIconModule, MatButtonModule, MatSortModule, MatChipsModule,
-         MatInputModule, MatFormFieldModule, MatAutocompleteModule, MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSelectModule, MatDialogModule } from '@angular/material';
+         MatInputModule, MatFormFieldModule, MatAutocompleteModule, MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSelectModule, MatDialogModule, MatExpansionModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
 import { ExpenseOverviewComponent } from './expenseTracker/expenseOverview/expense-overview.component';
@@ -15,6 +15,7 @@ import { EditExpenseComponent } from './expenseTracker/edit-expense/edit-expense
 import { RouterModule, Routes } from '@angular/router';
 import { ContextMenuComponent } from './context-menu/context-menu.component';
 import { NoMistakeComponent } from './no-mistake/no-mistake.component';
+import { ExpensesFilterComponent } from './expenseTracker/expenseOverview/expenses-filter/expenses-filter.component';
 
 const appRoutes: Routes = [
   { path: 'expenses', component: ExpenseOverviewComponent },
@@ -30,6 +31,7 @@ const appRoutes: Routes = [
     EditExpenseComponent,
     ContextMenuComponent,
     NoMistakeComponent,
+    ExpensesFilterComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,6 +46,7 @@ const appRoutes: Routes = [
     MatSelectModule,
     MatSnackBarModule,
     MatAutocompleteModule,
+    MatExpansionModule,
     ReactiveFormsModule,
     FormsModule,
     BrowserAnimationsModule,

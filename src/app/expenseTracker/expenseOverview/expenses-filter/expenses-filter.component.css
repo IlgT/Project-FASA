@@ -1,0 +1,36 @@
+div {
+    background-color: black;
+    width: 100%;
+    min-height: 10.6%;
+    display: flex;
+    border-width: 5px 5px 0px 5px;
+    border-style: solid;
+    border-color: lightgray;
+}
+
+.black-theme {
+    background-color: black;
+    color: white;
+}
+
+button {
+    height: 50%;
+    align-self: center;
+    background-color: green;
+}
+
+#content-desktop {
+    justify-content: space-around;
+}
+
+/*Mobile and Tablet version*/
+@media screen and (max-width: 768px) {
+    div {
+        flex-direction: column;
+    }
+
+    mat-form-field {
+        width: 200px;
+        left: 20px;
+    }
+}
