@@ -13,9 +13,12 @@ div {
     color: white;
 }
 
-button {
+label, button {
     height: 50%;
     align-self: center;
+}
+
+button {
     background-color: green;
 }
 
