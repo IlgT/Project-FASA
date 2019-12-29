@@ -12,20 +12,20 @@
     
         <mat-form-field>
             <mat-label>Gründe</mat-label>
-            <mat-select [formControl]="reasonsControl" multiple>
-                <mat-option *ngFor="let reason of usedReasons" [value]="reason">{{reason}}</mat-option>
+            <mat-select [formControl]="reasonsControl" [(ngModel)]="selectedReasons" multiple>
+                <mat-option *ngFor="let reason of usedReasons" [value]="reason" (click)="onReasonsChange()">{{reason}}</mat-option>
             </mat-select>
         </mat-form-field>
         <mat-form-field>
             <mat-label>Monat</mat-label>
-            <mat-select [formControl]="monthControl">
-                <mat-option *ngFor="let month of usedMonths" [value]="month">{{month}}</mat-option>
+            <mat-select [formControl]="monthControl" [(ngModel)]="selectedMonth">
+                <mat-option *ngFor="let month of usedMonths" [value]="month" (click)="onMonthChange()">{{month}}</mat-option>
             </mat-select>
         </mat-form-field>
         <mat-form-field>
             <mat-label>Tags</mat-label>
-            <mat-select [formControl]="tagsControl" multiple>
-                <mat-option *ngFor="let tag of usedTags" [value]="tag">{{tag.name}}</mat-option>
+            <mat-select [formControl]="tagsControl" [(ngModel)]="selectedTags" multiple>
+                <mat-option *ngFor="let tag of usedTags" [value]="tag" (click)="onTagsChange()">{{tag}}</mat-option>
             </mat-select>
         </mat-form-field>
 
@@ -39,20 +39,20 @@
     </label>
     <mat-form-field>
         <mat-label>Gründe</mat-label>
-        <mat-select [formControl]="reasonsControl" multiple>
-            <mat-option *ngFor="let reason of usedReasons" [value]="reason">{{reason}}</mat-option>
+        <mat-select [formControl]="reasonsControl" [(ngModel)]="selectedReasons" multiple>
+            <mat-option *ngFor="let reason of usedReasons" [value]="reason" (click)="onReasonsChange()">{{reason}}</mat-option>
         </mat-select>
     </mat-form-field>
     <mat-form-field>
         <mat-label>Monat</mat-label>
-        <mat-select [formControl]="monthControl">
-            <mat-option *ngFor="let month of usedMonths" [value]="month">{{month}}</mat-option>
+        <mat-select [formControl]="monthControl" [(ngModel)]="selectedMonth">
+            <mat-option *ngFor="let month of usedMonths" [value]="month" (click)="onReasonsChange()">{{month}}</mat-option>
         </mat-select>
     </mat-form-field>
     <mat-form-field>
         <mat-label>Tags</mat-label>
-        <mat-select [formControl]="tagsControl" multiple>
-            <mat-option *ngFor="let tag of usedTags" [value]="tag">{{tag.name}}</mat-option>
+        <mat-select [formControl]="tagsControl" [(ngModel)]="selectedTags" multiple>
+            <mat-option *ngFor="let tag of usedTags" [value]="tag" (click)="onTagsChange()">{{tag}}</mat-option>
         </mat-select>
     </mat-form-field>
     <button mat-raised-button id="content-desktop" [routerLink]="['/expense/add']" (click)="onAdd()">

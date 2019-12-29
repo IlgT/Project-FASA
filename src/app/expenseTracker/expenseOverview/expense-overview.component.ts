@@ -75,6 +75,21 @@ export class ExpenseOverviewComponent implements OnInit {
     this.store.dispatch(new ExpenseActions.StartAddExpense());
   }
 
+  onTagClick(tagName: string) {
+    var selectedTags: string[];
+    this.store
+      .select('expense')
+      .subscribe((expenseState: fromExpense.ExpenseState) =>
+        selectedTags = [...expenseState.tags]
+    );
+    if (selectedTags.includes(tagName)) {
+      selectedTags.splice(selectedTags.indexOf(tagName));
+    } else {
+      selectedTags.push(tagName);
+    }
+    this.store.dispatch(new ExpenseActions.ChangeTagsFilter(selectedTags));
+  }
+
   ngOnDestroy() {
     //this.subscription.unsubscribe();
   }
