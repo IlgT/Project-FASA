@@ -34,10 +34,11 @@ export class ExpenseOverviewComponent implements OnInit {
 
   ngOnInit() {
     //this.subscription = 
+    this.store.dispatch(new ExpenseActions.InitializeExpense());
     this.store.select('expense').subscribe(
       (expenseState: fromExpense.ExpenseState) => this.expenseState = expenseState);
+      this.store.dispatch(new ExpenseActions.InitializeExpenseSuccess());
     this.enableTableSorting();
-    this.store.dispatch(new ExpenseActions.InitializeExpenseSuccess(this.expenseState));
   }
 
   private enableTableSorting() {
@@ -53,7 +54,6 @@ export class ExpenseOverviewComponent implements OnInit {
     this.expenses.sort = this.sort;
   }
 
-  /** Gets the total cost of all expenses. */
   getTotalCost(): number {
     return this.expenses.data.map(expense => expense.amount.value).reduce((acc, value) => acc + value, 0);
   }
@@ -69,6 +69,10 @@ export class ExpenseOverviewComponent implements OnInit {
     dialogRef.afterClosed().subscribe( _res => {
       console.log(_res);
     });
+  }
+
+  onAdd() {
+    this.store.dispatch(new ExpenseActions.StartAddExpense());
   }
 
   ngOnDestroy() {

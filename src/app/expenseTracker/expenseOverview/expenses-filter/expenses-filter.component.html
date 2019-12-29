@@ -55,7 +55,7 @@
             <mat-option *ngFor="let tag of usedTags" [value]="tag">{{tag.name}}</mat-option>
         </mat-select>
     </mat-form-field>
-    <button mat-raised-button id="content-desktop" [routerLink]="['/expense/add']">
+    <button mat-raised-button id="content-desktop" [routerLink]="['/expense/add']" (click)="onAdd()">
     Hinzufügen
     </button>
 </div>

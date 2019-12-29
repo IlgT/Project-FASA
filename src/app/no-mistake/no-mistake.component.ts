@@ -20,11 +20,12 @@ export class NoMistakeComponent implements OnInit {
     }
 
     onYesClick(): void {
-      this.store.dispatch(new ExpenseActions.StartDeleteExpense(this.data.id));
+      this.store.dispatch(new ExpenseActions.DeleteExpense());
       this.dialogRef.close();
     }
     
     onNoClick(): void {
+      this.store.dispatch(new ExpenseActions.DeleteExpenseCanceled());
       this.dialogRef.close();
     }
 }

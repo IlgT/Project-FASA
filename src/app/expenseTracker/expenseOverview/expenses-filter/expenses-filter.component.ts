@@ -4,6 +4,9 @@ import { Tag } from 'src/app/Tag';
 import { Observable, fromEvent } from 'rxjs';
 import { debounceTime, map, startWith } from 'rxjs/operators';
 import { ResponsiveDesignService } from 'src/app/responsive-design.service';
+import { Store } from '@ngrx/store';
+import * as fromApp from 'src/app/stateManagement/app.reducer';
+import * as ExpenseActions from '../../stateManagement/expense.action';
 
 @Component({
   selector: 'app-expenses-filter',
@@ -19,8 +22,13 @@ export class ExpensesFilterComponent implements OnInit {
   usedMonths: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
   usedTags: Tag[] = [{id: null, name: "Shopping"}];
 
-  constructor(public responsiveDesignService: ResponsiveDesignService) { }
+  constructor(public responsiveDesignService: ResponsiveDesignService,
+              private store: Store<fromApp.AppState>) { }
 
   ngOnInit() { }
 
+  
+  onAdd() {
+    this.store.dispatch(new ExpenseActions.StartAddExpense());
+  }
 }

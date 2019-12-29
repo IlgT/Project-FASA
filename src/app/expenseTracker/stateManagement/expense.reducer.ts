@@ -1,4 +1,3 @@
-import { Action } from '@ngrx/store';
 import { Expense } from '../../expense';
 import { Money } from '../../Money';
 import * as ExpenseActions from './expense.action';
@@ -6,24 +5,26 @@ import { EXPENSES } from '../../expense.testdata';
 import { defaultExpense } from '../expense.defaultdata';
 
 export interface ExpenseState {
-    month: number;
-    tags: String[];
+    reasons: string[];
+    month: number | null;
+    tags: string[];
     expenses: Expense[];
     totalSum: Money;
     actualExpense: Expense | null;
-    actualExpenseIndex: number | null;
-    errorMessage: String;
+    actualExpenseIndex: number;
+    errorMessage: string | null;
   }
 
 export const initialState: ExpenseState = {
-    month: 11,
+    reasons: [],
+    month: new Date().getMonth() + 1,
     tags: [],
     expenses: EXPENSES,
     totalSum: {
-        value: 200.00,
+        value: 0.00,
         currency: 'EUR'
     },
-    actualExpense: null,
+    actualExpense: defaultExpense,
     actualExpenseIndex: -1,
     errorMessage: null
 }
@@ -32,14 +33,14 @@ export function expenseReducer(state: ExpenseState = initialState, action: Expen
     console.log(action.type, state)
 
     switch(action.type) {
-        //case ExpenseActions.INITIALIZE_EXPENSE:
-            //return {
-                //...state
-            //};
+        case ExpenseActions.INITIALIZE_EXPENSE:
+            return {
+                ...state
+            };
 
         case ExpenseActions.INITIALIZE_EXPENSE_SUCCESS:
             return {
-                ...action.payload
+                ...state
             };
 
         case ExpenseActions.INITIALIZE_EXPENSE_FAILURE:
@@ -54,6 +55,12 @@ export function expenseReducer(state: ExpenseState = initialState, action: Expen
                 actualExpense: defaultExpense
             };
 
+        case ExpenseActions.RESET_ADD_FORM:
+            return {
+                ...state,
+                actualExpense: defaultExpense
+            }
+
         case ExpenseActions.ADD_EXPENSE:
             return {
                 ...state,
@@ -63,28 +70,35 @@ export function expenseReducer(state: ExpenseState = initialState, action: Expen
         case ExpenseActions.ADD_EXPENSE_SUCCESS:
             return {
                 ...state,
-                //month: state.actualExpense.date,
                 expenses: [...state.expenses, state.actualExpense],
                 totalSum: {
                     ...state.totalSum,
                     value: +state.totalSum.value + +state.actualExpense.amount.value
                 },
-                actualExpense: null
+                actualExpense: defaultExpense
             };
 
         case ExpenseActions.ADD_EXPENSE_FAILURE:
             return {
                 ...state,
-                actualExpense: null,
+                actualExpense: defaultExpense,
                 errorMessage: action.payload
             };
 
-        case ExpenseActions.START_MODIFY_EXPENSE || ExpenseActions.START_DELETE_EXPENSE:
+        case ExpenseActions.START_MODIFY_EXPENSE:
+        case ExpenseActions.START_DELETE_EXPENSE:
             return {
                 ...state,
                 actualExpenseIndex: action.payload,
                 actualExpense: { ...state.expenses[action.payload] }
             };
+
+        case ExpenseActions.RESET_MODIFY_FORM:
+            return {
+                ...state,
+                actualExpense: {...defaultExpense,
+                                id: state.expenses[state.actualExpenseIndex].id}
+            }
         
         case ExpenseActions.MODIFY_EXPENSE:
             const modifiedExpense = {
@@ -103,40 +117,40 @@ export function expenseReducer(state: ExpenseState = initialState, action: Expen
 
             return {
                 ...state,
-                //month: state.actualExpense.date,
                 totalSum: {
                     ...state.totalSum,
                     value: +state.totalSum.value - +state.expenses[state.actualExpenseIndex] + +state.actualExpense.amount.value
                 },
                 expenses: updatedExpenses,
-                actualExpense: null,
+                actualExpense: defaultExpense,
                 actualExpenseIndex: -1
             };
 
         case ExpenseActions.MODIFY_EXPENSE_FAILURE:
             return {
                 ...state,
-                actualExpense: null,
+                actualExpense: defaultExpense,
                 actualExpenseIndex: -1,
                 errorMessage: action.payload
             };
 
+        case ExpenseActions.ADD_EXPENSE_CANCELED:
         case ExpenseActions.MODIFY_EXPENSE_CANCELED:
+        case ExpenseActions.DELETE_EXPENSE_CANCELED:
             return {
                 ...state,
-                actualExpense: null,
+                actualExpense: defaultExpense,
                 actualExpenseIndex: -1,
             }; 
             
-        //case ExpenseActions.DELETE_EXPENSE:
-            //return {
-                //...state
-            //};
+        case ExpenseActions.DELETE_EXPENSE:
+            return {
+                ...state
+            };
 
         case ExpenseActions.DELETE_EXPENSE_SUCCESS:
             return {
                 ...state,
-                //month: state.actualExpense.date,
                 expenses: state.expenses.filter((expense, expenseIndex) => {
                         return expenseIndex !== state.actualExpenseIndex;
                 }),
@@ -144,16 +158,39 @@ export function expenseReducer(state: ExpenseState = initialState, action: Expen
                     ...state.totalSum,
                     value: +state.totalSum.value - +state.actualExpense.amount.value
                 },
-                actualExpense: null,
+                actualExpense: defaultExpense,
                 actualExpenseIndex: -1
             };
         
         case ExpenseActions.DELETE_EXPENSE_FAILURE:
             return {
                 ...state,
-                actualExpense: null,
+                actualExpense: defaultExpense,
                 actualExpenseIndex: -1,
                 errorMessage: action.payload
+            }
+
+        case ExpenseActions.CHANGE_REASONS_FILTER:
+            return {
+                ...state,
+                reasons: action.payload
+            }
+
+        case ExpenseActions.CHANGE_MONTH_FILTER:
+            return {
+                ...state,
+                month: action.payload
+            }
+
+        case ExpenseActions.CHANGE_TAGS_FILTER:
+            return {
+                ...state,
+                tags: action.payload
+            }
+
+        case ExpenseActions.FILTER_CHANGES_APPLIED:
+            return {
+                ...state
             }
 
         default:

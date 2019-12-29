@@ -1,7 +1,6 @@
 <div class="container form-dialog">
     <h1>{{title}}</h1>
-    <form #editExpenseForm="ngForm" (ngSubmit)="onSubmit(); resetTags(); editExpenseForm.reset(); closingSnackBar('submit')"
-      #editExpenseForm="ngForm">
+    <form #editExpenseForm="ngForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <label for="reason">Reason</label>
         <input type="text" class="form-control" id="reason"
@@ -84,8 +83,8 @@
 
       <div class="button-row">
         <button type="submit" [disabled]="editExpenseForm.invalid " class="btn btn-success">{{mode}}</button>
-        <button type="button" class="btn btn-info" (click)="resetTags(); editExpenseForm.reset(); resetingSnackBar()">Zurücksetzen</button>
-        <button type="button" class="btn btn-danger" (click)="resetTags(); editExpenseForm.reset(); closingSnackBar('cancel')"
+        <button type="button" class="btn btn-info" (click)="onReset(); editExpenseForm.reset()">Zurücksetzen</button>
+        <button type="button" class="btn btn-danger" (click)="closingSnackBar('cancel')"
           [routerLink]="['/expenses']">Abbrechen</button>
       </div>
 

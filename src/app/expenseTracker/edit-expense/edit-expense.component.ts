@@ -5,7 +5,7 @@ import { defaultExpense } from '../expense.defaultdata';
 import { TAGS } from './tag.testdata';
 import { Router, ActivatedRoute } from '@angular/router';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Observable } from 'rxjs';
@@ -22,11 +22,6 @@ import * as fromExpense from '../stateManagement/expense.reducer';
   styleUrls: ['./edit-expense.component.css']
 })
 export class EditExpenseComponent implements OnInit {
-
-  title: string = "Ausgabe ";
-  mode: string = "";
-  isEditMode: boolean = false;
-  expenseState: fromExpense.ExpenseState;
   
   visible = true;
   selectable = true;
@@ -41,7 +36,10 @@ export class EditExpenseComponent implements OnInit {
   @ViewChild('tagInput', {static: false}) tagInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto', {static: false}) matAutocomplete: MatAutocomplete;
 
-  actualExpense: Expense = defaultExpense;
+  title: string;
+  mode: string = "";
+  isEditMode: boolean;
+  actualExpense: Expense;
 
   constructor(private store: Store<fromApp.AppState>,
               private router: Router,
@@ -50,23 +48,29 @@ export class EditExpenseComponent implements OnInit {
     this.filteredTags = this.tagControl.valueChanges.pipe(
         startWith(null),
         map((tagName: any | null) => tagName ? this._filter(tagName) : this.predefinedTags.slice()));
+    this.actualExpense = {...defaultExpense,
+                          amount: {...defaultExpense.amount},
+                          exchangeValue: {...defaultExpense.exchangeValue},
+                          tags: [...defaultExpense.tags]};
   }
 
   ngOnInit() {
-    this.store.select('expense').subscribe(
-      (expenseState: fromExpense.ExpenseState) => this.expenseState = expenseState);
-    if (this.expenseState.actualExpenseIndex === -1) {
-      this.mode = "Hinzufügen";
-      this.title = this.title + this.mode;
-    } else {
-      this.isEditMode = true;
-      this.mode = "Überarbeiten";
-      this.title = this.title + this.mode;
-      this.actualExpense.reason = this.expenseState.actualExpense.reason;
-      this.actualExpense.amount.value = this.expenseState.actualExpense.amount.value;
-      this.actualExpense.date = this.expenseState.actualExpense.date;
-      this.actualExpense.tags = [...this.expenseState.actualExpense.tags];
-    }
+    this.store
+      .select('expense')
+      .subscribe(expenseState => {
+        if (expenseState.actualExpenseIndex > -1) {
+          this.isEditMode = true;
+          this.mode = "Überarbeiten";
+        } else {
+          this.isEditMode = false;
+          this.mode = "Hinzufügen";
+        }
+        this.title = "Ausgabe " + this.mode;
+        this.actualExpense = {...expenseState.actualExpense,
+                              amount: {...expenseState.actualExpense.amount},
+                              exchangeValue: {...expenseState.actualExpense.exchangeValue},
+                              tags: [...expenseState.actualExpense.tags]}
+      });
   }
 
   onTagSelection(): void {
@@ -129,11 +133,21 @@ export class EditExpenseComponent implements OnInit {
 
   onSubmit() {
     console.log(JSON.stringify(this.actualExpense));
+    this.closingSnackBar('submit');
     this.router.navigate(['/expenses']);
   }
 
   resetTags() {
     this.actualExpense.tags = [];
+  }
+
+  onReset() {
+    if (this.isEditMode) {
+      this.store.dispatch(new ExpenseActions.ResetModifyForm());
+    } else {
+      this.store.dispatch(new ExpenseActions.ResetAddForm());
+    }
+    this.resetingSnackBar();
   }
 
   resetingSnackBar() {
@@ -142,14 +156,20 @@ export class EditExpenseComponent implements OnInit {
 
   closingSnackBar(buttonType: string) {
     if (buttonType === 'cancel') {
+      if (this.isEditMode) {
+        this.store.dispatch(new ExpenseActions.ModifyExpenseCanceled());
+      } else {
+        this.store.dispatch(new ExpenseActions.AddExpenseCanceled());
+      }
       this._snackBar.open(this.mode + ' wurde abgerbochen');
-      this.store.dispatch(new ExpenseActions.ModifyExpenseCanceled());
     } else {
       var cancledMode: string = "";
-      if (this.isEditMode === false) {
-        cancledMode = 'hinzugefügt';
-      } else {
+      if (this.isEditMode) {
+        this.store.dispatch(new ExpenseActions.ModifyExpense(this.actualExpense));
         cancledMode = 'überarbeitet';
+      } else {
+        this.store.dispatch(new ExpenseActions.AddExpense(this.actualExpense));
+        cancledMode = 'hinzugefügt';
       }
       this._snackBar.open('Ausgabe wurde ' + cancledMode);
     }

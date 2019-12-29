@@ -72,6 +72,6 @@
 </div>
 
 <button mat-fab class="add-button mobile-position-add-button" *ngIf="responsiveDesignService.isMobile() | async"
-    [routerLink]="['/expense/add']">
+    (click)="onAdd()" [routerLink]="['/expense/add']">
     <mat-icon>add</mat-icon>
 </button>

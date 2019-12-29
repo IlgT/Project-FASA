@@ -41,6 +41,7 @@ export class ContextMenuComponent implements OnInit {
   }
 
   onDelete() {
+    this.store.dispatch(new ExpenseActions.StartDeleteExpense(this.index));
     this._matDialogRef.close();
     const dialogRef = this.noMistakeDialog.open(NoMistakeComponent, {
       maxWidth: '350px',
