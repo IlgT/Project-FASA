@@ -25,6 +25,7 @@ export const CHANGE_REASONS_FILTER = '[ExpenseTracker] Reasons filter was change
 export const CHANGE_MONTH_FILTER = '[ExpenseTracker] Month filter was changed';
 export const CHANGE_TAGS_FILTER = '[ExpenseTracker] Tags filter was changed';
 export const FILTER_CHANGES_APPLIED = '[ExpenseTracker] Filter changes were applied';
+export const APPLY_FILTER_CHANGES_FAILED ='ExpenseTracker] Applying Filter changes failed';
 
 export class LoadExpenseList implements Action {
     readonly type = LOAD_EXPENSE_LIST;
@@ -93,7 +94,7 @@ export class ModifyExpense implements Action {
 export class ModifyExpenseSuccess implements Action {
     readonly type = MODIFY_EXPENSE_SUCCESS;
 
-    constructor(public payload: Expense[]) {}
+    constructor(public payload: Expense) {}
 }
 
 export class ModifyExpenseFailure implements Action {
@@ -118,8 +119,6 @@ export class DeleteExpense implements Action {
 
 export class DeleteExpenseSuccess implements Action {
     readonly type = DELETE_EXPENSE_SUCCESS;
-
-    constructor(public payload: Expense[]) {}
 }
 
 export class DeleteExpenseFailure implements Action {
@@ -148,6 +147,14 @@ export class ChangeTagsFilter implements Action {
 
 export class FilterChangesApplied implements Action {
     readonly type = FILTER_CHANGES_APPLIED;
+
+    constructor(public payload: Expense[]) {}
+}
+
+export class ApplyFilterChangesFailed implements Action {
+    readonly type = APPLY_FILTER_CHANGES_FAILED;
+
+    constructor(public payload: string) {}
 }
 
 

@@ -71,11 +71,6 @@ export function expenseReducer(state: ExpenseState = initialState, action: Expen
         case ExpenseActions.ADD_EXPENSE_SUCCESS:
             return {
                 ...state,
-                expenses: [...state.expenses, state.actualExpense],
-                totalSum: {
-                    ...state.totalSum,
-                    value: +state.totalSum.value + +state.actualExpense.amount.value
-                },
                 actualExpense: defaultExpense
             };
 
@@ -114,7 +109,7 @@ export function expenseReducer(state: ExpenseState = initialState, action: Expen
 
         case ExpenseActions.MODIFY_EXPENSE_SUCCESS:
             const updatedExpenses = {...state.expenses};
-            updatedExpenses[state.actualExpenseIndex] = state.actualExpense;
+            updatedExpenses[state.actualExpenseIndex] = action.payload;
 
             return {
                 ...state,
@@ -155,10 +150,6 @@ export function expenseReducer(state: ExpenseState = initialState, action: Expen
                 expenses: state.expenses.filter((expense, expenseIndex) => {
                         return expenseIndex !== state.actualExpenseIndex;
                 }),
-                totalSum: {
-                    ...state.totalSum,
-                    value: +state.totalSum.value - +state.actualExpense.amount.value
-                },
                 actualExpense: defaultExpense,
                 actualExpenseIndex: -1
             };
@@ -191,7 +182,8 @@ export function expenseReducer(state: ExpenseState = initialState, action: Expen
 
         case ExpenseActions.FILTER_CHANGES_APPLIED:
             return {
-                ...state
+                ...state,
+                expenses: action.payload
             }
 
         default:

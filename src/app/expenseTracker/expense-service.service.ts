@@ -14,10 +14,22 @@ export class ExpenseService {
 
   constructor(private store: Store<fromApp.AppState>) { }
  
-  getExpenseListByFilter(): Observable<Expense[]> {
+  loadExpenseListByFilter(): Observable<Expense[]> {
     const filter: ExpenseFilter = this.generateExpenseFilter();
     //HTTP-Call
     return of(EXPENSES);
+  }
+
+  addExpense(): Observable<Expense> {
+    return of(null);
+  }
+
+  modifyExpense(): Observable<Expense> {
+    return of(null);
+  }
+
+  deleteExpense(): Observable<Expense> {
+    return of(null);
   }
 
   private generateExpenseFilter(): ExpenseFilter {
