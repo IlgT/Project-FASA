@@ -34,10 +34,9 @@ export class ExpenseOverviewComponent implements OnInit {
 
   ngOnInit() {
     //this.subscription = 
-    this.store.dispatch(new ExpenseActions.InitializeExpense());
+    this.store.dispatch(new ExpenseActions.LoadExpenseList());
     this.store.select('expense').subscribe(
       (expenseState: fromExpense.ExpenseState) => this.expenseState = expenseState);
-      this.store.dispatch(new ExpenseActions.InitializeExpenseSuccess());
     this.enableTableSorting();
   }
 

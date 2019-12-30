@@ -1,9 +1,9 @@
 import { Action } from '@ngrx/store';
 import { Expense } from '../../expense';
 
-export const INITIALIZE_EXPENSE = '[ExpenseTracker] Initialize expense list';
-export const INITIALIZE_EXPENSE_SUCCESS = '[ExpenseTracker] Initialize expenses list was successful';
-export const INITIALIZE_EXPENSE_FAILURE = '[ExpenseTracker] Initialize expense list failed';
+export const LOAD_EXPENSE_LIST = '[ExpenseTracker] Load expense list';
+export const LOAD_EXPENSE_LIST_SUCCESS = '[ExpenseTracker] Loading expense list was successful';
+export const LOAD_EXPENSE_LIST_FAILURE = '[ExpenseTracker] Loading expense list failed';
 export const START_ADD_EXPENSE = '[ExpenseTracker] Start adding new expense';
 export const RESET_ADD_FORM = '[ExpenseTracker] Reset form in add mode';
 export const ADD_EXPENSE_CANCELED = '[ExpenseTracker] Add expense was canceled';
@@ -26,16 +26,18 @@ export const CHANGE_MONTH_FILTER = '[ExpenseTracker] Month filter was changed';
 export const CHANGE_TAGS_FILTER = '[ExpenseTracker] Tags filter was changed';
 export const FILTER_CHANGES_APPLIED = '[ExpenseTracker] Filter changes were applied';
 
-export class InitializeExpense implements Action {
-    readonly type = INITIALIZE_EXPENSE;
+export class LoadExpenseList implements Action {
+    readonly type = LOAD_EXPENSE_LIST;
 }
 
-export class InitializeExpenseSuccess implements Action {
-    readonly type = INITIALIZE_EXPENSE_SUCCESS;
+export class LoadExpenseListSuccess implements Action {
+    readonly type = LOAD_EXPENSE_LIST_SUCCESS;
+
+    constructor(public payload: Expense[]) {}
 }
 
-export class InitializeExpenseFailure implements Action {
-    readonly type = INITIALIZE_EXPENSE_FAILURE;
+export class LoadExpenseListFailure implements Action {
+    readonly type = LOAD_EXPENSE_LIST_FAILURE;
 
     constructor(public payload: string) {}
 }
@@ -90,6 +92,8 @@ export class ModifyExpense implements Action {
 
 export class ModifyExpenseSuccess implements Action {
     readonly type = MODIFY_EXPENSE_SUCCESS;
+
+    constructor(public payload: Expense[]) {}
 }
 
 export class ModifyExpenseFailure implements Action {
@@ -114,6 +118,8 @@ export class DeleteExpense implements Action {
 
 export class DeleteExpenseSuccess implements Action {
     readonly type = DELETE_EXPENSE_SUCCESS;
+
+    constructor(public payload: Expense[]) {}
 }
 
 export class DeleteExpenseFailure implements Action {
@@ -145,9 +151,9 @@ export class FilterChangesApplied implements Action {
 }
 
 
-export type Actions = InitializeExpense
-                    | InitializeExpenseSuccess
-                    | InitializeExpenseFailure
+export type Actions = LoadExpenseList
+                    | LoadExpenseListSuccess
+                    | LoadExpenseListFailure
                     | StartAddExpense
                     | ResetAddForm
                     | AddExpenseCanceled

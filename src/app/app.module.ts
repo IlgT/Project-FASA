@@ -16,6 +16,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { ContextMenuComponent } from './context-menu/context-menu.component';
 import { NoMistakeComponent } from './no-mistake/no-mistake.component';
 import { ExpensesFilterComponent } from './expenseTracker/expenseOverview/expenses-filter/expenses-filter.component';
+import { ExpenseEffects } from './expenseTracker/stateManagement/expense.effects';
+import { EffectsModule } from '@ngrx/effects';
 
 const appRoutes: Routes = [
   { path: 'expenses', component: ExpenseOverviewComponent },
@@ -50,6 +52,7 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     FormsModule,
     BrowserAnimationsModule,
+    EffectsModule.forRoot([ExpenseEffects]),
     RouterModule.forRoot(appRoutes),
     StoreModule.forRoot(fromApp.appReducer, {
       runtimeChecks: {

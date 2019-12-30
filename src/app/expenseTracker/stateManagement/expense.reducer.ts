@@ -19,7 +19,7 @@ export const initialState: ExpenseState = {
     reasons: [],
     month: new Date().getMonth() + 1,
     tags: [],
-    expenses: EXPENSES,
+    expenses: [],
     totalSum: {
         value: 0.00,
         currency: 'EUR'
@@ -33,17 +33,18 @@ export function expenseReducer(state: ExpenseState = initialState, action: Expen
     console.log(action.type, state)
 
     switch(action.type) {
-        case ExpenseActions.INITIALIZE_EXPENSE:
+        case ExpenseActions.LOAD_EXPENSE_LIST:
             return {
                 ...state
             };
 
-        case ExpenseActions.INITIALIZE_EXPENSE_SUCCESS:
+        case ExpenseActions.LOAD_EXPENSE_LIST_SUCCESS:
             return {
-                ...state
+                ...state,
+                expenses: action.payload
             };
 
-        case ExpenseActions.INITIALIZE_EXPENSE_FAILURE:
+        case ExpenseActions.LOAD_EXPENSE_LIST_FAILURE:
             return {
                 ...state,
                 errorMessage: action.payload
