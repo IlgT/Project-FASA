@@ -14,7 +14,6 @@ import { MatSnackBar } from '@angular/material';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../../stateManagement/app.reducer';
 import * as ExpenseActions from '../stateManagement/expense.action';
-import * as fromExpense from '../stateManagement/expense.reducer';
 
 @Component({
   selector: 'expenseTracker-edit',

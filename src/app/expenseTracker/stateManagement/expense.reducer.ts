@@ -1,7 +1,6 @@
 import { Expense } from '../../expense';
 import { Money } from '../../Money';
 import * as ExpenseActions from './expense.action';
-import { EXPENSES } from '../../expense.testdata';
 import { defaultExpense } from '../expense.defaultdata';
 
 export interface ExpenseState {

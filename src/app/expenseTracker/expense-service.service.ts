@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import * as ExpenseActions  from '../expenseTracker/stateManagement/expense.action';
 import * as fromExpense from './stateManagement/expense.reducer';
 import * as fromApp from '../stateManagement/app.reducer';
 import { ExpenseFilter } from './ExpenseFilter';
@@ -43,11 +42,31 @@ export class ExpenseService {
 
   loadUtilizedValuesForFilter(): Observable<ExpenseFilter> {
     console.log("HTTP-CALL for loading all utilized reasons, months and tags for filter dropdowns");
-    return of({
-      reasons: ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'],
-      months: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-      tags: ["Shopping"]
-    });
+    let filters: ExpenseFilter = {
+      reasons: [],
+      months: [],
+      tags: []
+    }
+
+    let expenses: Expense[];
+    this.store.select('expense')
+      .subscribe(expenseState => expenses = expenseState.expenses);
+
+    for (let expense of expenses) {
+      if (!filters.reasons.includes(expense.reason)) {
+        filters.reasons.push(expense.reason);
+      }
+      let month: number = +expense.date.substr(5, 2);
+      if (!filters.months.includes(month)) {
+        filters.months.push(month);
+      }
+      for (let tag of expense.tags) {
+        if(!filters.tags.includes(tag.name)) {
+          filters.tags.push(tag.name);
+        }
+      }
+    }
+    return of(filters);
   }
   
   updateFilters(expense: Expense): Observable<ExpenseFilter> {

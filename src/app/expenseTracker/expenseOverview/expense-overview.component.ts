@@ -12,7 +12,6 @@ import { FormControl } from '@angular/forms';
 import { ContextMenuComponent } from 'src/app/context-menu/context-menu.component';
 import { MatDialog } from '@angular/material';
 import { ResponsiveDesignService } from 'src/app/responsive-design.service';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'expenseTracker-overview',

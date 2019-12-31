@@ -1,5 +1,4 @@
 import { Action } from '@ngrx/store';
-import { Expense } from '../../../../expense';
 import { ExpenseFilter as ExpensesFilter } from 'src/app/expenseTracker/ExpenseFilter';
 
 export const CHANGE_REASONS_FILTER = '[ExpenseTracker] Reasons filter was changed';

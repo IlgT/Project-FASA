@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../stateManagement/app.reducer';
 import * as ExpenseActions from '../expenseTracker/stateManagement/expense.action';
-import * as fromExpense from '../expenseTracker/stateManagement/expense.reducer';
 
 @Component({
   selector: 'app-context-menu',
