@@ -16,7 +16,7 @@ export const EXPENSES: Expense[] = [
     exchangeRate: 1,
     tags: [{
       id: 1,
-      name: "Lebensmittel"
+      name: "lebensmittel"
     }]
   },
   {
@@ -74,22 +74,22 @@ export const EXPENSES: Expense[] = [
     exchangeRate: 1.329,
     tags: [{
       id: 1,
-      name: "Lebensmittel"
+      name: "Fun"
     }]
   },
   {
     id: 5,
     amount: {
-      value: 114.14,
+      value: 120.00,
       currency: "EUR"
     },
-    reason: "Walt Disney World Resort",
+    reason: "Kaufland",
     date: new Date("12 01 2019").toJSON().substr(0, 10),
     exchangeValue: {
-      value: 85.86,
-      currency: "USD"
+      value: 120,
+      currency: "EUR"
     },
-    exchangeRate: 1.329,
+    exchangeRate: 1,
     tags: [{
       id: 1,
       name: "Lebensmittel"
@@ -98,19 +98,19 @@ export const EXPENSES: Expense[] = [
   {
     id: 6,
     amount: {
-      value: 114.14,
+      value: 32.00,
       currency: "EUR"
     },
-    reason: "Walt Disney World Resort",
+    reason: "Kino",
     date: new Date("12 01 2019").toJSON().substr(0, 10),
     exchangeValue: {
-      value: 85.86,
-      currency: "USD"
+      value: 32.00,
+      currency: "EUR"
     },
-    exchangeRate: 1.329,
+    exchangeRate: 1,
     tags: [{
       id: 1,
-      name: "Lebensmittel"
+      name: "Fun"
     }]
   },
   {
