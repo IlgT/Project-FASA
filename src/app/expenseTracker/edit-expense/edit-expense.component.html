@@ -17,7 +17,7 @@
         <label for="amount">Amount</label>
         <input type="number" class="form-control" id="amount"
             required
-            [(ngModel)]="actualExpense.amount.value" name="amount"
+            [(ngModel)]="actualExpense.exchangeValue.value" name="amount"
             #amount="ngModel">
         <div [hidden]="amount.valid || amount.pristine"
         class="alert alert-danger">

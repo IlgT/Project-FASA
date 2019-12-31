@@ -12,6 +12,7 @@ import { FormControl } from '@angular/forms';
 import { ContextMenuComponent } from 'src/app/context-menu/context-menu.component';
 import { MatDialog } from '@angular/material';
 import { ResponsiveDesignService } from 'src/app/responsive-design.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'expenseTracker-overview',
@@ -34,14 +35,23 @@ export class ExpenseOverviewComponent implements OnInit {
               public responsiveDesignService: ResponsiveDesignService) {}
 
   ngOnInit() {
-    //this.subscription = 
-    this.store.dispatch(new ExpenseActions.LoadExpenseList());
+    //this.subscription =
+    this.initializeExpenseListOnce();
     this.store.select('expense').subscribe(
       (expenseState: fromExpense.ExpenseState) => {
         this.expenses = new MatTableDataSource(expenseState.expenses);
         this.totalSum = expenseState.totalSum.value
       });
     this.enableTableSorting();
+  }
+
+  private initializeExpenseListOnce() {
+    let isInitialize: boolean;
+    this.store.select('expenseFilter')
+      .subscribe(state => isInitialize = state.isInitialize);
+    if (isInitialize) {
+      this.store.dispatch(new ExpenseActions.LoadExpenseList());
+    }
   }
 
   private enableTableSorting() {

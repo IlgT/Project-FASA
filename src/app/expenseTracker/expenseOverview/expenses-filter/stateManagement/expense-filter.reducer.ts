@@ -1,6 +1,7 @@
 import * as ExpenseFilterActions from './expense-filter.action';
 
 export interface ExpenseFilterState {
+    isInitialize: boolean;
     filteredReasons: string[];
     filteredMonth: number | null;
     filteredTags: string[];
@@ -11,6 +12,7 @@ export interface ExpenseFilterState {
   }
 
 export const initialState: ExpenseFilterState = {
+    isInitialize: true,
     filteredReasons: [],
     filteredMonth: new Date().getMonth() + 1,
     filteredTags: [],
@@ -43,7 +45,8 @@ export function expenseFilterReducer(state: ExpenseFilterState = initialState, a
 
         case ExpenseFilterActions.LOAD_UTILIZED_VALUES:
             return {
-                ...state
+                ...state,
+                isInitialize: false
             }
 
         case ExpenseFilterActions.LOAD_UTILIZED_VALUES_SUCCESS:

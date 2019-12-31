@@ -28,7 +28,7 @@ export function expenseReducer(state: ExpenseState = initialState, action: Expen
     switch(action.type) {
         case ExpenseActions.LOAD_EXPENSE_LIST:
             return {
-                ...state
+                ...state,
             };
 
         case ExpenseActions.LOAD_EXPENSE_LIST_SUCCESS:
@@ -95,7 +95,12 @@ export function expenseReducer(state: ExpenseState = initialState, action: Expen
         case ExpenseActions.MODIFY_EXPENSE:
             const modifiedExpense = {
                 ...state.actualExpense,
-                ...action.payload
+                ...action.payload,
+                amount: {
+                    ...state.actualExpense.amount,
+                    value: null
+                },
+                exchangeRate: null
             };
 
             return {

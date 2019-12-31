@@ -132,7 +132,6 @@ export class EditExpenseComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(JSON.stringify(this.actualExpense));
     this.closingSnackBar('submit');
     this.router.navigate(['/expenses']);
   }

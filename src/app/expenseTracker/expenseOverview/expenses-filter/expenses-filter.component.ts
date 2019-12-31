@@ -35,10 +35,10 @@ export class ExpensesFilterComponent implements OnInit {
   selectedTags: string[];
 
   constructor(public responsiveDesignService: ResponsiveDesignService,
-              private store: Store<fromApp.AppState>) { }
+              private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
-    this.store.dispatch(new ExpenseFilterActions.LoadUtilizedValues());
+    this.initializePossibleFiltersOnce();
     this.store
       .select('expenseFilter')
       .subscribe((expenseFilterState: fromExpenseFilter.ExpenseFilterState) => {
@@ -52,6 +52,15 @@ export class ExpensesFilterComponent implements OnInit {
         this.selectedMonth = this.utilizedMonths[expenseFilterState.filteredMonth - 1];
         this.selectedTags = expenseFilterState.filteredTags;
       });
+  }
+
+  private initializePossibleFiltersOnce() {
+    let isInitialize: boolean;
+    this.store.select('expenseFilter')
+      .subscribe(state => isInitialize = state.isInitialize);
+    if (isInitialize) {
+      this.store.dispatch(new ExpenseFilterActions.LoadUtilizedValues());
+    }
   }
 
   onReasonsChange(event: MatSelectChange) {
