@@ -2,7 +2,7 @@ import { Actions, ofType, Effect } from '@ngrx/effects';
 import * as ExpenseActions from './expense.action';
 import * as ExpenseFilterActions from '../expenseOverview/expenses-filter/stateManagement/expense-filter.action'
 import { ExpenseService } from '../expense-service.service';
-import { mergeMap, map, catchError } from 'rxjs/operators';
+import { mergeMap, map, catchError, exhaustMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Injectable } from '@angular/core';
 
@@ -24,7 +24,7 @@ export class ExpenseEffects {
         ofType(ExpenseActions.ADD_EXPENSE),
         mergeMap(() => this.expenseService.addExpense()
             .pipe(
-                map(expense => (new ExpenseActions.AddExpenseSuccess())),
+                map(expense => (new ExpenseActions.AddExpenseSuccess(expense))),
                 catchError(error => of(new ExpenseActions.AddExpenseFailure(error)))
             ))
     );
@@ -68,6 +68,17 @@ export class ExpenseEffects {
             .pipe(
                 map(expenseFilters => (new ExpenseFilterActions.LoadUtilizedValuesSuccess(expenseFilters))),
                 catchError(error => of(new ExpenseFilterActions.LoadUtilizedValuesFailure(error)))
+            ))
+    );
+
+    @Effect()
+    updateFilters = this.actions$.pipe(
+        ofType(ExpenseActions.ADD_EXPENSE_SUCCESS, ExpenseActions.MODIFY_EXPENSE_SUCCESS),
+        mergeMap((action: ExpenseActions.AddExpenseSuccess | ExpenseActions.ModifyExpenseSuccess) =>
+            this.expenseService.updateFilters(action.payload)
+            .pipe( 
+                map(filters => (new ExpenseFilterActions.UpdateFiltersSuccess(filters))),
+                catchError(error => of(new ExpenseFilterActions.UpdateFiltersFailure(error)))
             ))
     );
 

@@ -49,6 +49,30 @@ export class ExpenseService {
       tags: ["Shopping"]
     });
   }
+  
+  updateFilters(expense: Expense): Observable<ExpenseFilter> {
+    let updatedFilters: ExpenseFilter;
+    this.store.select('expenseFilter')
+      .subscribe(expenseFilterState => 
+        updatedFilters = {
+          reasons: [...expenseFilterState.utilizedReasons],
+          months: [...expenseFilterState.utilizedMonths],
+          tags: [...expenseFilterState.utilizedTags],
+        });
+    if (!updatedFilters.reasons.includes(expense.reason)) {
+      updatedFilters.reasons.push(expense.reason);
+    }
+    let month: number = +expense.date.substr(6, 2);
+    if (!updatedFilters.months.includes(month)) {
+      updatedFilters.months.push(month);
+    }
+    for (let tag of expense.tags) {
+      if(!updatedFilters.tags.includes(tag.name)) {
+        updatedFilters.tags.push(tag.name);
+      }
+    }
+    return of(updatedFilters);
+  }
 
   private generateExpenseFilter(): ExpenseFilter {
     return null;

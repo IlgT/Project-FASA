@@ -58,6 +58,8 @@ export class AddExpense implements Action {
 
 export class AddExpenseSuccess implements Action {
     readonly type = ADD_EXPENSE_SUCCESS;
+
+    constructor(public payload: Expense) {}
 }
 
 export class AddExpenseFailure implements Action {

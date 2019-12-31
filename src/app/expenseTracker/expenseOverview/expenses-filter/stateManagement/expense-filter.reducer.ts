@@ -50,6 +50,7 @@ export function expenseFilterReducer(state: ExpenseFilterState = initialState, a
             }
 
         case ExpenseFilterActions.LOAD_UTILIZED_VALUES_SUCCESS:
+        case ExpenseFilterActions.UPDATE_FILTERS_SUCCESS:
             return {
                 ...state,
                 utilizedReasons: action.payload.reasons,
@@ -57,7 +58,8 @@ export function expenseFilterReducer(state: ExpenseFilterState = initialState, a
                 utilizedTags: action.payload.tags
             }
         
-        case ExpenseFilterActions.LOAD_UTILIZED_VALUES_SUCCESS:
+        case ExpenseFilterActions.LOAD_UTILIZED_VALUES_FAILURE:
+        case ExpenseFilterActions.UPDATE_FILTERS_FAILURE:
             return {
                 ...state,
                 error: action.payload
