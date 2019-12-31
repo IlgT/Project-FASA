@@ -47,16 +47,16 @@ export const EXPENSES: Expense[] = [
       value: 114.14,
       currency: "EUR"
     },
-    reason: "Walt Disney World Resort",
+    reason: "SuperDry",
     date: new Date("2019-12-04").toJSON().substr(0, 10),
     exchangeValue: {
-      value: 85.86,
-      currency: "USD"
+      value: 114.144,
+      currency: "EUR"
     },
-    exchangeRate: 1.329,
+    exchangeRate: 1,
     tags: [{
       id: 1,
-      name: "Lebensmittel"
+      name: "Shopping"
     }]
   },
   {

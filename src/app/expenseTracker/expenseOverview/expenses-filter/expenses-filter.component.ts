@@ -6,7 +6,8 @@ import { debounceTime, map, startWith } from 'rxjs/operators';
 import { ResponsiveDesignService } from 'src/app/responsive-design.service';
 import { Store } from '@ngrx/store';
 import * as fromApp from 'src/app/stateManagement/app.reducer';
-import * as fromExpense from '../../stateManagement/expense.reducer';
+import * as fromExpenseFilter from './stateManagement/expense-filter.reducer';
+import * as ExpenseFilterActions from './stateManagement/expense-filter.action';
 import * as ExpenseActions from '../../stateManagement/expense.action';
 import { MatSelectChange } from '@angular/material';
 
@@ -16,14 +17,18 @@ import { MatSelectChange } from '@angular/material';
   styleUrls: ['./expenses-filter.component.css']
 })
 export class ExpensesFilterComponent implements OnInit {
+
+  months: string[] = ["Januar", "Februar", "März", "April", "Mai",
+                      "Juni", "Juli", "August", "September", "Oktober",
+                      "November", "Dezember"];
+  
+  utilizedReasons: string[];
+  utilizedMonths: string[];
+  utilizedTags: string[];
   
   reasonsControl = new FormControl();
   monthControl = new FormControl();
   tagsControl = new FormControl();
-  usedReasons: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
-  usedMonths: string[] = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli',
-                          'August', 'September', 'Oktober', 'Novemeber', 'Dezemeber'];
-  usedTags: string[] = ["Shopping"];
 
   selectedReasons: string[];
   selectedMonth: string;
@@ -33,24 +38,32 @@ export class ExpensesFilterComponent implements OnInit {
               private store: Store<fromApp.AppState>) { }
 
   ngOnInit() {
+    this.store.dispatch(new ExpenseFilterActions.LoadUtilizedValues());
     this.store
-      .select('expense')
-      .subscribe((expenseState: fromExpense.ExpenseState) => {
-      this.selectedMonth = this.usedMonths[expenseState.month - 1];
-      this.selectedReasons = expenseState.reasons;
-      this.selectedTags = expenseState.tags});
+      .select('expenseFilter')
+      .subscribe((expenseFilterState: fromExpenseFilter.ExpenseFilterState) => {
+        this.utilizedReasons = expenseFilterState.utilizedReasons;
+        this.utilizedMonths = [];
+        for(let month of expenseFilterState.utilizedMonths) {
+          this.utilizedMonths.push(this.months[month - 1]);
+        }
+        this.utilizedTags = expenseFilterState.utilizedTags;
+        this.selectedReasons = expenseFilterState.filteredReasons;
+        this.selectedMonth = this.utilizedMonths[expenseFilterState.filteredMonth - 1];
+        this.selectedTags = expenseFilterState.filteredTags;
+      });
   }
 
   onReasonsChange(event: MatSelectChange) {
-    this.store.dispatch(new ExpenseActions.ChangeReasonsFilter(this.selectedReasons));
+    this.store.dispatch(new ExpenseFilterActions.ChangeReasonsFilter(this.selectedReasons));
   }
 
   onMonthChange() {
-    this.store.dispatch(new ExpenseActions.ChangeMonthFilter(this.usedMonths.indexOf(this.selectedMonth) + 1));
+    this.store.dispatch(new ExpenseFilterActions.ChangeMonthFilter(this.utilizedMonths.indexOf(this.selectedMonth) + 1));
   }
 
   onTagsChange(event: MatSelectChange) {
-    this.store.dispatch(new ExpenseActions.ChangeTagsFilter(this.selectedTags));
+    this.store.dispatch(new ExpenseFilterActions.ChangeTagsFilter(this.selectedTags));
   }
   
   onAdd() {

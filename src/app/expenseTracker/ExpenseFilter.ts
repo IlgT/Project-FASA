@@ -1,5 +1,5 @@
 export class ExpenseFilter {
     reasons: string[];
-    month: number;
+    months: number[];
     tags: string[];
 }

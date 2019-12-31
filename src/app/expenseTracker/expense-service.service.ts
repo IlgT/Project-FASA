@@ -16,20 +16,32 @@ export class ExpenseService {
  
   loadExpenseListByFilter(): Observable<Expense[]> {
     const filter: ExpenseFilter = this.generateExpenseFilter();
-    //HTTP-Call
+    console.log("HTTP-CALL for loading all expense by filter");
     return of(EXPENSES);
   }
 
   addExpense(): Observable<Expense> {
+    console.log("HTTP-CALL for adding a expense");
     return of(null);
   }
 
   modifyExpense(): Observable<Expense> {
+    console.log("HTTP-CALL for modifying a expense");
     return of(null);
   }
 
   deleteExpense(): Observable<Expense> {
+    console.log("HTTP-CALL for deleting a expense");
     return of(null);
+  }
+
+  loadUtilizedValuesForFilter(): Observable<ExpenseFilter> {
+    console.log("HTTP-CALL for loading all utilized reasons, months and tags for filter dropdowns");
+    return of({
+      reasons: ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'],
+      months: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      tags: ["Shopping"]
+    });
   }
 
   private generateExpenseFilter(): ExpenseFilter {

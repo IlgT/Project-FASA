@@ -68,7 +68,7 @@
 
 <div id="footer-row">
     <div id="footer-total">GESAMT</div>
-    <div id="footer-value">{{getTotalCost() | currency: 'EUR'}}</div>
+    <div id="footer-value">{{totalSum | currency: 'EUR'}}</div>
 </div>
 
 <button mat-fab class="add-button mobile-position-add-button" *ngIf="responsiveDesignService.isMobile() | async"

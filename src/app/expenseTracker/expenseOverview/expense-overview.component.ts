@@ -3,7 +3,9 @@ import { Store } from '@ngrx/store';
 import { Expense } from '../../expense';
 import * as fromApp from '../../stateManagement/app.reducer';
 import * as ExpenseActions from '../stateManagement/expense.action';
+import * as ExpenseFilterActions from './expenses-filter/stateManagement/expense-filter.action';
 import * as fromExpense from '../stateManagement/expense.reducer';
+import * as fromExpenseFilter from './expenses-filter/stateManagement/expense-filter.reducer';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import { isNgTemplate } from '@angular/compiler';
@@ -22,8 +24,8 @@ export class ExpenseOverviewComponent implements OnInit {
   reasons = new FormControl();
   usedReasons: string[] = ["Kaufland", "Versicherung", "Disney World"]
   displayedColumns: string[] = ["id", "value", "reason", "date", "exchangeValue", "exchangeRate", "tag", "more"];
-  expenseState: fromExpense.ExpenseState;
   expenses: MatTableDataSource<Expense>;
+  totalSum: number;
   //subscription: Subscription;
   
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -36,12 +38,14 @@ export class ExpenseOverviewComponent implements OnInit {
     //this.subscription = 
     this.store.dispatch(new ExpenseActions.LoadExpenseList());
     this.store.select('expense').subscribe(
-      (expenseState: fromExpense.ExpenseState) => this.expenseState = expenseState);
+      (expenseState: fromExpense.ExpenseState) => {
+        this.expenses = new MatTableDataSource(expenseState.expenses);
+        this.totalSum = expenseState.totalSum.value
+      });
     this.enableTableSorting();
   }
 
   private enableTableSorting() {
-    this.expenses = new MatTableDataSource(this.expenseState.expenses);
     this.expenses.sortingDataAccessor = (expense, property) => {
       switch (property) {
         case 'value': return expense.amount.value;
@@ -51,10 +55,6 @@ export class ExpenseOverviewComponent implements OnInit {
       }
     };
     this.expenses.sort = this.sort;
-  }
-
-  getTotalCost(): number {
-    return this.expenses.data.map(expense => expense.amount.value).reduce((acc, value) => acc + value, 0);
   }
 
   onShowDialog(event: MouseEvent, index: number): void {
@@ -77,16 +77,16 @@ export class ExpenseOverviewComponent implements OnInit {
   onTagClick(tagName: string) {
     var selectedTags: string[];
     this.store
-      .select('expense')
-      .subscribe((expenseState: fromExpense.ExpenseState) =>
-        selectedTags = [...expenseState.tags]
+      .select('expenseFilter')
+      .subscribe((expenseFilterState: fromExpenseFilter.ExpenseFilterState) =>
+        selectedTags = [...expenseFilterState.filteredTags]
     );
     if (selectedTags.includes(tagName)) {
       selectedTags.splice(selectedTags.indexOf(tagName));
     } else {
       selectedTags.push(tagName);
     }
-    this.store.dispatch(new ExpenseActions.ChangeTagsFilter(selectedTags));
+    this.store.dispatch(new ExpenseFilterActions.ChangeTagsFilter(selectedTags));
   }
 
   ngOnDestroy() {

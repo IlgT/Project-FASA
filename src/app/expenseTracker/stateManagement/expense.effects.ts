@@ -1,5 +1,6 @@
 import { Actions, ofType, Effect } from '@ngrx/effects';
 import * as ExpenseActions from './expense.action';
+import * as ExpenseFilterActions from '../expenseOverview/expenses-filter/stateManagement/expense-filter.action'
 import { ExpenseService } from '../expense-service.service';
 import { mergeMap, map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -50,13 +51,25 @@ export class ExpenseEffects {
 
     @Effect()
     filterExpenseList = this.actions$.pipe(
-        ofType(ExpenseActions.CHANGE_REASONS_FILTER, ExpenseActions.CHANGE_MONTH_FILTER, ExpenseActions.CHANGE_TAGS_FILTER),
+        ofType( ExpenseFilterActions.CHANGE_REASONS_FILTER,
+                ExpenseFilterActions.CHANGE_MONTH_FILTER,
+                ExpenseFilterActions.CHANGE_TAGS_FILTER),
         mergeMap(() => this.expenseService.loadExpenseListByFilter()
             .pipe(
-                map(expenses => (new ExpenseActions.FilterChangesApplied(expenses))),
-                catchError(error => of(new ExpenseActions.ApplyFilterChangesFailed(error)))
+                map(expenses => (new ExpenseActions.LoadExpenseListSuccess(expenses))),
+                catchError(error => of(new ExpenseActions.LoadExpenseListFailure(error)))
             ))
     )
+
+    @Effect()
+    loadUtiliziedValues = this.actions$.pipe(
+        ofType( ExpenseFilterActions.LOAD_UTILIZED_VALUES),
+        mergeMap(() => this.expenseService.loadUtilizedValuesForFilter()
+            .pipe(
+                map(expenseFilters => (new ExpenseFilterActions.LoadUtilizedValuesSuccess(expenseFilters))),
+                catchError(error => of(new ExpenseFilterActions.LoadUtilizedValuesFailure(error)))
+            ))
+    );
 
     constructor(private actions$: Actions,
                 private expenseService: ExpenseService) {}

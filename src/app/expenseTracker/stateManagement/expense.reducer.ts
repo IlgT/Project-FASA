@@ -5,9 +5,6 @@ import { EXPENSES } from '../../expense.testdata';
 import { defaultExpense } from '../expense.defaultdata';
 
 export interface ExpenseState {
-    reasons: string[];
-    month: number | null;
-    tags: string[];
     expenses: Expense[];
     totalSum: Money;
     actualExpense: Expense | null;
@@ -16,9 +13,6 @@ export interface ExpenseState {
   }
 
 export const initialState: ExpenseState = {
-    reasons: [],
-    month: new Date().getMonth() + 1,
-    tags: [],
     expenses: [],
     totalSum: {
         value: 0.00,
@@ -39,9 +33,12 @@ export function expenseReducer(state: ExpenseState = initialState, action: Expen
             };
 
         case ExpenseActions.LOAD_EXPENSE_LIST_SUCCESS:
+            var newTotalSumValue: number = action.payload.map(expense => expense.amount.value).reduce((acc, value) => acc + value, 0)
             return {
                 ...state,
-                expenses: action.payload
+                expenses: action.payload,
+                totalSum: {...state.totalSum,
+                            value: newTotalSumValue}
             };
 
         case ExpenseActions.LOAD_EXPENSE_LIST_FAILURE:
@@ -108,14 +105,15 @@ export function expenseReducer(state: ExpenseState = initialState, action: Expen
             };
 
         case ExpenseActions.MODIFY_EXPENSE_SUCCESS:
-            const updatedExpenses = {...state.expenses};
+            var updatedExpenses = {...state.expenses};
             updatedExpenses[state.actualExpenseIndex] = action.payload;
+            var newTotalSumValue: number = updatedExpenses.map(expense => expense.amount.value).reduce((acc, value) => acc + value, 0);
 
             return {
                 ...state,
                 totalSum: {
                     ...state.totalSum,
-                    value: +state.totalSum.value - +state.expenses[state.actualExpenseIndex] + +state.actualExpense.amount.value
+                    value: newTotalSumValue
                 },
                 expenses: updatedExpenses,
                 actualExpense: defaultExpense,
@@ -145,11 +143,15 @@ export function expenseReducer(state: ExpenseState = initialState, action: Expen
             };
 
         case ExpenseActions.DELETE_EXPENSE_SUCCESS:
+            var updatedExpenses: Expense[] = state.expenses.filter((expense, expenseIndex) => {
+                return expenseIndex !== state.actualExpenseIndex; });
+            var newTotalSumValue: number = updatedExpenses.map(expense => expense.amount.value).reduce((acc, value) => acc + value, 0);
+
             return {
                 ...state,
-                expenses: state.expenses.filter((expense, expenseIndex) => {
-                        return expenseIndex !== state.actualExpenseIndex;
-                }),
+                expenses: updatedExpenses,
+                totalSum: {...state.totalSum,
+                            value: newTotalSumValue},
                 actualExpense: defaultExpense,
                 actualExpenseIndex: -1
             };
@@ -160,30 +162,6 @@ export function expenseReducer(state: ExpenseState = initialState, action: Expen
                 actualExpense: defaultExpense,
                 actualExpenseIndex: -1,
                 errorMessage: action.payload
-            }
-
-        case ExpenseActions.CHANGE_REASONS_FILTER:
-            return {
-                ...state,
-                reasons: action.payload
-            }
-
-        case ExpenseActions.CHANGE_MONTH_FILTER:
-            return {
-                ...state,
-                month: action.payload
-            }
-
-        case ExpenseActions.CHANGE_TAGS_FILTER:
-            return {
-                ...state,
-                tags: action.payload
-            }
-
-        case ExpenseActions.FILTER_CHANGES_APPLIED:
-            return {
-                ...state,
-                expenses: action.payload
             }
 
         default:

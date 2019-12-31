@@ -21,11 +21,6 @@ export const DELETE_EXPENSE_CANCELED = '[ExpenseTracker] Delete expense was canc
 export const DELETE_EXPENSE = '[ExpenseTracker] Delete expense';
 export const DELETE_EXPENSE_SUCCESS = '[ExpenseTracker] Delete expense was successful';
 export const DELETE_EXPENSE_FAILURE = '[ExpenseTracker] Delete expense failed';
-export const CHANGE_REASONS_FILTER = '[ExpenseTracker] Reasons filter was changed';
-export const CHANGE_MONTH_FILTER = '[ExpenseTracker] Month filter was changed';
-export const CHANGE_TAGS_FILTER = '[ExpenseTracker] Tags filter was changed';
-export const FILTER_CHANGES_APPLIED = '[ExpenseTracker] Filter changes were applied';
-export const APPLY_FILTER_CHANGES_FAILED ='ExpenseTracker] Applying Filter changes failed';
 
 export class LoadExpenseList implements Action {
     readonly type = LOAD_EXPENSE_LIST;
@@ -127,37 +122,6 @@ export class DeleteExpenseFailure implements Action {
     constructor(public payload: string) {}
 }
 
-export class ChangeReasonsFilter implements Action {
-    readonly type = CHANGE_REASONS_FILTER;
-    
-    constructor(public payload: string[]) {}
-}
-
-export class ChangeMonthFilter implements Action {
-    readonly type = CHANGE_MONTH_FILTER;
-    
-    constructor(public payload: number) {}
-}
-
-export class ChangeTagsFilter implements Action {
-    readonly type = CHANGE_TAGS_FILTER;
-    
-    constructor(public payload: string[]) {}
-}
-
-export class FilterChangesApplied implements Action {
-    readonly type = FILTER_CHANGES_APPLIED;
-
-    constructor(public payload: Expense[]) {}
-}
-
-export class ApplyFilterChangesFailed implements Action {
-    readonly type = APPLY_FILTER_CHANGES_FAILED;
-
-    constructor(public payload: string) {}
-}
-
-
 export type Actions = LoadExpenseList
                     | LoadExpenseListSuccess
                     | LoadExpenseListFailure
@@ -177,8 +141,4 @@ export type Actions = LoadExpenseList
                     | DeleteExpenseCanceled
                     | DeleteExpense
                     | DeleteExpenseSuccess
-                    | DeleteExpenseFailure
-                    | ChangeReasonsFilter
-                    | ChangeMonthFilter
-                    | ChangeTagsFilter
-                    | FilterChangesApplied;
+                    | DeleteExpenseFailure;
