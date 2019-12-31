@@ -10,8 +10,11 @@ The angular Frontend for the FASA - Project.
 ### Install Angular icons
   	npm install material-icons --save
   
-### Install Angular NGRX
+### Install Angular NGRX-Store
    npm install @ngrx/store --save
+   
+### Install Angular NGRX-Router-Store
+   npm install @ngrx/router-store --save
   
 ### Install Angular NGRX-Devtools
    ng add @ngrx/store-devtools
