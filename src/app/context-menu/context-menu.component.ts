@@ -47,10 +47,6 @@ export class ContextMenuComponent implements OnInit {
       maxWidth: '350px',
       data: {id: this.index}
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The no mistake dialog was closed');
-    });
   }
 
   onEdit() {

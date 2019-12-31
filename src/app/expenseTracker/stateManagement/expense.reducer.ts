@@ -24,7 +24,6 @@ export const initialState: ExpenseState = {
 }
 
 export function expenseReducer(state: ExpenseState = initialState, action: ExpenseActions.Actions) {
-    console.log(action.type, state)
 
     switch(action.type) {
         case ExpenseActions.LOAD_EXPENSE_LIST:
@@ -105,7 +104,7 @@ export function expenseReducer(state: ExpenseState = initialState, action: Expen
             };
 
         case ExpenseActions.MODIFY_EXPENSE_SUCCESS:
-            var updatedExpenses = {...state.expenses};
+            var updatedExpenses: Expense[] = [...state.expenses];
             updatedExpenses[state.actualExpenseIndex] = action.payload;
             var newTotalSumValue: number = updatedExpenses.map(expense => expense.amount.value).reduce((acc, value) => acc + value, 0);
 

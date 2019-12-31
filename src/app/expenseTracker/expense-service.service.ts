@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as ExpenseActions  from '../expenseTracker/stateManagement/expense.action';
+import * as fromExpense from './stateManagement/expense.reducer';
 import * as fromApp from '../stateManagement/app.reducer';
 import { ExpenseFilter } from './ExpenseFilter';
 import { Observable, of } from 'rxjs';
@@ -27,7 +28,12 @@ export class ExpenseService {
 
   modifyExpense(): Observable<Expense> {
     console.log("HTTP-CALL for modifying a expense");
-    return of(null);
+    var expense: Expense;
+    this.store.select('expense').subscribe(
+      (expenseState: fromExpense.ExpenseState) => {
+        expense = expenseState.actualExpense;
+      });
+    return of(expense);
   }
 
   deleteExpense(): Observable<Expense> {

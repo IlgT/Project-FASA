@@ -8,7 +8,6 @@ import * as fromExpense from '../stateManagement/expense.reducer';
 import * as fromExpenseFilter from './expenses-filter/stateManagement/expense-filter.reducer';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
-import { isNgTemplate } from '@angular/compiler';
 import { FormControl } from '@angular/forms';
 import { ContextMenuComponent } from 'src/app/context-menu/context-menu.component';
 import { MatDialog } from '@angular/material';
@@ -64,9 +63,6 @@ export class ExpenseOverviewComponent implements OnInit {
         trigger: target,
         index: index
       }
-    });
-    dialogRef.afterClosed().subscribe( _res => {
-      console.log(_res);
     });
   }
 

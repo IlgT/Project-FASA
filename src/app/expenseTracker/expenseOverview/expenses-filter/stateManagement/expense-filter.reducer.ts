@@ -21,7 +21,6 @@ export const initialState: ExpenseFilterState = {
 }
 
 export function expenseFilterReducer(state: ExpenseFilterState = initialState, action: ExpenseFilterActions.Actions) {
-    console.log(action.type, state)
 
     switch(action.type) {
         case ExpenseFilterActions.CHANGE_REASONS_FILTER:

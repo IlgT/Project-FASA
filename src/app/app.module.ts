@@ -18,6 +18,7 @@ import { NoMistakeComponent } from './no-mistake/no-mistake.component';
 import { ExpensesFilterComponent } from './expenseTracker/expenseOverview/expenses-filter/expenses-filter.component';
 import { ExpenseEffects } from './expenseTracker/stateManagement/expense.effects';
 import { EffectsModule } from '@ngrx/effects';
+import { StoreRouterConnectingModule, RouterState } from '@ngrx/router-store';
 
 const appRoutes: Routes = [
   { path: 'expenses', component: ExpenseOverviewComponent },
@@ -54,6 +55,9 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     EffectsModule.forRoot([ExpenseEffects]),
     RouterModule.forRoot(appRoutes),
+    StoreRouterConnectingModule.forRoot({
+      routerState: RouterState.Minimal
+    }),
     StoreModule.forRoot(fromApp.appReducer, {
       runtimeChecks: {
         strictStateImmutability: true,
