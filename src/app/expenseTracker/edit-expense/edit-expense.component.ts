@@ -2,7 +2,6 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Expense } from 'src/app/expense';
 import { Tag } from 'src/app/Tag';
 import { defaultExpense } from '../expense.defaultdata';
-import { TAGS } from './tag.testdata';
 import { Router, ActivatedRoute } from '@angular/router';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { FormControl, FormGroup, NgForm } from '@angular/forms';
@@ -28,9 +27,9 @@ export class EditExpenseComponent implements OnInit {
   addOnBlur = true;
   separatorKeysCodes: number[] = [ENTER, COMMA];
   tagControl = new FormControl();
-  filteredTags: Observable<Tag[]>;
-  predefinedTags: Tag[];
-  selectedTag: Tag = null;
+  filteredTags: Observable<string[]>;
+  predefinedTags: string[];
+  selectedTag: string = null;
 
   @ViewChild('tagInput', {static: false}) tagInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto', {static: false}) matAutocomplete: MatAutocomplete;
@@ -43,7 +42,8 @@ export class EditExpenseComponent implements OnInit {
   constructor(private store: Store<fromApp.AppState>,
               private router: Router,
               private _snackBar: MatSnackBar) {
-    this.predefinedTags = TAGS;
+    this.store.select('expenseFilter')
+      .subscribe(expenseFilterState => this.predefinedTags = expenseFilterState.utilizedTags);
     this.filteredTags = this.tagControl.valueChanges.pipe(
         startWith(null),
         map((tagName: any | null) => tagName ? this._filter(tagName) : this.predefinedTags.slice()));
@@ -77,18 +77,15 @@ export class EditExpenseComponent implements OnInit {
   }
 
   add(event: MatChipInputEvent): void {
-    // Add fruit only when MatAutocomplete is not open
+    // Add tag only when MatAutocomplete is not open
     // To make sure this does not conflict with OptionSelected Event
     if (!this.matAutocomplete.isOpen) {
       const input = event.input;
       const value = event.value;
 
-      // Add our fruit
+      // Add our tag
       if ((value || '').trim()) {
-        var newTag: Tag = {
-          id: null,
-          name: value.trim()
-        }
+        var newTag: string = value.trim();
         this.actualExpense.tags.push(newTag);
       }
 
@@ -101,7 +98,7 @@ export class EditExpenseComponent implements OnInit {
     }
   }
 
-  remove(tag: Tag): void {
+  remove(tag: string): void {
     const index = this.actualExpense.tags.indexOf(tag);
 
     if (index >= 0) {
@@ -110,24 +107,16 @@ export class EditExpenseComponent implements OnInit {
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    var newTag: Tag = {
-      id: null,
-      name: event.option.viewValue
-    }
+    var newTag: string = event.option.viewValue;
     this.actualExpense.tags.push(newTag);
     this.tagInput.nativeElement.value = '';
     this.tagControl.setValue(null);
   }
 
-  private _filter(tagName: any): Tag[] {
-    var filterValue= "";
-    if (typeof tagName == "string") {
-      filterValue = tagName.toLowerCase();
-    } else {
-      filterValue = tagName.name.toLowerCase();
-    }
+  private _filter(tagName: string): string[] {
+    var filterValue = tagName.toLowerCase();
 
-    return this.predefinedTags.filter(tag => tag.name.toLowerCase().indexOf(filterValue) === 0);
+    return this.predefinedTags.filter(tag => tag.toLowerCase().indexOf(filterValue) === 0);
   }
 
   onSubmit() {

@@ -75,7 +75,7 @@ export class ExpenseEffects {
     updateFilters = this.actions$.pipe(
         ofType(ExpenseActions.ADD_EXPENSE_SUCCESS, ExpenseActions.MODIFY_EXPENSE_SUCCESS),
         mergeMap((action: ExpenseActions.AddExpenseSuccess | ExpenseActions.ModifyExpenseSuccess) =>
-            this.expenseService.updateFilters(action.payload)
+            this.expenseService.updateUtilizedValuesDueToExpensesChange(action.payload)
             .pipe( 
                 map(filters => (new ExpenseFilterActions.UpdateFiltersSuccess(filters))),
                 catchError(error => of(new ExpenseFilterActions.UpdateFiltersFailure(error)))

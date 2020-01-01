@@ -12,6 +12,7 @@ import { FormControl } from '@angular/forms';
 import { ContextMenuComponent } from 'src/app/context-menu/context-menu.component';
 import { MatDialog } from '@angular/material';
 import { ResponsiveDesignService } from 'src/app/responsive-design.service';
+import { ExpenseService } from '../expense-service.service';
 
 @Component({
   selector: 'expenseTracker-overview',
@@ -31,7 +32,8 @@ export class ExpenseOverviewComponent implements OnInit {
   
   constructor(private store: Store<fromApp.AppState>,
               private _matDialog: MatDialog,
-              public responsiveDesignService: ResponsiveDesignService) {}
+              public responsiveDesignService: ResponsiveDesignService,
+              private expenseService: ExpenseService) {}
 
   ngOnInit() {
     //this.subscription =
@@ -57,7 +59,7 @@ export class ExpenseOverviewComponent implements OnInit {
     this.expenses.sortingDataAccessor = (expense, property) => {
       switch (property) {
         case 'value': return expense.amount.value;
-        case 'tag': return expense.tags[0].name;
+        case 'tag': return expense.tags[0];
         case 'exchangeValue': return expense.exchangeValue.value;
         default: return expense[property];
       }
@@ -80,18 +82,7 @@ export class ExpenseOverviewComponent implements OnInit {
   }
 
   onTagClick(tagName: string) {
-    var selectedTags: string[];
-    this.store
-      .select('expenseFilter')
-      .subscribe((expenseFilterState: fromExpenseFilter.ExpenseFilterState) =>
-        selectedTags = [...expenseFilterState.filteredTags]
-    );
-    if (selectedTags.includes(tagName)) {
-      selectedTags.splice(selectedTags.indexOf(tagName));
-    } else {
-      selectedTags.push(tagName);
-    }
-    this.store.dispatch(new ExpenseFilterActions.ChangeTagsFilter(selectedTags));
+    this.expenseService.updatefilteredTagsDueToTagClick(tagName);
   }
 
   ngOnDestroy() {

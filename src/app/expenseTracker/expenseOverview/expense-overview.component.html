@@ -44,8 +44,8 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header> TAG </th>
             <td mat-cell *matCellDef="let expense"> 
                 <mat-chip-list #tagList aria-label="Fruit selection">
-                    <mat-chip *ngFor="let tag of expense.tags" (click)="onTagClick(tag.name)">
-                      {{tag.name}}
+                    <mat-chip *ngFor="let tag of expense.tags" (click)="onTagClick(tag)">
+                      {{tag}}
                     </mat-chip>
                 </mat-chip-list>
             </td>

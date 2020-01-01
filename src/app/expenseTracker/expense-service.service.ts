@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import * as ExpenseFilterActions from './expenseOverview/expenses-filter/stateManagement/expense-filter.action'
 import * as fromExpense from './stateManagement/expense.reducer';
 import * as fromApp from '../stateManagement/app.reducer';
 import { ExpenseFilter } from './ExpenseFilter';
@@ -54,7 +55,7 @@ export class ExpenseService {
 
     for (let expense of expenses) {
       if (filters.reasons
-        .filter(reason => reason.toLowerCase().indexOf(expense.reason.toLocaleLowerCase()) === 0).length < 1) {
+        .filter(reason => reason.toLowerCase().indexOf(expense.reason.toLowerCase()) === 0).length < 1) {
         filters.reasons.push(this.capitalize(expense.reason.toLowerCase()));
       }
       let month: number = +expense.date.substr(5, 2);
@@ -63,38 +64,72 @@ export class ExpenseService {
       }
       for (let expenseTag of expense.tags) {
         if(filters.tags
-          .filter(tag => tag.toLowerCase().indexOf(expenseTag.name.toLocaleLowerCase()) === 0).length < 1) {
-          filters.tags.push(this.capitalize(expenseTag.name.toLowerCase()));
+          .filter(tag => tag.toLowerCase().indexOf(expenseTag.toLowerCase()) === 0).length < 1) {
+          filters.tags.push(this.capitalize(expenseTag.toLowerCase()));
         }
       }
     }
     return of(filters);
   }
   
-  updateFilters(expense: Expense): Observable<ExpenseFilter> {
-    let updatedFilters: ExpenseFilter;
+  updatefilteredTagsDueToTagClick(tagName: string) {
+    let updatedFilteredTags: string[] = this.getFilteredTags();
+    if (updatedFilteredTags
+      .filter(tag => tag.toLowerCase().indexOf(tagName.toLowerCase()) === 0).length < 1) {
+      updatedFilteredTags.push(this.capitalize(tagName.toLowerCase()));
+    } else {
+      updatedFilteredTags.splice(updatedFilteredTags.indexOf(this.capitalize(tagName.toLowerCase())), 1);
+    }
+    this.store.dispatch(new ExpenseFilterActions.ChangeTagsFilter(updatedFilteredTags));
+  }
+
+  private getFilteredTags() : string[] {
+    let updatedFilteredTags: string[];
     this.store.select('expenseFilter')
-      .subscribe(expenseFilterState => 
-        updatedFilters = {
-          reasons: [...expenseFilterState.utilizedReasons],
-          months: [...expenseFilterState.utilizedMonths],
-          tags: [...expenseFilterState.utilizedTags],
-        });
-    if (updatedFilters.reasons
-      .filter(reason => reason.toLowerCase().indexOf(expense.reason.toLocaleLowerCase()) === 0).length < 1) {
-        updatedFilters.reasons.push(this.capitalize(expense.reason.toLowerCase()));
+      .subscribe(expenseFilterState => updatedFilteredTags = [...expenseFilterState.filteredTags]);
+    return updatedFilteredTags;
+  }
+  
+  updateUtilizedValuesDueToExpensesChange(expense: Expense): Observable<ExpenseFilter> {
+    let updatedUtilizedValues: ExpenseFilter = this.getUtilizedValues();
+    this.updateUtilizedReasons(updatedUtilizedValues, expense.reason);
+    this.updateUtilizedMonths(updatedUtilizedValues, expense.date);
+    this.updateUtilizedTags(updatedUtilizedValues, expense.tags);
+    return of(updatedUtilizedValues);
+  }
+
+  private getUtilizedValues() {
+    let updatedUtilizedValues: ExpenseFilter;
+    this.store.select('expenseFilter')
+      .subscribe(expenseFilterState => updatedUtilizedValues = {
+        reasons: [...expenseFilterState.utilizedReasons],
+        months: [...expenseFilterState.utilizedMonths],
+        tags: [...expenseFilterState.utilizedTags],
+      });
+    return updatedUtilizedValues;
+  }
+  
+  private updateUtilizedReasons(updatedUtilizedValues: ExpenseFilter, reason: string) {
+    if (updatedUtilizedValues.reasons
+      .filter(reason => reason.toLowerCase().indexOf(reason.toLowerCase()) === 0).length < 1) {
+      updatedUtilizedValues.reasons.push(this.capitalize(reason.toLowerCase()));
     }
-    let month: number = +expense.date.substr(6, 2);
-    if (!updatedFilters.months.includes(month)) {
-      updatedFilters.months.push(month);
+  }
+  
+  private updateUtilizedMonths(updatedUtilizedValues: ExpenseFilter, date: string) {
+    let month: number = +date.substr(6, 2);
+    if (!updatedUtilizedValues.months.includes(month)) {
+      updatedUtilizedValues.months.push(month);
     }
-    for (let expenseTag of expense.tags) {
-      if(updatedFilters.tags
-        .filter(tag => tag.toLowerCase().indexOf(expenseTag.name.toLocaleLowerCase()) === 0).length < 1) {
-          updatedFilters.tags.push(this.capitalize(expenseTag.name.toLowerCase()));
+  }
+  
+  private updateUtilizedTags(updatedUtilizedValues: ExpenseFilter, tags: string[]) {
+    for (let expenseTag of tags) {
+      if (updatedUtilizedValues.tags
+        .filter(tag => tag.toLowerCase().indexOf(expenseTag.toLowerCase()) === 0).length < 1) {
+        updatedUtilizedValues.tags.push(this.capitalize(expenseTag.toLowerCase()));
       }
     }
-    return of(updatedFilters);
   }
 
   private capitalize(s: string): string {
