@@ -95,12 +95,7 @@ export class ExpenseService {
     return of(updatedUtilizedValues);
   }
 
-  generateUserFeedback(action:  ExpenseActions.LoadExpenseListFailure | ExpenseFilterActions.LoadUtilizedValuesFailure |
-                                ExpenseActions.AddExpenseSuccess | ExpenseActions.AddExpenseFailure |
-                                ExpenseActions.ModifyExpenseSuccess | ExpenseActions.ModifyExpenseFailure |
-                                ExpenseActions.DeleteExpenseSuccess | ExpenseActions.DeleteExpenseFailure |
-                                ExpenseFilterActions.UpdateFiltersSuccess | ExpenseFilterActions.UpdateFiltersFailure)
-                                  : Observable<MatSnackBarRef<SimpleSnackBar>> {
+  generateUserFeedback(action:  {type: string, payload: string}) : Observable<MatSnackBarRef<SimpleSnackBar>> {
     let userFeedback: string;
     let style: string;
     switch(action.type) {
@@ -139,15 +134,8 @@ export class ExpenseService {
         style = "error-snackbar";
         console.error(action.payload);
         break;
-      case ExpenseFilterActions.UPDATE_FILTERS_SUCCESS:
-        userFeedback = "Filter wurden angepasst";
-        style = "success-snackbar";
-        break;
-      case ExpenseFilterActions.UPDATE_FILTERS_FAILURE:
-        userFeedback = "Filter konnten nicht angepasst werden";
-        style = "error-snackbar";
-        break;
       default:
+        console.error("Not expected action was processed: " + action.type);
         break;
     }
     return of(this._snackBar.open(userFeedback, "", {panelClass: style}));

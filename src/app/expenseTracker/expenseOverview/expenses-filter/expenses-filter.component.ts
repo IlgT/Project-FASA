@@ -65,7 +65,7 @@ export class ExpensesFilterComponent implements OnInit {
   }
 
   onMonthChange() {
-    this.store.dispatch(new ExpenseFilterActions.ChangeMonthFilter(this.utilizedMonths.indexOf(this.selectedMonth) + 1));
+    this.store.dispatch(new ExpenseFilterActions.ChangeMonthFilter(this.months.indexOf(this.selectedMonth) + 1));
   }
 
   onTagsChange(event: MatSelectChange) {

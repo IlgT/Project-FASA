@@ -84,14 +84,10 @@ export class ExpenseEffects {
 
     @Effect()
     generateUserFeedback = this.actions$.pipe(
-        ofType(ExpenseActions.ADD_EXPENSE_SUCCESS, ExpenseActions.MODIFY_EXPENSE_SUCCESS, ExpenseActions.DELETE_EXPENSE_SUCCESS,
+        ofType(ExpenseActions.LOAD_EXPENSE_LIST_FAILURE, ExpenseFilterActions.LOAD_UTILIZED_VALUES_FAILURE,
+            ExpenseActions.ADD_EXPENSE_SUCCESS, ExpenseActions.MODIFY_EXPENSE_SUCCESS, ExpenseActions.DELETE_EXPENSE_SUCCESS,
             ExpenseActions.ADD_EXPENSE_FAILURE, ExpenseActions.MODIFY_EXPENSE_FAILURE, ExpenseActions.DELETE_EXPENSE_FAILURE),
-        mergeMap((action: ExpenseActions.LoadExpenseListFailure | ExpenseFilterActions.LoadUtilizedValuesFailure |
-                          ExpenseActions.AddExpenseSuccess | ExpenseActions.AddExpenseFailure |
-                          ExpenseActions.ModifyExpenseSuccess | ExpenseActions.ModifyExpenseFailure |
-                          ExpenseActions.DeleteExpenseSuccess | ExpenseActions.DeleteExpenseFailure |
-                          ExpenseFilterActions.UpdateFiltersSuccess | ExpenseFilterActions.UpdateFiltersFailure) =>
-                          this.expenseService.generateUserFeedback(action)
+        mergeMap((action: {type: string, payload: string}) => this.expenseService.generateUserFeedback(action)
             .pipe(
                 map(() => (new ExpenseActions.GenerateUserFeedback())) 
             ))

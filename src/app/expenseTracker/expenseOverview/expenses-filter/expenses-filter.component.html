@@ -46,7 +46,7 @@
     <mat-form-field>
         <mat-label>Monat</mat-label>
         <mat-select [formControl]="monthControl" [(ngModel)]="selectedMonth">
-            <mat-option *ngFor="let month of utilizedMonths" [value]="month" (click)="onReasonsChange()">{{month}}</mat-option>
+            <mat-option *ngFor="let month of utilizedMonths" [value]="month" (click)="onMonthChange()">{{month}}</mat-option>
         </mat-select>
     </mat-form-field>
     <mat-form-field>
