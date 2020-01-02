@@ -21,6 +21,7 @@ export const DELETE_EXPENSE_CANCELED = '[ExpenseTracker] Delete expense was canc
 export const DELETE_EXPENSE = '[ExpenseTracker] Delete expense';
 export const DELETE_EXPENSE_SUCCESS = '[ExpenseTracker] Delete expense was successful';
 export const DELETE_EXPENSE_FAILURE = '[ExpenseTracker] Delete expense failed';
+export const GENERATE_USER_FEEDBACK = '[ExpenseTracker] User feedback was generated';
 
 export class LoadExpenseList implements Action {
     readonly type = LOAD_EXPENSE_LIST;
@@ -124,6 +125,10 @@ export class DeleteExpenseFailure implements Action {
     constructor(public payload: string) {}
 }
 
+export class GenerateUserFeedback implements Action {
+    readonly type = GENERATE_USER_FEEDBACK;
+}
+
 export type Actions = LoadExpenseList
                     | LoadExpenseListSuccess
                     | LoadExpenseListFailure
@@ -143,4 +148,5 @@ export type Actions = LoadExpenseList
                     | DeleteExpenseCanceled
                     | DeleteExpense
                     | DeleteExpenseSuccess
-                    | DeleteExpenseFailure;
+                    | DeleteExpenseFailure
+                    | GenerateUserFeedback;

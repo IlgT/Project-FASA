@@ -1,19 +1,23 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
-import * as ExpenseFilterActions from './expenseOverview/expenses-filter/stateManagement/expense-filter.action'
+import { Store, Action } from '@ngrx/store';
+import * as ExpenseActions from './stateManagement/expense.action';
+import * as ExpenseFilterActions from './expenseOverview/expenses-filter/stateManagement/expense-filter.action';
 import * as fromExpense from './stateManagement/expense.reducer';
 import * as fromApp from '../stateManagement/app.reducer';
 import { ExpenseFilter } from './ExpenseFilter';
 import { Observable, of } from 'rxjs';
 import { Expense } from '../expense';
 import { EXPENSES } from '../expense.testdata';
+import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExpenseService {
 
-  constructor(private store: Store<fromApp.AppState>) { }
+  constructor(private store: Store<fromApp.AppState>,
+              private _snackBar: MatSnackBar) { }
  
   loadExpenseListByFilter(): Observable<Expense[]> {
     const filter: ExpenseFilter = this.generateExpenseFilter();
@@ -23,7 +27,7 @@ export class ExpenseService {
 
   addExpense(): Observable<Expense> {
     console.log("HTTP-CALL for adding a expense");
-    return of(null);
+    return of(null).pipe(map(() => {throw new Error("404 - Service not found")}));
   }
 
   modifyExpense(): Observable<Expense> {
@@ -82,13 +86,6 @@ export class ExpenseService {
     }
     this.store.dispatch(new ExpenseFilterActions.ChangeTagsFilter(updatedFilteredTags));
   }
-
-  private getFilteredTags() : string[] {
-    let updatedFilteredTags: string[];
-    this.store.select('expenseFilter')
-      .subscribe(expenseFilterState => updatedFilteredTags = [...expenseFilterState.filteredTags]);
-    return updatedFilteredTags;
-  }
   
   updateUtilizedValuesDueToExpensesChange(expense: Expense): Observable<ExpenseFilter> {
     let updatedUtilizedValues: ExpenseFilter = this.getUtilizedValues();
@@ -96,6 +93,53 @@ export class ExpenseService {
     this.updateUtilizedMonths(updatedUtilizedValues, expense.date);
     this.updateUtilizedTags(updatedUtilizedValues, expense.tags);
     return of(updatedUtilizedValues);
+  }
+
+  generateUserFeedback(action:  ExpenseActions.AddExpenseSuccess | ExpenseActions.AddExpenseFailure |
+                                ExpenseActions.ModifyExpenseSuccess | ExpenseActions.ModifyExpenseFailure |
+                                ExpenseActions.DeleteExpenseSuccess | ExpenseActions.DeleteExpenseFailure)
+                                  : Observable<MatSnackBarRef<SimpleSnackBar>> {
+    let userFeedback: string;
+    let style: string;
+    switch(action.type) {
+      case ExpenseActions.ADD_EXPENSE_SUCCESS:
+        userFeedback = "Ausgabe wurde hinzugefügt.";
+        style = "success-snackbar";
+        break;
+      case ExpenseActions.ADD_EXPENSE_FAILURE:
+        userFeedback = "Ausgabe konnte nicht hinzugefügt werden.";
+        style = "error-snackbar";
+        console.error(action.payload);
+        break;
+      case ExpenseActions.MODIFY_EXPENSE_SUCCESS:
+        userFeedback = "Ausgabe wurde überarbeitet.";
+        style = "success-snackbar";
+        break;
+      case ExpenseActions.MODIFY_EXPENSE_FAILURE:
+        userFeedback = "Ausgabe konnte nicht überarbeitet werden.";
+        style = "error-snackbar";
+        console.error(action.payload);
+        break;
+      case ExpenseActions.DELETE_EXPENSE_SUCCESS:
+        userFeedback = "Ausgabe wurde gelöscht.";
+        style = "success-snackbar";
+        break;
+      case ExpenseActions.DELETE_EXPENSE_FAILURE:
+        userFeedback = "Ausgabe konnte nicht gelöscht werden.";
+        style = "error-snackbar";
+        console.error(action.payload);
+        break;
+      default:
+        break;
+    }
+    return of(this._snackBar.open(userFeedback, "", {panelClass: style}));
+  }
+
+  private getFilteredTags() : string[] {
+    let updatedFilteredTags: string[];
+    this.store.select('expenseFilter')
+      .subscribe(expenseFilterState => updatedFilteredTags = [...expenseFilterState.filteredTags]);
+    return updatedFilteredTags;
   }
 
   private getUtilizedValues() {

@@ -150,15 +150,11 @@ export class EditExpenseComponent implements OnInit {
       }
       this._snackBar.open(this.mode + ' wurde abgerbochen');
     } else {
-      var cancledMode: string = "";
       if (this.isEditMode) {
         this.store.dispatch(new ExpenseActions.ModifyExpense(this.actualExpense));
-        cancledMode = 'überarbeitet';
       } else {
         this.store.dispatch(new ExpenseActions.AddExpense(this.actualExpense));
-        cancledMode = 'hinzugefügt';
       }
-      this._snackBar.open('Ausgabe wurde ' + cancledMode);
     }
   }
 }
