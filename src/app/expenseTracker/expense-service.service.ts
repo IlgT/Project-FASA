@@ -95,13 +95,23 @@ export class ExpenseService {
     return of(updatedUtilizedValues);
   }
 
-  generateUserFeedback(action:  ExpenseActions.AddExpenseSuccess | ExpenseActions.AddExpenseFailure |
+  generateUserFeedback(action:  ExpenseActions.LoadExpenseListFailure | ExpenseFilterActions.LoadUtilizedValuesFailure |
+                                ExpenseActions.AddExpenseSuccess | ExpenseActions.AddExpenseFailure |
                                 ExpenseActions.ModifyExpenseSuccess | ExpenseActions.ModifyExpenseFailure |
-                                ExpenseActions.DeleteExpenseSuccess | ExpenseActions.DeleteExpenseFailure)
+                                ExpenseActions.DeleteExpenseSuccess | ExpenseActions.DeleteExpenseFailure |
+                                ExpenseFilterActions.UpdateFiltersSuccess | ExpenseFilterActions.UpdateFiltersFailure)
                                   : Observable<MatSnackBarRef<SimpleSnackBar>> {
     let userFeedback: string;
     let style: string;
     switch(action.type) {
+      case ExpenseActions.LOAD_EXPENSE_LIST_FAILURE:
+        userFeedback = "Ausgaben konnten nicht geladen werden.";
+        style = "error-snackbar";
+        break;
+      case ExpenseFilterActions.LOAD_UTILIZED_VALUES_FAILURE:
+        userFeedback = "Filter konnten nicht geladen werden.";
+        style = "error-snackbar";
+        break;
       case ExpenseActions.ADD_EXPENSE_SUCCESS:
         userFeedback = "Ausgabe wurde hinzugefügt.";
         style = "success-snackbar";
@@ -128,6 +138,14 @@ export class ExpenseService {
         userFeedback = "Ausgabe konnte nicht gelöscht werden.";
         style = "error-snackbar";
         console.error(action.payload);
+        break;
+      case ExpenseFilterActions.UPDATE_FILTERS_SUCCESS:
+        userFeedback = "Filter wurden angepasst";
+        style = "success-snackbar";
+        break;
+      case ExpenseFilterActions.UPDATE_FILTERS_FAILURE:
+        userFeedback = "Filter konnten nicht angepasst werden";
+        style = "error-snackbar";
         break;
       default:
         break;
