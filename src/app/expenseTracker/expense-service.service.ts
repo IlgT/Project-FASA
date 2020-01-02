@@ -133,8 +133,17 @@ export class ExpenseService {
   }
 
   private capitalize(s: string): string {
-    if (typeof s !== 'string') return '';
-    return s.charAt(0).toUpperCase() + s.slice(1);
+    let capitalizedAfterSpace: string = this.capitalizeSubstrings(s, " ");
+    return this.capitalizeSubstrings(capitalizedAfterSpace, "-");
+  }
+
+  private capitalizeSubstrings(s: string, separator: string): string {
+    let words: string[] = s.split(separator);
+    let capitalizedString: string = "";
+    for (let word of words) {
+      capitalizedString = capitalizedString + word.charAt(0).toUpperCase() + word.slice(1) + separator;
+    }
+    return capitalizedString.slice(0, s.length);
   }
 
   private generateExpenseFilter(): ExpenseFilter {
