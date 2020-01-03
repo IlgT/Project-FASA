@@ -51,7 +51,7 @@ export class ContextMenuComponent implements OnInit {
   onEdit() {
     this._matDialogRef.close();
     this.store.dispatch(new ExpenseActions.StartModifyExpense(this.index));
-    this.router.navigate(['/expense/edit']);
+    this.router.navigate(['/expense']);
   }
 
 }

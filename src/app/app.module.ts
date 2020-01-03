@@ -22,7 +22,7 @@ import { StoreRouterConnectingModule, RouterState } from '@ngrx/router-store';
 
 const appRoutes: Routes = [
   { path: 'expenses', component: ExpenseOverviewComponent },
-  { path: 'expense/:type', component: EditExpenseComponent },
+  { path: 'expense', component: EditExpenseComponent },
   { path: '', redirectTo: '/expenses', pathMatch: 'full'},
   /*{ path: '**', component: PageNotFoundComponent }*/
 ];

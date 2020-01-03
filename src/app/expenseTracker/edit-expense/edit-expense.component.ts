@@ -1,6 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { Expense } from 'src/app/expense';
-import { Tag } from 'src/app/Tag';
 import { defaultExpense } from '../expense.defaultdata';
 import { Router, ActivatedRoute } from '@angular/router';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
@@ -12,6 +11,7 @@ import { map, startWith } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../../stateManagement/app.reducer';
+import * as ExpenseFilterActions from '../expenseOverview/expenses-filter/stateManagement/expense-filter.action';
 import * as ExpenseActions from '../stateManagement/expense.action';
 
 @Component({
@@ -44,6 +44,10 @@ export class EditExpenseComponent implements OnInit {
               private _snackBar: MatSnackBar) {
     this.store.select('expenseFilter')
       .subscribe(expenseFilterState => this.predefinedTags = expenseFilterState.utilizedTags);
+    if (this.predefinedTags.length === 0) {
+      this.store.dispatch(new ExpenseActions.LoadExpenseList());
+      this.store.dispatch(new ExpenseFilterActions.LoadUtilizedValues());
+    }
     this.filteredTags = this.tagControl.valueChanges.pipe(
         startWith(null),
         map((tagName: any | null) => tagName ? this._filter(tagName) : this.predefinedTags.slice()));
