@@ -73,6 +73,9 @@ export class ExpenseService {
         }
       }
     }
+    filters.reasons.sort();
+    filters.months.sort((a, b) => a - b);
+    filters.tags.sort();
     return of(filters);
   }
   
