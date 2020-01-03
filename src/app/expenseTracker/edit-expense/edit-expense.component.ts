@@ -72,10 +72,6 @@ export class EditExpenseComponent implements OnInit {
       });
   }
 
-  onTagSelection(): void {
-    this.actualExpense.tags.push(this.selectedTag);
-  }
-
   add(event: MatChipInputEvent): void {
     // Add tag only when MatAutocomplete is not open
     // To make sure this does not conflict with OptionSelected Event

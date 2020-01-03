@@ -38,21 +38,6 @@
       </div>
 
       <div class="form-group">
-        <label for="tag">Tag</label>
-        <select class="form-control" id="tag"
-            [(ngModel)]="selectedTag" name="tag"
-            #tagSelection="ngModel"
-            (change)="onTagSelection(); tagSelection.reset()">
-            <option disabled [ngValue]="null" selected>Add a tag</option>
-            <option *ngFor="let predefinedTag of predefinedTags" [ngValue]="predefinedTag">{{predefinedTag}}</option>
-        </select>
-        <div [hidden]="tagSelection.valid || tagSelection.pristine"
-        class="alert alert-danger">
-        Tag is required
-        </div>
-      </div>
-
-      <div class="form-group">
         <mat-chip-list #tagList aria-label="Tag selection"
           class="form-control">
           <mat-chip
