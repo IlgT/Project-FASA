@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { ExpenseFilter as ExpensesFilter } from 'src/app/expenseTracker/ExpenseFilter';
+import { UtilizedFilter } from 'src/app/expenseTracker/UtilizedFilter';
 
 export const CHANGE_REASONS_FILTER = '[ExpenseTracker] Reasons filter was changed';
 export const CHANGE_MONTH_FILTER = '[ExpenseTracker] Month filter was changed';
@@ -35,7 +35,7 @@ export class LoadUtilizedValues implements Action {
 export class LoadUtilizedValuesSuccess implements Action {
     readonly type = LOAD_UTILIZED_VALUES_SUCCESS;
 
-    constructor(public payload: ExpensesFilter) {}
+    constructor(public payload: UtilizedFilter) {}
 }
 
 export class LoadUtilizedValuesFailure implements Action {
@@ -47,7 +47,7 @@ export class LoadUtilizedValuesFailure implements Action {
 export class UpdateFiltersSuccess implements Action {
     readonly type = UPDATE_FILTERS_SUCCESS;
 
-    constructor(public payload: ExpensesFilter) {}
+    constructor(public payload: UtilizedFilter) {}
 }
 
 export class UpdateFiltersFailure implements Action {

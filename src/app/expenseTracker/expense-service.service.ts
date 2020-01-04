@@ -4,12 +4,13 @@ import * as ExpenseActions from './stateManagement/expense.action';
 import * as ExpenseFilterActions from './expenseOverview/expenses-filter/stateManagement/expense-filter.action';
 import * as fromExpense from './stateManagement/expense.reducer';
 import * as fromApp from '../stateManagement/app.reducer';
-import { ExpenseFilter } from './ExpenseFilter';
 import { Observable, of } from 'rxjs';
 import { Expense } from '../expense';
 import { EXPENSES } from '../expense.testdata';
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material';
 import { map } from 'rxjs/operators';
+import { FilterSearch } from './FilterSearch';
+import { UtilizedFilter } from './UtilizedFilter';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,7 @@ export class ExpenseService {
               private _snackBar: MatSnackBar) { }
  
   loadExpenseListByFilter(): Observable<Expense[]> {
-    const filter: ExpenseFilter = this.generateExpenseFilter();
+    const filter: FilterSearch = this.generateExpenseFilter();
     console.log("HTTP-CALL for loading all expense by filter");
     return of(EXPENSES);
   }
@@ -45,9 +46,9 @@ export class ExpenseService {
     return of(null);
   }
 
-  loadUtilizedValuesForFilter(): Observable<ExpenseFilter> {
+  loadUtilizedValuesForFilter(): Observable<UtilizedFilter> {
     console.log("HTTP-CALL for loading all utilized reasons, months and tags for filter dropdowns");
-    let filters: ExpenseFilter = {
+    let filters: UtilizedFilter = {
       reasons: [],
       months: [],
       tags: [],
@@ -91,8 +92,8 @@ export class ExpenseService {
     this.store.dispatch(new ExpenseFilterActions.ChangeTagsFilter(updatedFilteredTags));
   }
   
-  updateUtilizedValuesDueToExpensesChange(expense: Expense): Observable<ExpenseFilter> {
-    let updatedUtilizedValues: ExpenseFilter = this.getUtilizedValues();
+  updateUtilizedValuesDueToExpensesChange(expense: Expense): Observable<UtilizedFilter> {
+    let updatedUtilizedValues: UtilizedFilter = this.getUtilizedValues();
     this.updateUtilizedReasons(updatedUtilizedValues, expense.reason);
     this.updateUtilizedMonths(updatedUtilizedValues, expense.date);
     this.updateUtilizedTags(updatedUtilizedValues, expense.tags);
@@ -153,7 +154,7 @@ export class ExpenseService {
   }
 
   private getUtilizedValues() {
-    let updatedUtilizedValues: ExpenseFilter;
+    let updatedUtilizedValues: UtilizedFilter;
     this.store.select('expenseFilter')
       .subscribe(expenseFilterState => updatedUtilizedValues = {
         reasons: [...expenseFilterState.utilizedReasons],
@@ -164,21 +165,21 @@ export class ExpenseService {
     return updatedUtilizedValues;
   }
   
-  private updateUtilizedReasons(updatedUtilizedValues: ExpenseFilter, reason: string) {
+  private updateUtilizedReasons(updatedUtilizedValues: UtilizedFilter, reason: string) {
     if (updatedUtilizedValues.reasons
       .filter(reason => reason.toLowerCase().indexOf(reason.toLowerCase()) === 0).length < 1) {
       updatedUtilizedValues.reasons.push(this.capitalize(reason.toLowerCase()));
     }
   }
   
-  private updateUtilizedMonths(updatedUtilizedValues: ExpenseFilter, date: string) {
+  private updateUtilizedMonths(updatedUtilizedValues: UtilizedFilter, date: string) {
     let month: number = +date.substr(6, 2);
     if (!updatedUtilizedValues.months.includes(month)) {
       updatedUtilizedValues.months.push(month);
     }
   }
   
-  private updateUtilizedTags(updatedUtilizedValues: ExpenseFilter, tags: string[]) {
+  private updateUtilizedTags(updatedUtilizedValues: UtilizedFilter, tags: string[]) {
     for (let expenseTag of tags) {
       if (updatedUtilizedValues.tags
         .filter(tag => tag.toLowerCase().indexOf(expenseTag.toLowerCase()) === 0).length < 1) {
@@ -201,7 +202,7 @@ export class ExpenseService {
     return capitalizedString.slice(0, s.length);
   }
 
-  private generateExpenseFilter(): ExpenseFilter {
+  private generateExpenseFilter(): FilterSearch {
     return null;
   }
 }

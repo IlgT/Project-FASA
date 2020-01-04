@@ -1,4 +1,4 @@
-export class ExpenseFilter {
+export class UtilizedFilter {
     reasons: string[];
     months: number[];
     tags: string[];
