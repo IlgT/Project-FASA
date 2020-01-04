@@ -9,6 +9,9 @@ The angular Frontend for the FASA - Project.
   
 ### Install Angular icons
   	npm install material-icons --save
+    
+### Install CurrencyMask
+    npm install ngx-currency --save
   
 ### Install Angular NGRX-Store
    npm install @ngrx/store --save
