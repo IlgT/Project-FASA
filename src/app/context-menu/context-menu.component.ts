@@ -44,7 +44,7 @@ export class ContextMenuComponent implements OnInit {
     this._matDialogRef.close();
     const dialogRef = this.noMistakeDialog.open(NoMistakeComponent, {
       maxWidth: '350px',
-      data: {id: this.index}
+      data: {index: this.index}
     });
   }
 

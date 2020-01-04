@@ -10,6 +10,7 @@ import * as ExpenseActions from '../expenseTracker/stateManagement/expense.actio
   styleUrls: ['./no-mistake.component.css']
 })
 export class NoMistakeComponent implements OnInit {
+  expenseDetails: string;
 
   constructor(private store: Store<fromApp.AppState>,
     public dialogRef: MatDialogRef<NoMistakeComponent>,
@@ -17,6 +18,14 @@ export class NoMistakeComponent implements OnInit {
 
     
     ngOnInit() {
+      this.expenseDetails = "";
+      this.store.select('expense')
+        .subscribe(expenseState => {this.expenseDetails += expenseState.expenses[this.data.index].id;
+                                    this.expenseDetails += " - ";
+                                    this.expenseDetails += expenseState.expenses[this.data.index].reason;
+                                    this.expenseDetails += " im Wert von ";
+                                    this.expenseDetails += expenseState.expenses[this.data.index].amount.value;
+                                    this.expenseDetails += expenseState.expenses[this.data.index].amount.currency;})
     }
 
     onYesClick(): void {
