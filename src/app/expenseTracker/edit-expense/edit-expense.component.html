@@ -15,10 +15,17 @@
 
       <div class="form-group">
         <label for="amount">Amount</label>
-        <input type="tel" class="form-control" id="amount"
-            required
-            [(ngModel)]="actualExpense.exchangeValue.value" name="amount"
-            #amount="ngModel" currencyMask>
+        <div class="amount-row">
+          <input type="tel" class="form-control amount-value" id="amount"
+              required
+              [(ngModel)]="actualExpense.exchangeValue.value" name="amount"
+              #amount="ngModel" currencyMask>
+          <select class="form-control" id="currency"
+              [(ngModel)]="actualExpense.exchangeValue.currency" name="currency"
+              #tagSelection="ngModel">
+              <option *ngFor="let currency of currencies" [ngValue]="currency">{{currency}}</option>
+          </select>
+        </div>
         <div [hidden]="amount.valid || amount.pristine"
         class="alert alert-danger">
         Amount is required

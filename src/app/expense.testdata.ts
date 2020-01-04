@@ -11,7 +11,7 @@ export const EXPENSES: Expense[] = [
     date: new Date("12 01 2019").toJSON().substr(0, 10),
     exchangeValue: {
       value: 85.86,
-      currency: "€"
+      currency: "EUR"
     },
     exchangeRate: 1,
     tags: ["lebensmittel"]

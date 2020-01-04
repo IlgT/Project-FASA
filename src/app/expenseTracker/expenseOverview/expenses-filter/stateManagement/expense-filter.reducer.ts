@@ -8,6 +8,7 @@ export interface ExpenseFilterState {
     utilizedReasons: string[];
     utilizedMonths: number[];
     utilizedTags: string[];
+    currencies: string[];
     errorMessage: string | null
   }
 
@@ -19,6 +20,7 @@ export const initialState: ExpenseFilterState = {
     utilizedReasons: [],
     utilizedMonths: [new Date().getMonth() + 1],
     utilizedTags: [],
+    currencies: [],
     errorMessage: null
 }
 
@@ -55,7 +57,8 @@ export function expenseFilterReducer(state: ExpenseFilterState = initialState, a
                 ...state,
                 utilizedReasons: action.payload.reasons,
                 utilizedMonths: action.payload.months,
-                utilizedTags: action.payload.tags
+                utilizedTags: action.payload.tags,
+                currencies: action.payload.currencies
             }
         
         case ExpenseFilterActions.LOAD_UTILIZED_VALUES_FAILURE:

@@ -1,9 +1,18 @@
+select {
+  width: 100px;
+}
+
 .ng-valid[required], .ng-valid.required  {
   border-left: 7px solid green;
 }
   
 .ng-invalid:not(form)  {
   border-left: 7px solid red;
+}
+
+.amount-row {
+  display: flex;
+  justify-content: space-between;
 }
 
 .button-row {

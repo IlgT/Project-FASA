@@ -5,12 +5,12 @@ export const defaultExpense: Expense = {
     reason: "",
     amount: {
       value: null,
-      currency: "€"
+      currency: "EUR"
     },
     date: null,
     exchangeValue: {
       value: null,
-      currency: "€"
+      currency: "EUR"
     },
     exchangeRate: 1,
     tags: []

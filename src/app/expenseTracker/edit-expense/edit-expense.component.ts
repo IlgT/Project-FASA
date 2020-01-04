@@ -13,6 +13,7 @@ import { Store } from '@ngrx/store';
 import * as fromApp from '../../stateManagement/app.reducer';
 import * as ExpenseFilterActions from '../expenseOverview/expenses-filter/stateManagement/expense-filter.action';
 import * as ExpenseActions from '../stateManagement/expense.action';
+import { expenseFilterReducer } from '../expenseOverview/expenses-filter/stateManagement/expense-filter.reducer';
 
 @Component({
   selector: 'expenseTracker-edit',
@@ -30,6 +31,7 @@ export class EditExpenseComponent implements OnInit {
   filteredTags: Observable<string[]>;
   predefinedTags: string[];
   selectedTag: string = null;
+  currencies: string[];
 
   @ViewChild('tagInput', {static: false}) tagInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto', {static: false}) matAutocomplete: MatAutocomplete;
@@ -43,7 +45,8 @@ export class EditExpenseComponent implements OnInit {
               private router: Router,
               private _snackBar: MatSnackBar) {
     this.store.select('expenseFilter')
-      .subscribe(expenseFilterState => this.predefinedTags = expenseFilterState.utilizedTags);
+      .subscribe(expenseFilterState =>  {this.predefinedTags = expenseFilterState.utilizedTags;
+                                        this.currencies = expenseFilterState.currencies});
     if (this.predefinedTags.length === 0) {
       this.store.dispatch(new ExpenseActions.LoadExpenseList());
       this.store.dispatch(new ExpenseFilterActions.LoadUtilizedValues());

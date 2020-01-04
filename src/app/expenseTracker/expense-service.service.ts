@@ -50,7 +50,8 @@ export class ExpenseService {
     let filters: ExpenseFilter = {
       reasons: [],
       months: [],
-      tags: []
+      tags: [],
+      currencies: ["EUR", "USD"]
     }
 
     let expenses: Expense[];
@@ -158,6 +159,7 @@ export class ExpenseService {
         reasons: [...expenseFilterState.utilizedReasons],
         months: [...expenseFilterState.utilizedMonths],
         tags: [...expenseFilterState.utilizedTags],
+        currencies: [...expenseFilterState.currencies]
       });
     return updatedUtilizedValues;
   }
