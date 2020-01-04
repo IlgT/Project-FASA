@@ -19,6 +19,7 @@ import { ExpensesFilterComponent } from './expenseTracker/expenseOverview/expens
 import { ExpenseEffects } from './expenseTracker/stateManagement/expense.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule, RouterState } from '@ngrx/router-store';
+import { NgxCurrencyModule } from "ngx-currency";
 
 const appRoutes: Routes = [
   { path: 'expenses', component: ExpenseOverviewComponent },
@@ -26,6 +27,18 @@ const appRoutes: Routes = [
   { path: '', redirectTo: '/expenses', pathMatch: 'full'},
   /*{ path: '**', component: PageNotFoundComponent }*/
 ];
+
+export const customCurrencyMaskConfig = {
+  align: "left",
+  allowNegative: false,
+  allowZero: false,
+  decimal: ",",
+  precision: 2,
+  prefix: "",
+  suffix: "",
+  thousands: ".",
+  nullable: false
+};
 
 @NgModule({
   declarations: [
@@ -52,6 +65,7 @@ const appRoutes: Routes = [
     MatExpansionModule,
     ReactiveFormsModule,
     FormsModule,
+    NgxCurrencyModule.forRoot(customCurrencyMaskConfig),
     BrowserAnimationsModule,
     EffectsModule.forRoot([ExpenseEffects]),
     RouterModule.forRoot(appRoutes),

@@ -15,10 +15,10 @@
 
       <div class="form-group">
         <label for="amount">Amount</label>
-        <input type="number" class="form-control" id="amount"
+        <input type="tel" class="form-control" id="amount"
             required
             [(ngModel)]="actualExpense.exchangeValue.value" name="amount"
-            #amount="ngModel">
+            #amount="ngModel" currencyMask>
         <div [hidden]="amount.valid || amount.pristine"
         class="alert alert-danger">
         Amount is required
