@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ResponsiveDesignService } from 'src/app/responsive-design.service';
 import { Store } from '@ngrx/store';
@@ -7,13 +7,14 @@ import * as fromExpenseFilter from './stateManagement/expense-filter.reducer';
 import * as ExpenseFilterActions from './stateManagement/expense-filter.action';
 import * as ExpenseActions from '../../stateManagement/expense.action';
 import { MatSelectChange } from '@angular/material';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-expenses-filter',
   templateUrl: './expenses-filter.component.html',
   styleUrls: ['./expenses-filter.component.css']
 })
-export class ExpensesFilterComponent implements OnInit {
+export class ExpensesFilterComponent implements OnInit, OnDestroy {
 
   months: string[] = ["Januar", "Februar", "März", "April", "Mai",
                       "Juni", "Juli", "August", "September", "Oktober",
@@ -31,12 +32,15 @@ export class ExpensesFilterComponent implements OnInit {
   selectedMonth: string;
   selectedTags: string[];
 
+  initializeSubscription: Subscription;
+  expenseFilterSubscription: Subscription;
+
   constructor(public responsiveDesignService: ResponsiveDesignService,
               private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
     this.initializePossibleFiltersOnce();
-    this.store
+    this.expenseFilterSubscription = this.store
       .select('expenseFilter')
       .subscribe((expenseFilterState: fromExpenseFilter.ExpenseFilterState) => {
         this.utilizedReasons = expenseFilterState.utilizedReasons;
@@ -53,7 +57,7 @@ export class ExpensesFilterComponent implements OnInit {
 
   private initializePossibleFiltersOnce() {
     let isInitialize: boolean;
-    this.store.select('expenseFilter')
+    this.initializeSubscription = this.store.select('expenseFilter')
       .subscribe(state => isInitialize = state.isInitialize);
     if (isInitialize) {
       this.store.dispatch(new ExpenseFilterActions.LoadUtilizedValues());
@@ -74,5 +78,10 @@ export class ExpensesFilterComponent implements OnInit {
   
   onAdd() {
     this.store.dispatch(new ExpenseActions.StartAddExpense());
+  }
+
+  ngOnDestroy() {
+    this.initializeSubscription.unsubscribe();
+    this.expenseFilterSubscription.unsubscribe();
   }
 }

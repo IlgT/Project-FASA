@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, Inject } from '@angular/core';
+import { Component, OnInit, ElementRef, Inject, OnDestroy } from '@angular/core';
 import { MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { NoMistakeComponent } from '../no-mistake/no-mistake.component';
 import { Router } from '@angular/router';

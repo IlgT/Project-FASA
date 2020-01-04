@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Store, Action } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import * as ExpenseActions from './stateManagement/expense.action';
 import * as ExpenseFilterActions from './expenseOverview/expenses-filter/stateManagement/expense-filter.action';
 import * as fromExpense from './stateManagement/expense.reducer';
 import * as fromApp from '../stateManagement/app.reducer';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscribable, Subscription } from 'rxjs';
 import { Expense } from '../expense';
 import { EXPENSES } from '../expense.testdata';
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material';
@@ -33,15 +33,20 @@ export class ExpenseService {
 
   modifyExpense(): Observable<Expense> {
     console.log("HTTP-CALL for modifying a expense");
-    var expense: Expense;
+    let expense: Expense;
     this.store.select('expense').subscribe(
       (expenseState: fromExpense.ExpenseState) => {
         expense = expenseState.actualExpense;
-      });
+      }).unsubscribe();
     return of(expense);
   }
 
   deleteExpense(): Observable<Expense> {
+    let expense: Expense;
+    this.store.select('expense').subscribe(
+    (expenseState: fromExpense.ExpenseState) => {
+      expense = expenseState.actualExpense;
+    }).unsubscribe();
     console.log("HTTP-CALL for deleting a expense");
     return of(null);
   }
@@ -57,7 +62,7 @@ export class ExpenseService {
 
     let expenses: Expense[];
     this.store.select('expense')
-      .subscribe(expenseState => expenses = expenseState.expenses);
+      .subscribe(expenseState => expenses = expenseState.expenses).unsubscribe();
 
     for (let expense of expenses) {
       if (filters.reasons
@@ -149,7 +154,7 @@ export class ExpenseService {
   private getFilteredTags() : string[] {
     let updatedFilteredTags: string[];
     this.store.select('expenseFilter')
-      .subscribe(expenseFilterState => updatedFilteredTags = [...expenseFilterState.filteredTags]);
+      .subscribe(expenseFilterState => updatedFilteredTags = [...expenseFilterState.filteredTags]).unsubscribe();
     return updatedFilteredTags;
   }
 
@@ -161,7 +166,7 @@ export class ExpenseService {
         months: [...expenseFilterState.utilizedMonths],
         tags: [...expenseFilterState.utilizedTags],
         currencies: [...expenseFilterState.currencies]
-      });
+      }).unsubscribe();
     return updatedUtilizedValues;
   }
   
