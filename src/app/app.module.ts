@@ -20,6 +20,7 @@ import { ExpenseEffects } from './expenseTracker/stateManagement/expense.effects
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule, RouterState } from '@ngrx/router-store';
 import { NgxCurrencyModule } from "ngx-currency";
+import { GreaterThanZeroValidator } from './expenseTracker/greaterThanZeroValidator';
 
 const appRoutes: Routes = [
   { path: 'expenses', component: ExpenseOverviewComponent },
@@ -48,6 +49,7 @@ export const customCurrencyMaskConfig = {
     ContextMenuComponent,
     NoMistakeComponent,
     ExpensesFilterComponent,
+    GreaterThanZeroValidator
   ],
   imports: [
     BrowserModule,

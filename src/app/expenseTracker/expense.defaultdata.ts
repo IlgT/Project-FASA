@@ -9,7 +9,7 @@ export const defaultExpense: Expense = {
     },
     date: null,
     exchangeValue: {
-      value: null,
+      value: 0,
       currency: "EUR"
     },
     exchangeRate: 1,

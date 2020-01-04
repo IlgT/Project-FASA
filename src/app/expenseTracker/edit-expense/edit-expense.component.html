@@ -19,7 +19,7 @@
           <input type="tel" class="form-control amount-value" id="amount"
               required
               [(ngModel)]="actualExpense.exchangeValue.value" name="amount"
-              #amount="ngModel" currencyMask>
+              ngModel #amount="ngModel" greaterThanZero currencyMask>
           <select class="form-control" id="currency"
               [(ngModel)]="actualExpense.exchangeValue.currency" name="currency"
               #tagSelection="ngModel">
