@@ -21,12 +21,14 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule, RouterState } from '@ngrx/router-store';
 import { NgxCurrencyModule } from "ngx-currency";
 import { GreaterThanZeroValidator } from './expenseTracker/greaterThanZeroValidator';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const appRoutes: Routes = [
   { path: 'expenses', component: ExpenseOverviewComponent },
   { path: 'expense', component: EditExpenseComponent },
   { path: '', redirectTo: '/expenses', pathMatch: 'full'},
-  /*{ path: '**', component: PageNotFoundComponent }*/
+  { path: '404', component: PageNotFoundComponent },
+  { path: '**', redirectTo: '/404' }
 ];
 
 export const customCurrencyMaskConfig = {
@@ -49,7 +51,8 @@ export const customCurrencyMaskConfig = {
     ContextMenuComponent,
     NoMistakeComponent,
     ExpensesFilterComponent,
-    GreaterThanZeroValidator
+    GreaterThanZeroValidator,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
