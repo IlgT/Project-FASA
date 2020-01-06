@@ -38,6 +38,7 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
   title: string;
   mode: string = "";
   isEditMode: boolean;
+  isLoading: boolean = false;
   actualExpense: Expense;
   expenseFilterSubscription: Subscription;
   expenseSubscription: Subscription;
@@ -76,7 +77,8 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
                                   this.actualExpense = {...expenseState.actualExpense,
                                                         amount: {...expenseState.actualExpense.amount},
                                                         exchangeValue: {...expenseState.actualExpense.exchangeValue},
-                                                        tags: [...expenseState.actualExpense.tags]}
+                                                        tags: [...expenseState.actualExpense.tags]},
+                                  this.isLoading = expenseState.isLoading
                                 });
   }
 
@@ -124,7 +126,11 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this.closingSnackBar('submit');
+    if (this.isEditMode) {
+      this.store.dispatch(new ExpenseActions.ModifyExpense(this.actualExpense));
+    } else {
+      this.store.dispatch(new ExpenseActions.AddExpense(this.actualExpense));
+    }
     this.router.navigate(['/expenses']);
   }
 
@@ -146,20 +152,12 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
   }
 
   closingSnackBar(buttonType: string) {
-    if (buttonType === 'cancel') {
-      if (this.isEditMode) {
-        this.store.dispatch(new ExpenseActions.ModifyExpenseCanceled());
-      } else {
-        this.store.dispatch(new ExpenseActions.AddExpenseCanceled());
-      }
-      this._snackBar.open(this.mode + ' wurde abgerbochen');
+    if (this.isEditMode) {
+      this.store.dispatch(new ExpenseActions.ModifyExpenseCanceled());
     } else {
-      if (this.isEditMode) {
-        this.store.dispatch(new ExpenseActions.ModifyExpense(this.actualExpense));
-      } else {
-        this.store.dispatch(new ExpenseActions.AddExpense(this.actualExpense));
-      }
+      this.store.dispatch(new ExpenseActions.AddExpenseCanceled());
     }
+    this._snackBar.open(this.mode + ' wurde abgerbochen');
   }
 
   ngOnDestroy() {

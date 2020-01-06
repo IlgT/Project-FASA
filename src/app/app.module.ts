@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { MatTableModule, MatIconModule, MatButtonModule, MatSortModule, MatChipsModule,
-         MatInputModule, MatFormFieldModule, MatAutocompleteModule, MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSelectModule, MatDialogModule, MatExpansionModule } from '@angular/material';
+         MatInputModule, MatFormFieldModule, MatAutocompleteModule, MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSelectModule, MatDialogModule, MatExpansionModule, MatProgressSpinnerModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
 import { ExpenseOverviewComponent } from './expenseTracker/expenseOverview/expense-overview.component';
@@ -22,6 +22,7 @@ import { StoreRouterConnectingModule, RouterState } from '@ngrx/router-store';
 import { NgxCurrencyModule } from "ngx-currency";
 import { GreaterThanZeroValidator } from './expenseTracker/greaterThanZeroValidator';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 
 const appRoutes: Routes = [
   { path: 'expenses', component: ExpenseOverviewComponent },
@@ -52,7 +53,8 @@ export const customCurrencyMaskConfig = {
     NoMistakeComponent,
     ExpensesFilterComponent,
     GreaterThanZeroValidator,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    LoadingSpinnerComponent
   ],
   imports: [
     BrowserModule,
@@ -68,6 +70,7 @@ export const customCurrencyMaskConfig = {
     MatSnackBarModule,
     MatAutocompleteModule,
     MatExpansionModule,
+    MatProgressSpinnerModule,
     ReactiveFormsModule,
     FormsModule,
     NgxCurrencyModule.forRoot(customCurrencyMaskConfig),

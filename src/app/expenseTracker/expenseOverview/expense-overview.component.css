@@ -58,7 +58,7 @@ td.mat-column-star {
 .add-button {
     background-color: green;
     color: white;
-    z-index: 100;
+    z-index: 1;
 }
 
 .mobile-position-add-button {

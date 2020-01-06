@@ -75,3 +75,4 @@
     (click)="onAdd()" [routerLink]="['/expense']">
     <mat-icon>add</mat-icon>
 </button>
+<app-loading-spinner *ngIf="isLoadingExpenses || isLoadingExpensesFilter"></app-loading-spinner>

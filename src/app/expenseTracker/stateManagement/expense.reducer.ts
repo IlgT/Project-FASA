@@ -8,6 +8,7 @@ export interface ExpenseState {
     totalSum: Money;
     actualExpense: Expense | null;
     actualExpenseIndex: number;
+    isLoading: boolean;
     errorMessage: string | null;
   }
 
@@ -19,6 +20,7 @@ export const initialState: ExpenseState = {
     },
     actualExpense: defaultExpense,
     actualExpenseIndex: -1,
+    isLoading: false,
     errorMessage: null
 }
 
@@ -28,6 +30,7 @@ export function expenseReducer(state: ExpenseState = initialState, action: Expen
         case ExpenseActions.LOAD_EXPENSE_LIST:
             return {
                 ...state,
+                isLoading: true
             };
 
         case ExpenseActions.LOAD_EXPENSE_LIST_SUCCESS:
@@ -36,13 +39,15 @@ export function expenseReducer(state: ExpenseState = initialState, action: Expen
                 ...state,
                 expenses: action.payload,
                 totalSum: {...state.totalSum,
-                            value: newTotalSumValue}
+                            value: newTotalSumValue},
+                isLoading: false
             };
 
         case ExpenseActions.LOAD_EXPENSE_LIST_FAILURE:
             return {
                 ...state,
-                errorMessage: action.payload
+                errorMessage: action.payload,
+                isLoading: false
             };
         
         case ExpenseActions.START_ADD_EXPENSE:
@@ -66,7 +71,8 @@ export function expenseReducer(state: ExpenseState = initialState, action: Expen
         case ExpenseActions.ADD_EXPENSE_SUCCESS:
             return {
                 ...state,
-                actualExpense: defaultExpense
+                actualExpense: defaultExpense,
+                isLoading: true
             };
 
         case ExpenseActions.ADD_EXPENSE_FAILURE:
@@ -124,6 +130,7 @@ export function expenseReducer(state: ExpenseState = initialState, action: Expen
             };
 
         case ExpenseActions.MODIFY_EXPENSE_FAILURE:
+        case ExpenseActions.DELETE_EXPENSE_FAILURE:
             return {
                 ...state,
                 actualExpense: defaultExpense,
@@ -159,14 +166,6 @@ export function expenseReducer(state: ExpenseState = initialState, action: Expen
                 actualExpenseIndex: -1
             };
         
-        case ExpenseActions.DELETE_EXPENSE_FAILURE:
-            return {
-                ...state,
-                actualExpense: defaultExpense,
-                actualExpenseIndex: -1,
-                errorMessage: action.payload
-            }
-
         default:
             return state;
     }

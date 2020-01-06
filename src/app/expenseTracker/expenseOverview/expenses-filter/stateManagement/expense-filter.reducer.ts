@@ -9,6 +9,7 @@ export interface ExpenseFilterState {
     utilizedMonths: number[];
     utilizedTags: string[];
     currencies: string[];
+    isLoading: boolean;
     errorMessage: string | null
   }
 
@@ -21,6 +22,7 @@ export const initialState: ExpenseFilterState = {
     utilizedMonths: [new Date().getMonth() + 1],
     utilizedTags: [],
     currencies: [],
+    isLoading: false,
     errorMessage: null
 }
 
@@ -48,7 +50,8 @@ export function expenseFilterReducer(state: ExpenseFilterState = initialState, a
         case ExpenseFilterActions.LOAD_UTILIZED_VALUES:
             return {
                 ...state,
-                isInitialize: false
+                isInitialize: false,
+                isLoading: true
             }
 
         case ExpenseFilterActions.LOAD_UTILIZED_VALUES_SUCCESS:
@@ -58,14 +61,16 @@ export function expenseFilterReducer(state: ExpenseFilterState = initialState, a
                 utilizedReasons: action.payload.reasons,
                 utilizedMonths: action.payload.months,
                 utilizedTags: action.payload.tags,
-                currencies: action.payload.currencies
+                currencies: action.payload.currencies,
+                isLoading: false
             }
         
         case ExpenseFilterActions.LOAD_UTILIZED_VALUES_FAILURE:
         case ExpenseFilterActions.UPDATE_FILTERS_FAILURE:
             return {
                 ...state,
-                error: action.payload
+                error: action.payload,
+                isLoading: false
             }
 
         default:
