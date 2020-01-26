@@ -16,7 +16,7 @@
 	<description>This is one of the backend for the finance utils SPA.</description>
 
 	<properties>
-		<java.version>11</java.version>
+		<java.version>8</java.version>
 	</properties>
 
 	<dependencies>
