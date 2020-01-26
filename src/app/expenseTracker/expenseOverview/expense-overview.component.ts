@@ -22,7 +22,7 @@ import { Subscription } from 'rxjs';
 export class ExpenseOverviewComponent implements OnInit, OnDestroy {
   reasons = new FormControl();
   usedReasons: string[] = ["Kaufland", "Versicherung", "Disney World"]
-  displayedColumns: string[] = ["id", "value", "reason", "date", "exchangeValue", "exchangeRate", "tag", "more"];
+  displayedColumns: string[] = ["id", "value", "reason", "date", "originalValue", "exchangeRate", "tag", "more"];
   expenses: MatTableDataSource<Expense>;
   totalSum: number;
   expenseSubscription: Subscription;
@@ -63,7 +63,7 @@ export class ExpenseOverviewComponent implements OnInit, OnDestroy {
       switch (property) {
         case 'value': return expense.amount.value;
         case 'tag': return expense.tags[0];
-        case 'exchangeValue': return expense.exchangeValue.value;
+        case 'originalValue': return expense.originalValue.value;
         default: return expense[property];
       }
     };

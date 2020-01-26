@@ -18,10 +18,10 @@
         <div class="amount-row">
           <input type="tel" class="form-control amount-value" id="amount"
               required
-              [(ngModel)]="actualExpense.exchangeValue.value" name="amount"
+              [(ngModel)]="actualExpense.originalValue.value" name="amount"
               ngModel #amount="ngModel" greaterThanZero currencyMask>
           <select class="form-control" id="currency"
-              [(ngModel)]="actualExpense.exchangeValue.currency" name="currency"
+              [(ngModel)]="actualExpense.originalValue.currency" name="currency"
               #tagSelection="ngModel">
               <option *ngFor="let currency of currencies" [ngValue]="currency">{{currency}}</option>
           </select>

@@ -6,7 +6,7 @@ export class Expense {
     amount: Money;
     reason: string;
     date: string;
-    exchangeValue?: Money;
+    originalValue?: Money;
     exchangeRate?: number;
     tags: string[];
 }

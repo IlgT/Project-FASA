@@ -58,7 +58,7 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
         map((tagName: any | null) => tagName ? this._filter(tagName) : this.predefinedTags.slice()));
     this.actualExpense = {...defaultExpense,
                           amount: {...defaultExpense.amount},
-                          exchangeValue: {...defaultExpense.exchangeValue},
+                          originalValue: {...defaultExpense.originalValue},
                           tags: [...defaultExpense.tags]};
   }
 
@@ -76,7 +76,7 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
                                   this.title = "Ausgabe " + this.mode;
                                   this.actualExpense = {...expenseState.actualExpense,
                                                         amount: {...expenseState.actualExpense.amount},
-                                                        exchangeValue: {...expenseState.actualExpense.exchangeValue},
+                                                        originalValue: {...expenseState.actualExpense.originalValue},
                                                         tags: [...expenseState.actualExpense.tags]},
                                   this.isLoading = expenseState.isLoading
                                 });
