@@ -6,18 +6,21 @@ import org.springframework.web.client.RestTemplate;
 
 public class ExchangeAdapter {
 	
-	private static final String BASE_URL = "http://data.fixer.io/api/";
+	private static final String BASE_URL = "https://api.exchangeratesapi.io/";
 	
 	private static final String LATEST = "latest";
 	
-	private static final String API_KEY = "?access_key=0764b22840dae9de5fde3e719ae211c2";
+	private static final String BASE_CURRENCY_REQUEST = "?base=";
 	
-	private static final String BASE_CURRENCY_REQUEST = "&base=";
+	private static final String SOURCE_CURRENCY_REQUEST = "&symbols=";
+	
+	private static final String EUR_SYMBOL = "EUR";
 	
 	public ExchangeResponse getAllExchangeRates(String baseCurrency, LocalDate date) {
         RestTemplate restTemplate = new RestTemplate();
-        String url = BASE_URL + getDateInformation(date) + API_KEY
-        		+ BASE_CURRENCY_REQUEST + baseCurrency;
+        String url = BASE_URL + getDateInformation(date)
+        		+ BASE_CURRENCY_REQUEST + baseCurrency
+        		+ SOURCE_CURRENCY_REQUEST + EUR_SYMBOL;
         ExchangeResponse exchange = restTemplate.getForObject(url, ExchangeResponse.class);
         return exchange;
 	}

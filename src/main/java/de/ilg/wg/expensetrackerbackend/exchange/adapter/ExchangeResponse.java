@@ -9,29 +9,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ExchangeResponse {
 
-	private boolean success;
-	private int timestamp;
+	private Map<String, BigDecimal> rates;
 	private String base;
 	private LocalDate date;
-	private Map<String, BigDecimal> rates;
 	
 	public ExchangeResponse() {
-	}
-
-	public final boolean isSuccess() {
-		return success;
-	}
-
-	public final void setSuccess(boolean success) {
-		this.success = success;
-	}
-
-	public final int getTimestamp() {
-		return timestamp;
-	}
-
-	public final void setTimestamp(int timestamp) {
-		this.timestamp = timestamp;
 	}
 
 	public final String getBase() {
