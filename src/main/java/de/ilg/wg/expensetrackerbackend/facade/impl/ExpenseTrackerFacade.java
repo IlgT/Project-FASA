@@ -1,5 +1,7 @@
-package de.ilg.wg.expensetrackerbackend.facade;
+package de.ilg.wg.expensetrackerbackend.facade.impl;
 
-public class ExpenseTrackerFacade {
+import de.ilg.wg.expensetrackerbackend.facade.api.ExpenseTrackerRestApi;
+
+public class ExpenseTrackerFacade implements ExpenseTrackerRestApi{
 
 }
