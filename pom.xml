@@ -14,9 +14,14 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ExpenseTrackerBackend</name>
 	<description>This is one of the backend for the finance utils SPA.</description>
+	
+	<packaging>jar</packaging>
 
 	<properties>
 		<java.version>8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
 	</properties>
 
 	<dependencies>
