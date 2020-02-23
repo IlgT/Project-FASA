@@ -38,6 +38,10 @@ public class Tag {
     
 	@Column(name="TAG_UPDATED_TIMESTAMP", nullable=true, unique=false)
     private LocalDate updatedTimestamp;
+	
+	public Tag(String name) {
+		this.name = name;
+	}
 
 	public final long getId() {
 		return id;
