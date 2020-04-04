@@ -2,6 +2,10 @@ select {
   width: 100px;
 }
 
+.noValidationVisualization{
+  border-left: 0px !important;
+}
+
 .ng-valid[required], .ng-valid.required  {
   border-left: 7px solid green;
 }

@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/reducers/app.reducers';
 import { ExpenseActions } from 'src/app/expenseTracker/action-types';
-import { expenseNoMistake } from 'src/app/expenseTracker/expense.selectors';
+import { getExpenseNoMistakeTitle } from 'src/app/expenseTracker/expense.selectors';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -20,7 +20,7 @@ export class NoMistakeComponent implements OnInit {
 
     
     ngOnInit() {
-      this.expenseDetails$ = this.store.select(expenseNoMistake);
+      this.expenseDetails$ = this.store.select(getExpenseNoMistakeTitle);
     }
 
     onYesClick(): void {

@@ -8,7 +8,7 @@ export const defaultExpense: Expense = {
       currency: "EUR"
     },
     date: null,
-    originalValue: {
+    originalAmount: {
       value: 0,
       currency: "EUR"
     },

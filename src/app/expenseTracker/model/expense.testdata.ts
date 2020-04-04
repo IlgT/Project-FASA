@@ -9,7 +9,7 @@ export const EXPENSES: Expense[] = [
     },
     reason: "Kaufland",
     date: new Date("12 01 2019").toJSON().substr(0, 10),
-    originalValue: {
+    originalAmount: {
       value: 85.86,
       currency: "EUR"
     },
@@ -24,7 +24,7 @@ export const EXPENSES: Expense[] = [
     },
     reason: "KFZ-Versicherung",
     date: new Date("2019-12-24").toJSON().substr(0, 10),
-    originalValue: {
+    originalAmount: {
       value: 132.90,
       currency: "EUR"
     },
@@ -40,7 +40,7 @@ export const EXPENSES: Expense[] = [
     },
     reason: "SuperDry",
     date: new Date("2019-12-04").toJSON().substr(0, 10),
-    originalValue: {
+    originalAmount: {
       value: 114.144,
       currency: "EUR"
     },
@@ -55,7 +55,7 @@ export const EXPENSES: Expense[] = [
     },
     reason: "Walt Disney World Resort",
     date: new Date("09 10 2019").toJSON().substr(0, 10),
-    originalValue: {
+    originalAmount: {
       value: 85.86,
       currency: "USD"
     },
@@ -70,7 +70,7 @@ export const EXPENSES: Expense[] = [
     },
     reason: "Kaufland",
     date: new Date("12 01 2019").toJSON().substr(0, 10),
-    originalValue: {
+    originalAmount: {
       value: 120,
       currency: "EUR"
     },
@@ -85,7 +85,7 @@ export const EXPENSES: Expense[] = [
     },
     reason: "Kino",
     date: new Date("12 01 2019").toJSON().substr(0, 10),
-    originalValue: {
+    originalAmount: {
       value: 32.00,
       currency: "EUR"
     },
@@ -100,7 +100,7 @@ export const EXPENSES: Expense[] = [
     },
     reason: "Neujahrs Essen",
     date: new Date("2020-01-01").toJSON().substr(0, 10),
-    originalValue: {
+    originalAmount: {
       value: 70.00,
       currency: "EUR"
     },
@@ -115,7 +115,7 @@ export const EXPENSES: Expense[] = [
     },
     reason: "Walt Disney World Resort",
     date: new Date("12 01 2019").toJSON().substr(0, 10),
-    originalValue: {
+    originalAmount: {
       value: 85.86,
       currency: "USD"
     },
@@ -130,7 +130,7 @@ export const EXPENSES: Expense[] = [
     },
     reason: "Walt Disney World Resort",
     date: new Date("12 01 2019").toJSON().substr(0, 10),
-    originalValue: {
+    originalAmount: {
       value: 85.86,
       currency: "USD"
     },
@@ -145,7 +145,7 @@ export const EXPENSES: Expense[] = [
     },
     reason: "Walt Disney World Resort",
     date: new Date("12 01 2019").toJSON().substr(0, 10),
-    originalValue: {
+    originalAmount: {
       value: 85.86,
       currency: "USD"
     },
@@ -160,7 +160,7 @@ export const EXPENSES: Expense[] = [
     },
     reason: "Walt Disney World Resort",
     date: new Date("12 01 2019").toJSON().substr(0, 10),
-    originalValue: {
+    originalAmount: {
       value: 85.86,
       currency: "USD"
     },
@@ -175,7 +175,7 @@ export const EXPENSES: Expense[] = [
     },
     reason: "Walt Disney World Resort",
     date: new Date("12 01 2019").toJSON().substr(0, 10),
-    originalValue: {
+    originalAmount: {
       value: 85.86,
       currency: "USD"
     },
@@ -190,7 +190,7 @@ export const EXPENSES: Expense[] = [
     },
     reason: "Walt Disney World Resort",
     date: new Date("12 01 2019").toJSON().substr(0, 10),
-    originalValue: {
+    originalAmount: {
       value: 85.86,
       currency: "USD"
     },

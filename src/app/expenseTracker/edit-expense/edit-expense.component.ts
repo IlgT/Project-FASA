@@ -1,18 +1,20 @@
 import { Component, OnInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { FormControl } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material/autocomplete';
-import { MatChipInputEvent } from '@angular/material/chips';
-import { Observable, Subscription } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
-import { MatSnackBar } from '@angular/material';
-import { Store } from '@ngrx/store';
+import { Observable, Subscription, of } from 'rxjs';
+import { map, startWith, tap } from 'rxjs/operators';
+import { MatSnackBar, MatChipInputEvent } from '@angular/material';
+import { Store, select } from '@ngrx/store';
 import { Expense } from '../model/Expense';
-import { AppState } from 'src/app/reducers/app.reducers';
 import { ExpenseActions } from '../action-types';
 import { ExpenseFilterActions } from '../expenseOverview/expenses-filter/stateManagement/action-types';
 import { defaultExpense } from '../model/expense.defaultdata';
+import { GreaterThanZeroValidator } from 'src/app/commons/services/greaterThanZeroValidator';
+import { AppState } from 'src/app/reducers/app.reducers';
+import { getActualExpense, isEditMode, isLoadingExpenses } from '../expense.selectors';
+import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 
 @Component({
   selector: 'expenseTracker-edit',
@@ -20,13 +22,28 @@ import { defaultExpense } from '../model/expense.defaultdata';
   styleUrls: ['./edit-expense.component.css']
 })
 export class EditExpenseComponent implements OnInit, OnDestroy {
+  expenseForm = this.formBuilder.group({
+    id: [],
+    amount: this.formBuilder.group({
+      value: [],
+      currency: []
+    }),
+    reason: [null, Validators.required],
+    date: [null,  Validators.required],
+    originalAmount: this.formBuilder.group({
+      value: [0, [Validators.required, GreaterThanZeroValidator.validateValueGreaterThanzero]],
+      currency: ['EUR', Validators.required]
+    }),
+    exchangeRate: [],
+    tags: [[]]
+  });
   
   visible = true;
   selectable = true;
   removable = true;
   addOnBlur = true;
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  tagControl = new FormControl();
+  
   filteredTags: Observable<string[]>;
   predefinedTags: string[];
   selectedTag: string = null;
@@ -38,14 +55,21 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
   title: string;
   mode: string = "";
   isEditMode: boolean;
-  isLoading: boolean = false;
-  actualExpense: Expense;
+  isLoading$: Observable<boolean> = of(false);
   expenseFilterSubscription: Subscription;
   expenseSubscription: Subscription;
+  isEditModeSubscription: Subscription;
 
   constructor(private store: Store<AppState>,
               private router: Router,
-              private _snackBar: MatSnackBar) {
+              private _snackBar: MatSnackBar,
+              private formBuilder: FormBuilder) {
+    this.filteredTags = this.expenseForm.get('tags').valueChanges.pipe(
+        startWith(null),
+        map((tagName: any | null) => tagName ? this._filter(tagName) : this.predefinedTags.slice()));
+  }
+
+  ngOnInit() {
     this. expenseFilterSubscription = this.store.select('expenseFilter')
       .subscribe(expenseFilterState =>  {this.predefinedTags = expenseFilterState.utilizedTags;
                                         this.currencies = expenseFilterState.currencies});
@@ -53,34 +77,19 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
       this.store.dispatch(ExpenseActions.loadExpenseList());
       this.store.dispatch(ExpenseFilterActions.loadUtilizedValues());
     }
-    this.filteredTags = this.tagControl.valueChanges.pipe(
-        startWith(null),
-        map((tagName: any | null) => tagName ? this._filter(tagName) : this.predefinedTags.slice()));
-    this.actualExpense = {...defaultExpense,
-                          amount: {...defaultExpense.amount},
-                          originalValue: {...defaultExpense.originalValue},
-                          tags: [...defaultExpense.tags]};
-  }
-
-  ngOnInit() {
-    this.expenseSubscription = this.store
-                                .select('expense')
-                                .subscribe(expenseState => {
-                                  if (expenseState.actualExpenseIndex > -1) {
-                                    this.isEditMode = true;
-                                    this.mode = "Überarbeiten";
-                                  } else {
-                                    this.isEditMode = false;
-                                    this.mode = "Hinzufügen";
-                                  }
-                                  this.title = "Ausgabe " + this.mode;
-                                  debugger;
-                                  this.actualExpense = {...expenseState.actualExpense,
-                                                        amount: {...expenseState.actualExpense.amount},
-                                                        originalValue: {...expenseState.actualExpense.originalValue},
-                                                        tags: [...expenseState.actualExpense.tags]},
-                                  this.isLoading = expenseState.isLoading
-                                });
+    this.expenseSubscription = this.store.pipe(
+      select(getActualExpense))
+      .pipe(tap(actualExpense => this.expenseForm.patchValue(actualExpense)))
+      .subscribe();
+    this.isEditModeSubscription = this.store.pipe(select(isEditMode))
+      .subscribe(isEditMode => this.isEditMode = isEditMode);
+    this.isLoading$ = this.store.pipe(select(isLoadingExpenses));
+    if (isEditMode) {
+        this.mode = "Überarbeiten";
+      } else {
+        this.mode = "Hinzufügen";
+      }
+    this.title = "Ausgabe " + this.mode;
   }
 
   add(event: MatChipInputEvent): void {
@@ -93,7 +102,7 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
       // Add our tag
       if ((value || '').trim()) {
         var newTag: string = value.trim();
-        this.actualExpense.tags.push(newTag);
+        this.expenseForm.get('tags').value.push(newTag);
       }
 
       // Reset the input value
@@ -101,23 +110,23 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
         input.value = '';
       }
 
-      this.tagControl.setValue(null);
+      this.expenseForm.get('tags').setValue(null);
     }
   }
 
   remove(tag: string): void {
-    const index = this.actualExpense.tags.indexOf(tag);
+    const index = this.expenseForm.get('tags').value.indexOf(tag);
 
     if (index >= 0) {
-      this.actualExpense.tags.splice(index, 1);
+      this.expenseForm.get('tags').value.splice(index, 1);
     }
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
     var newTag: string = event.option.viewValue;
-    this.actualExpense.tags.push(newTag);
+    this.expenseForm.get('tags').value.push(newTag);
     this.tagInput.nativeElement.value = '';
-    this.tagControl.setValue(null);
+    this.expenseForm.get('tags').setValue(null);
   }
 
   private _filter(tagName: string): string[] {
@@ -128,15 +137,15 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (this.isEditMode) {
-      this.store.dispatch(ExpenseActions.modifyExpense({expense: this.actualExpense}));
+      this.store.dispatch(ExpenseActions.modifyExpense({expense: this.expenseForm.value}));
     } else {
-      this.store.dispatch(ExpenseActions.addExpense({expense: this.actualExpense}));
+      this.store.dispatch(ExpenseActions.addExpense({expense: this.expenseForm.value}));
     }
     this.router.navigate(['/expenses']);
   }
 
   resetTags() {
-    this.actualExpense.tags = [];
+    this.expenseForm.get('tags').setValue([]);
   }
 
   onReset() {

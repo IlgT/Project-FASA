@@ -1,55 +1,45 @@
 <div class="container form-dialog">
     <h1>{{title}}</h1>
-    <form #editExpenseForm="ngForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="expenseForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <label for="reason">Reason</label>
-        <input type="text" class="form-control" id="reason"
-            required
-            [(ngModel)]="actualExpense.reason" name="reason"
-            #reason="ngModel">
-        <div [hidden]="reason.valid || reason.pristine"
-        class="alert alert-danger">
-        Reason is required
+        <input type="text" class="form-control" formControlName="reason">
+        <div *ngIf="!expenseForm.get('reason').valid && expenseForm.get('reason').touched"
+          class="alert alert-danger">
+          Reason is required
         </div>
       </div>
 
-      <div class="form-group">
+      <div formGroupName="originalAmount" class="noValidationVisualization">
         <label for="amount">Amount</label>
         <div class="amount-row">
-          <input type="tel" class="form-control amount-value" id="amount"
-              required
-              [(ngModel)]="actualExpense.originalValue.value" name="amount"
-              ngModel #amount="ngModel" greaterThanZero currencyMask>
-          <select class="form-control" id="currency"
-              [(ngModel)]="actualExpense.originalValue.currency" name="currency"
-              #tagSelection="ngModel">
-              <option *ngFor="let currency of currencies" [ngValue]="currency">{{currency}}</option>
+          <input type="tel" class="form-control"
+            formControlName="value" currencyMask>
+          <select formControlName="currency" class="form-control">
+            <option *ngFor="let currency of currencies" [ngValue]="currency">{{currency}}</option>
           </select>
         </div>
-        <div [hidden]="amount.valid || amount.pristine"
-        class="alert alert-danger">
-        Amount is required
+        <div *ngIf="!expenseForm.get('originalAmount').valid && expenseForm.get('originalAmount').touched"
+          class="alert alert-danger">
+          Amount is required
         </div>
       </div>
 
       <div class="form-group">
         <label for="date">Date</label>
-        <input type="date" class="form-control" id="date"
-            required
-            [(ngModel)]="actualExpense.date" name="date"
-            #date="ngModel">
-        <div [hidden]="date.valid || date.pristine"
-        class="alert alert-danger">
-        Date is required
+        <input type="date" class="form-control" formControlName="date">
+        <div *ngIf="!expenseForm.get('date').valid && expenseForm.get('date').touched"
+          class="alert alert-danger">
+          Date is required
         </div>
       </div>
 
       <div class="form-group">
         <label for="tag">Tag</label>
-        <mat-chip-list #tagList aria-label="Tag selection"
+          <mat-chip-list #tagList aria-label="Tag selection"
           class="form-control">
           <mat-chip
-            *ngFor="let tag of actualExpense.tags"
+            *ngFor="let tag of expenseForm.get('tags').value"
             [selectable]="selectable"
             [removable]="removable"
             (removed)="remove(tag)">
@@ -59,11 +49,10 @@
           <input
             placeholder="Add tag"
             #tagInput
-            [formControl]="tagControl"
+            formControlName="tags"
             [matAutocomplete]="auto"
             [matChipInputFor]="tagList"
             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            [matChipInputAddOnBlur]="addOnBlur"
             (matChipInputTokenEnd)="add($event)"
             class="borderless">
         </mat-chip-list>
@@ -75,12 +64,11 @@
       </div>
 
       <div class="button-row">
-        <button type="submit" [disabled]="editExpenseForm.invalid " class="btn btn-success">{{mode}}</button>
-        <button type="button" class="btn btn-info" (click)="onReset(); editExpenseForm.reset()">Zurücksetzen</button>
+        <button type="submit" [disabled]="expenseForm.invalid" class="btn btn-success">{{mode}}</button>
+        <button type="button" class="btn btn-info" (click)="onReset()">Zurücksetzen</button>
         <button type="button" class="btn btn-danger" (click)="closingSnackBar('cancel')"
           [routerLink]="['/expenses']">Abbrechen</button>
       </div>
-
     </form>
 </div>
-<app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
+<app-loading-spinner *ngIf="isLoading$ | async"></app-loading-spinner>

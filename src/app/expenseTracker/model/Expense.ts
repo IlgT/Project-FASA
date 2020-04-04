@@ -1,4 +1,3 @@
-import {Tag} from './Tag'
 import { Money } from './Money';
 
 export class Expense {
@@ -6,7 +5,7 @@ export class Expense {
     amount: Money;
     reason: string;
     date: string;
-    originalValue?: Money;
-    exchangeRate?: number;
+    originalAmount: Money;
+    exchangeRate: number;
     tags: string[];
 }

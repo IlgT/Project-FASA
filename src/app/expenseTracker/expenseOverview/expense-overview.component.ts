@@ -21,7 +21,7 @@ import { ContextMenuComponent } from 'src/app/commons/context-menu/context-menu.
 
 export class ExpenseOverviewComponent implements OnInit, OnDestroy {
   reasons = new FormControl();
-  displayedColumns: string[] = ["id", "value", "reason", "date", "originalValue", "exchangeRate", "tag", "more"];
+  displayedColumns: string[] = ["id", "value", "reason", "date", "originalAmount", "exchangeRate", "tag", "more"];
   expenses: MatTableDataSource<Expense>;
   totalSum: number;
   expenseSubscription: Subscription;
@@ -62,7 +62,7 @@ export class ExpenseOverviewComponent implements OnInit, OnDestroy {
       switch (property) {
         case 'value': return expense.amount.value;
         case 'tag': return expense.tags[0];
-        case 'originalValue': return expense.originalValue.value;
+        case 'originalAmount': return expense.originalAmount.value;
         default: return expense[property];
       }
     };

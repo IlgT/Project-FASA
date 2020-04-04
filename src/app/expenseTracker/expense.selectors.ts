@@ -10,7 +10,7 @@ export const isLoadingExpenses = createSelector(
     expenseState => expenseState.isLoading
 );
 
-export const actualExpense = createSelector(
+export const getActualExpense = createSelector(
     selectExpenseState,
     expenseState => expenseState.actualExpense
 );
@@ -20,17 +20,17 @@ export const isEditMode = createSelector(
     expenseState => expenseState.actualExpenseIndex > -1
 );
 
-export const totalSum = createSelector(
+export const getTotalSum = createSelector(
     selectExpenseState,
     expenseState => expenseState.totalSum
 );
 
-export const expenseTableSource = createSelector(
+export const getExpenseTableSource = createSelector(
     selectExpenseState,
     expenseState => new MatTableDataSource(expenseState.expenses)
 );
 
-export const expenseNoMistake = createSelector(
+export const getExpenseNoMistakeTitle = createSelector(
     selectExpenseState,
     expenseState => {var title = '';
                         title += expenseState.expenses[this.data.index].id;
