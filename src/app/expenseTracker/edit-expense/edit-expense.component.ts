@@ -1,18 +1,18 @@
 import { Component, OnInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
-import { Expense } from 'src/app/expense';
-import { defaultExpense } from '../expense.defaultdata';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { FormControl, FormGroup, NgForm } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Observable, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material';
 import { Store } from '@ngrx/store';
-import * as fromApp from '../../stateManagement/app.reducer';
-import * as ExpenseFilterActions from '../expenseOverview/expenses-filter/stateManagement/expense-filter.action';
-import * as ExpenseActions from '../stateManagement/expense.action';
+import { Expense } from '../model/Expense';
+import { AppState } from 'src/app/reducers/app.reducers';
+import { ExpenseActions } from '../action-types';
+import { ExpenseFilterActions } from '../expenseOverview/expenses-filter/stateManagement/action-types';
+import { defaultExpense } from '../model/expense.defaultdata';
 
 @Component({
   selector: 'expenseTracker-edit',
@@ -43,15 +43,15 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
   expenseFilterSubscription: Subscription;
   expenseSubscription: Subscription;
 
-  constructor(private store: Store<fromApp.AppState>,
+  constructor(private store: Store<AppState>,
               private router: Router,
               private _snackBar: MatSnackBar) {
     this. expenseFilterSubscription = this.store.select('expenseFilter')
       .subscribe(expenseFilterState =>  {this.predefinedTags = expenseFilterState.utilizedTags;
                                         this.currencies = expenseFilterState.currencies});
     if (this.predefinedTags.length === 0) {
-      this.store.dispatch(new ExpenseActions.LoadExpenseList());
-      this.store.dispatch(new ExpenseFilterActions.LoadUtilizedValues());
+      this.store.dispatch(ExpenseActions.loadExpenseList());
+      this.store.dispatch(ExpenseFilterActions.loadUtilizedValues());
     }
     this.filteredTags = this.tagControl.valueChanges.pipe(
         startWith(null),
@@ -74,6 +74,7 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
                                     this.mode = "Hinzufügen";
                                   }
                                   this.title = "Ausgabe " + this.mode;
+                                  debugger;
                                   this.actualExpense = {...expenseState.actualExpense,
                                                         amount: {...expenseState.actualExpense.amount},
                                                         originalValue: {...expenseState.actualExpense.originalValue},
@@ -127,9 +128,9 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (this.isEditMode) {
-      this.store.dispatch(new ExpenseActions.ModifyExpense(this.actualExpense));
+      this.store.dispatch(ExpenseActions.modifyExpense({expense: this.actualExpense}));
     } else {
-      this.store.dispatch(new ExpenseActions.AddExpense(this.actualExpense));
+      this.store.dispatch(ExpenseActions.addExpense({expense: this.actualExpense}));
     }
     this.router.navigate(['/expenses']);
   }
@@ -140,9 +141,9 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
 
   onReset() {
     if (this.isEditMode) {
-      this.store.dispatch(new ExpenseActions.ResetModifyForm());
+      this.store.dispatch(ExpenseActions.resetModifyForm());
     } else {
-      this.store.dispatch(new ExpenseActions.ResetAddForm());
+      this.store.dispatch(ExpenseActions.resetAddForm());
     }
     this.resetingSnackBar();
   }
@@ -153,9 +154,9 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
 
   closingSnackBar(buttonType: string) {
     if (this.isEditMode) {
-      this.store.dispatch(new ExpenseActions.ModifyExpenseCanceled());
+      this.store.dispatch(ExpenseActions.modifyExpenseCanceled());
     } else {
-      this.store.dispatch(new ExpenseActions.AddExpenseCanceled());
+      this.store.dispatch(ExpenseActions.addExpenseCanceled());
     }
     this._snackBar.open(this.mode + ' wurde abgerbochen');
   }

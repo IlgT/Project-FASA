@@ -3,8 +3,8 @@ import { MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angu
 import { NoMistakeComponent } from '../no-mistake/no-mistake.component';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import * as fromApp from '../stateManagement/app.reducer';
-import * as ExpenseActions from '../expenseTracker/stateManagement/expense.action';
+import { AppState } from 'src/app/reducers/app.reducers';
+import { openDeleteDialog, openModifyForm } from 'src/app/expenseTracker/expense.actions';
 
 @Component({
   selector: 'app-context-menu',
@@ -17,7 +17,7 @@ export class ContextMenuComponent implements OnInit {
   private readonly triggerElementRef: ElementRef;
   private readonly index: number;
 
-  constructor(private store: Store<fromApp.AppState>,
+  constructor(private store: Store<AppState>,
     private router: Router,
     _matDialogRef: MatDialogRef<ContextMenuComponent>,
     @Inject(MAT_DIALOG_DATA) dialogData: { trigger: ElementRef, index: number },
@@ -40,7 +40,7 @@ export class ContextMenuComponent implements OnInit {
   }
 
   onDelete() {
-    this.store.dispatch(new ExpenseActions.StartDeleteExpense(this.index));
+    this.store.dispatch(openDeleteDialog({index: this.index}));
     this._matDialogRef.close();
     const dialogRef = this.noMistakeDialog.open(NoMistakeComponent, {
       maxWidth: '350px',
@@ -50,7 +50,7 @@ export class ContextMenuComponent implements OnInit {
 
   onEdit() {
     this._matDialogRef.close();
-    this.store.dispatch(new ExpenseActions.StartModifyExpense(this.index));
+    this.store.dispatch(openModifyForm({index: this.index}));
     this.router.navigate(['/expense']);
   }
 

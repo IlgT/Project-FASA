@@ -1,4 +1,4 @@
-import { Expense } from '../expense';
+import { Expense } from './Expense';
 
 export const defaultExpense: Expense = {
     id: null,

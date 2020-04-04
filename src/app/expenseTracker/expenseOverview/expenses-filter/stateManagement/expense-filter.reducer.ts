@@ -1,4 +1,5 @@
-import * as ExpenseFilterActions from './expense-filter.action';
+import * as ExpenseFilterActions from './expense-filter.actions';
+import { on, createReducer } from '@ngrx/store';
 
 export interface ExpenseFilterState {
     isInitialize: boolean;
@@ -13,7 +14,7 @@ export interface ExpenseFilterState {
     errorMessage: string | null
   }
 
-export const initialState: ExpenseFilterState = {
+export const initialExpenseFilterState: ExpenseFilterState = {
     isInitialize: true,
     filteredReasons: [],
     filteredMonth: new Date().getMonth() + 1,
@@ -26,54 +27,58 @@ export const initialState: ExpenseFilterState = {
     errorMessage: null
 }
 
-export function expenseFilterReducer(state: ExpenseFilterState = initialState, action: ExpenseFilterActions.Actions) {
-
-    switch(action.type) {
-        case ExpenseFilterActions.CHANGE_REASONS_FILTER:
-            return {
-                ...state,
-                filteredReasons: action.payload
-            }
-
-        case ExpenseFilterActions.CHANGE_MONTH_FILTER:
-            return {
-                ...state,
-                filteredMonth: action.payload
-            }
-
-        case ExpenseFilterActions.CHANGE_TAGS_FILTER:
-            return {
-                ...state,
-                filteredTags: action.payload
-            }
-
-        case ExpenseFilterActions.LOAD_UTILIZED_VALUES:
-            return {
-                ...state,
-                isInitialize: false,
-                isLoading: true
-            }
-
-        case ExpenseFilterActions.LOAD_UTILIZED_VALUES_SUCCESS:
-        case ExpenseFilterActions.UPDATE_FILTERS_SUCCESS:
-            return {
-                ...state,
-                utilizedReasons: action.payload.reasons,
-                utilizedMonths: action.payload.months,
-                utilizedTags: action.payload.tags,
-                currencies: action.payload.currencies,
-                isLoading: false
-            }
-        
-        case ExpenseFilterActions.LOAD_UTILIZED_VALUES_FAILURE:
-        case ExpenseFilterActions.UPDATE_FILTERS_FAILURE:
-            return {
-                ...state,
-                error: action.payload,
-                isLoading: false
-            }
-
-        default:
-            return state;
-    }
-}
+export const expenseFilterReducer = createReducer(
+    initialExpenseFilterState,
+    on(ExpenseFilterActions.changeReasonsFilter, (state, action) => {
+        return {
+            ...state,
+            filteredReasons: action.reasons
+        }
+    }),
+    on(ExpenseFilterActions.changeMonthFilter, (state, action) => {
+        return {
+            ...state,
+            filteredMonth: action.month
+        }
+    }),
+    on(ExpenseFilterActions.changeTagsFilter, (state, action) => {
+        return {
+            ...state,
+            filteredTags: action.tags
+        }
+    }),
+    on(ExpenseFilterActions.loadUtilizedValues, (state, action) => {
+        return {
+            ...state,
+            isInitialize: false,
+            isLoading: true
+        }
+    }),
+    on(ExpenseFilterActions.loadUtilizedValues, (state, action) => {
+        return {
+            ...state,
+            isInitialize: false,
+            isLoading: true
+        }
+    }),
+    on(ExpenseFilterActions.loadUtilizedValuesSuccess,
+        ExpenseFilterActions.updateFilterSuccess,
+             (state, action) => {
+        return {
+            ...state,
+            utilizedReasons: action.utilizedFilter.reasons,
+            utilizedMonths: action.utilizedFilter.months,
+            utilizedTags: action.utilizedFilter.tags,
+            currencies: action.utilizedFilter.currencies,
+            isLoading: false
+        }
+    }),
+    on(ExpenseFilterActions.loadUtilizedValuesFailure,
+        ExpenseFilterActions.updateFilterFailure,
+             (state, action) => {
+        return {
+            ...state,
+            error: action.error,
+            isLoading: false
+        }
+    }))

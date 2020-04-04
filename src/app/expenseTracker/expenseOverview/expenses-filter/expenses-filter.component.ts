@@ -1,13 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ResponsiveDesignService } from 'src/app/responsive-design.service';
+import { ResponsiveDesignService } from 'src/app/commons/services/responsive-design.service';
 import { Store } from '@ngrx/store';
-import * as fromApp from 'src/app/stateManagement/app.reducer';
 import * as fromExpenseFilter from './stateManagement/expense-filter.reducer';
-import * as ExpenseFilterActions from './stateManagement/expense-filter.action';
-import * as ExpenseActions from '../../stateManagement/expense.action';
+import * as ExpenseFilterActions from './stateManagement/expense-filter.actions';
 import { MatSelectChange } from '@angular/material';
 import { Subscription } from 'rxjs';
+import { AppState } from 'src/app/reducers/app.reducers';
+import { openAddForm } from '../../expense.actions';
 
 @Component({
   selector: 'app-expenses-filter',
@@ -36,7 +36,7 @@ export class ExpensesFilterComponent implements OnInit, OnDestroy {
   expenseFilterSubscription: Subscription;
 
   constructor(public responsiveDesignService: ResponsiveDesignService,
-              private store: Store<fromApp.AppState>) {}
+              private store: Store<AppState>) {}
 
   ngOnInit() {
     this.initializePossibleFiltersOnce();
@@ -60,24 +60,24 @@ export class ExpensesFilterComponent implements OnInit, OnDestroy {
     this.initializeSubscription = this.store.select('expenseFilter')
       .subscribe(state => isInitialize = state.isInitialize);
     if (isInitialize) {
-      this.store.dispatch(new ExpenseFilterActions.LoadUtilizedValues());
+      this.store.dispatch(ExpenseFilterActions.loadUtilizedValues());
     }
   }
 
   onReasonsChange(event: MatSelectChange) {
-    this.store.dispatch(new ExpenseFilterActions.ChangeReasonsFilter(this.selectedReasons));
+    this.store.dispatch(ExpenseFilterActions.changeReasonsFilter({reasons: this.selectedReasons}));
   }
 
   onMonthChange() {
-    this.store.dispatch(new ExpenseFilterActions.ChangeMonthFilter(this.months.indexOf(this.selectedMonth) + 1));
+    this.store.dispatch(ExpenseFilterActions.changeMonthFilter({month: this.months.indexOf(this.selectedMonth) + 1}));
   }
 
   onTagsChange(event: MatSelectChange) {
-    this.store.dispatch(new ExpenseFilterActions.ChangeTagsFilter(this.selectedTags));
+    this.store.dispatch(ExpenseFilterActions.changeTagsFilter({tags: this.selectedTags}));
   }
   
   onAdd() {
-    this.store.dispatch(new ExpenseActions.StartAddExpense());
+    this.store.dispatch(openAddForm());
   }
 
   ngOnDestroy() {

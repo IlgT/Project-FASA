@@ -7,22 +7,22 @@ import { MatTableModule, MatIconModule, MatButtonModule, MatSortModule, MatChips
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StoreModule } from '@ngrx/store';
 import { ExpenseOverviewComponent } from './expenseTracker/expenseOverview/expense-overview.component';
-import * as fromApp from './stateManagement/app.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditExpenseComponent } from './expenseTracker/edit-expense/edit-expense.component';
 import { RouterModule, Routes } from '@angular/router';
-import { ContextMenuComponent } from './context-menu/context-menu.component';
-import { NoMistakeComponent } from './no-mistake/no-mistake.component';
 import { ExpensesFilterComponent } from './expenseTracker/expenseOverview/expenses-filter/expenses-filter.component';
-import { ExpenseEffects } from './expenseTracker/stateManagement/expense.effects';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule, RouterState } from '@ngrx/router-store';
 import { NgxCurrencyModule } from "ngx-currency";
-import { GreaterThanZeroValidator } from './expenseTracker/greaterThanZeroValidator';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
+import { PageNotFoundComponent } from './commons/page-not-found/page-not-found.component';
+import { GreaterThanZeroValidator } from './commons/services/greaterThanZeroValidator';
+import { LoadingSpinnerComponent } from './commons/loading-spinner/loading-spinner.component';
+import { ExpenseEffects } from './expenseTracker/expense.effects';
+import { appReducers } from './reducers/app.reducers';
+import { ContextMenuComponent } from './commons/context-menu/context-menu.component';
+import { NoMistakeComponent } from './commons/no-mistake/no-mistake.component';
 
 const appRoutes: Routes = [
   { path: 'expenses', component: ExpenseOverviewComponent },
@@ -80,7 +80,7 @@ export const customCurrencyMaskConfig = {
     StoreRouterConnectingModule.forRoot({
       routerState: RouterState.Minimal
     }),
-    StoreModule.forRoot(fromApp.appReducer, {
+    StoreModule.forRoot(appReducers, {
       runtimeChecks: {
         strictStateImmutability: true,
         strictActionImmutability: true,

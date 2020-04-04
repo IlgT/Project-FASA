@@ -1,23 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import * as ExpenseActions from './stateManagement/expense.action';
-import * as ExpenseFilterActions from './expenseOverview/expenses-filter/stateManagement/expense-filter.action';
-import * as fromExpense from './stateManagement/expense.reducer';
-import * as fromApp from '../stateManagement/app.reducer';
-import { Observable, of, Subscribable, Subscription } from 'rxjs';
-import { Expense } from '../expense';
-import { EXPENSES } from '../expense.testdata';
+import * as ExpenseFilterActions from '../expenseOverview/expenses-filter/stateManagement/expense-filter.actions';
+import { Observable, of } from 'rxjs';
+import { Expense } from '../model/Expense';
+import { EXPENSES } from '../model/expense.testdata';
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material';
 import { map } from 'rxjs/operators';
-import { FilterSearch } from './FilterSearch';
-import { UtilizedFilter } from './UtilizedFilter';
+import { FilterSearch } from '../model/FilterSearch';
+import { UtilizedFilter } from '../model/UtilizedFilter';
+import { AppState } from 'src/app/reducers/app.reducers';
+import { ExpenseState } from '../reducers/expense.reducers';
+import { ExpenseActions } from '../action-types';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExpenseService {
 
-  constructor(private store: Store<fromApp.AppState>,
+  constructor(private store: Store<AppState>,
               private _snackBar: MatSnackBar) { }
  
   loadExpenseListByFilter(): Observable<Expense[]> {
@@ -35,7 +35,7 @@ export class ExpenseService {
     console.log("HTTP-CALL for modifying a expense");
     let expense: Expense;
     this.store.select('expense').subscribe(
-      (expenseState: fromExpense.ExpenseState) => {
+      (expenseState: ExpenseState) => {
         expense = expenseState.actualExpense;
       }).unsubscribe();
     return of(expense);
@@ -44,7 +44,7 @@ export class ExpenseService {
   deleteExpense(): Observable<Expense> {
     let expense: Expense;
     this.store.select('expense').subscribe(
-    (expenseState: fromExpense.ExpenseState) => {
+    (expenseState: ExpenseState) => {
       expense = expenseState.actualExpense;
     }).unsubscribe();
     console.log("HTTP-CALL for deleting a expense");
@@ -94,7 +94,7 @@ export class ExpenseService {
     } else {
       updatedFilteredTags.splice(updatedFilteredTags.indexOf(this.capitalize(tagName.toLowerCase())), 1);
     }
-    this.store.dispatch(new ExpenseFilterActions.ChangeTagsFilter(updatedFilteredTags));
+    this.store.dispatch(ExpenseFilterActions.changeTagsFilter({tags: updatedFilteredTags}));
   }
   
   updateUtilizedValuesDueToExpensesChange(expense: Expense): Observable<UtilizedFilter> {
@@ -105,44 +105,44 @@ export class ExpenseService {
     return of(updatedUtilizedValues);
   }
 
-  generateUserFeedback(action:  {type: string, payload: string}) : Observable<MatSnackBarRef<SimpleSnackBar>> {
+  generateUserFeedback(action:  {type: string, error: string}) : Observable<MatSnackBarRef<SimpleSnackBar>> {
     let userFeedback: string;
     let style: string;
     switch(action.type) {
-      case ExpenseActions.LOAD_EXPENSE_LIST_FAILURE:
+      case ExpenseActions.loadExpenseListFailure.type:
         userFeedback = "Ausgaben konnten nicht geladen werden.";
         style = "error-snackbar";
         break;
-      case ExpenseFilterActions.LOAD_UTILIZED_VALUES_FAILURE:
+      case ExpenseFilterActions.loadUtilizedValuesFailure.type:
         userFeedback = "Filter konnten nicht geladen werden.";
         style = "error-snackbar";
         break;
-      case ExpenseActions.ADD_EXPENSE_SUCCESS:
+      case ExpenseActions.addExpenseSuccess.type:
         userFeedback = "Ausgabe wurde hinzugefügt.";
         style = "success-snackbar";
         break;
-      case ExpenseActions.ADD_EXPENSE_FAILURE:
+      case ExpenseActions.addExpenseFailure.type:
         userFeedback = "Ausgabe konnte nicht hinzugefügt werden.";
         style = "error-snackbar";
-        console.error(action.payload);
+        console.error(action.error);
         break;
-      case ExpenseActions.MODIFY_EXPENSE_SUCCESS:
+      case ExpenseActions.modifyExpenseSuccess.type:
         userFeedback = "Ausgabe wurde überarbeitet.";
         style = "success-snackbar";
         break;
-      case ExpenseActions.MODIFY_EXPENSE_FAILURE:
+      case ExpenseActions.modifyExpenseFailure.type:
         userFeedback = "Ausgabe konnte nicht überarbeitet werden.";
         style = "error-snackbar";
-        console.error(action.payload);
+        console.error(action.error);
         break;
-      case ExpenseActions.DELETE_EXPENSE_SUCCESS:
+      case ExpenseActions.deleteExpenseSuccess.type:
         userFeedback = "Ausgabe wurde gelöscht.";
         style = "success-snackbar";
         break;
-      case ExpenseActions.DELETE_EXPENSE_FAILURE:
+      case ExpenseActions.deleteExpenseFailure.type:
         userFeedback = "Ausgabe konnte nicht gelöscht werden.";
         style = "error-snackbar";
-        console.error(action.payload);
+        console.error(action.error);
         break;
       default:
         console.error("Not expected action was processed: " + action.type);

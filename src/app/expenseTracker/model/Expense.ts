@@ -1,5 +1,5 @@
-import {Money} from './Money'
 import {Tag} from './Tag'
+import { Money } from './Money';
 
 export class Expense {
     id: number;

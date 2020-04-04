@@ -1,17 +1,17 @@
 import { Component, OnInit , ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Expense } from '../../expense';
-import * as fromApp from '../../stateManagement/app.reducer';
-import * as ExpenseActions from '../stateManagement/expense.action';
-import * as fromExpense from '../stateManagement/expense.reducer';
+import { Expense } from '../model/Expense';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import { FormControl } from '@angular/forms';
-import { ContextMenuComponent } from 'src/app/context-menu/context-menu.component';
 import { MatDialog } from '@angular/material';
-import { ResponsiveDesignService } from 'src/app/responsive-design.service';
-import { ExpenseService } from '../expense-service.service';
+import { ResponsiveDesignService } from 'src/app/commons/services/responsive-design.service';
+import { ExpenseService } from '../services/expense-service.service';
 import { Subscription } from 'rxjs';
+import { AppState } from 'src/app/reducers/app.reducers';
+import { ExpenseState } from '../reducers/expense.reducers';
+import { loadExpenseList, openAddForm } from '../expense.actions';
+import { ContextMenuComponent } from 'src/app/commons/context-menu/context-menu.component';
 
 @Component({
   selector: 'expenseTracker-overview',
@@ -21,7 +21,6 @@ import { Subscription } from 'rxjs';
 
 export class ExpenseOverviewComponent implements OnInit, OnDestroy {
   reasons = new FormControl();
-  usedReasons: string[] = ["Kaufland", "Versicherung", "Disney World"]
   displayedColumns: string[] = ["id", "value", "reason", "date", "originalValue", "exchangeRate", "tag", "more"];
   expenses: MatTableDataSource<Expense>;
   totalSum: number;
@@ -32,7 +31,7 @@ export class ExpenseOverviewComponent implements OnInit, OnDestroy {
   
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   
-  constructor(private store: Store<fromApp.AppState>,
+  constructor(private store: Store<AppState>,
               private _matDialog: MatDialog,
               public responsiveDesignService: ResponsiveDesignService,
               private expenseService: ExpenseService) {}
@@ -40,7 +39,7 @@ export class ExpenseOverviewComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.initializeExpenseListOnce();
     this.expenseSubscription = this.store.select('expense').subscribe(
-      (expenseState: fromExpense.ExpenseState) => {
+      (expenseState: ExpenseState) => {
         this.expenses = new MatTableDataSource(expenseState.expenses);
         this.totalSum = expenseState.totalSum.value;
         this.isLoadingExpenses = expenseState.isLoading;
@@ -54,7 +53,7 @@ export class ExpenseOverviewComponent implements OnInit, OnDestroy {
       .subscribe(state => {isInitialize = state.isInitialize;
                            this.isLoadingExpensesFilter = state.isLoading;});
     if (isInitialize) {
-      this.store.dispatch(new ExpenseActions.LoadExpenseList());
+      this.store.dispatch(loadExpenseList());
     }
   }
 
@@ -81,7 +80,7 @@ export class ExpenseOverviewComponent implements OnInit, OnDestroy {
   }
 
   onAdd() {
-    this.store.dispatch(new ExpenseActions.StartAddExpense());
+    this.store.dispatch(openAddForm());
   }
 
   onTagClick(tagName: string) {

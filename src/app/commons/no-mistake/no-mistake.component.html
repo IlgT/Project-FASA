@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>Ausgabe {{data.id}} löschen?</h1>
 <div mat-dialog-content>
-    <p>Sind Sie sicher, dass Sie Ausgabe {{expenseDetails}} löschen wollen?</p>
+    <p>Sind Sie sicher, dass Sie Ausgabe {{expenseDetails$ | async}} löschen wollen?</p>
 </div>
 <div mat-dialog-actions>
     <button mat-button (click)="onYesClick()">Ja</button>
