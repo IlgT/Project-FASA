@@ -37,9 +37,9 @@
       <div class="form-group">
         <label for="tag">Tag</label>
           <mat-chip-list #tagList aria-label="Tag selection"
-          class="form-control">
+            class="form-control">
           <mat-chip
-            *ngFor="let tag of expenseForm.get('tags').value"
+            *ngFor="let tag of selectedTags"
             [selectable]="selectable"
             [removable]="removable"
             (removed)="remove(tag)">
@@ -47,7 +47,7 @@
             <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
           </mat-chip>
           <input
-            placeholder="Add tag"
+            placeholder="Add tag..."
             #tagInput
             formControlName="tags"
             [matAutocomplete]="auto"

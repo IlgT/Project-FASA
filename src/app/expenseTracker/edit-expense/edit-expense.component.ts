@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material/autocomplete';
 import { Observable, Subscription, of } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
@@ -46,7 +46,7 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
   
   filteredTags: Observable<string[]>;
   predefinedTags: string[];
-  selectedTag: string = null;
+  selectedTags: string[];
   currencies: string[];
 
   @ViewChild('tagInput', {static: false}) tagInput: ElementRef<HTMLInputElement>;
@@ -66,7 +66,7 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
               private formBuilder: FormBuilder) {
     this.filteredTags = this.expenseForm.get('tags').valueChanges.pipe(
         startWith(null),
-        map((tagName: any | null) => tagName ? this._filter(tagName) : this.predefinedTags.slice()));
+        map((tagName: string | null) => tagName ? this._filter(tagName) : this.predefinedTags.slice()));
   }
 
   ngOnInit() {
@@ -79,7 +79,9 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
     }
     this.expenseSubscription = this.store.pipe(
       select(getActualExpense))
-      .pipe(tap(actualExpense => this.expenseForm.patchValue(actualExpense)))
+      .pipe(tap(actualExpense => {this.expenseForm.patchValue(actualExpense);
+                                  this.expenseForm.get('tags').setValue('');
+                                  this.selectedTags = [...actualExpense.tags];}))
       .subscribe();
     this.isEditModeSubscription = this.store.pipe(select(isEditMode))
       .subscribe(isEditMode => this.isEditMode = isEditMode);
@@ -102,7 +104,7 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
       // Add our tag
       if ((value || '').trim()) {
         var newTag: string = value.trim();
-        this.expenseForm.get('tags').value.push(newTag);
+        this.selectedTags.push(newTag);
       }
 
       // Reset the input value
@@ -115,16 +117,16 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
   }
 
   remove(tag: string): void {
-    const index = this.expenseForm.get('tags').value.indexOf(tag);
+    const index = this.selectedTags.indexOf(tag);
 
     if (index >= 0) {
-      this.expenseForm.get('tags').value.splice(index, 1);
+      this.selectedTags.splice(index, 1);
     }
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
     var newTag: string = event.option.viewValue;
-    this.expenseForm.get('tags').value.push(newTag);
+    this.selectedTags.push(newTag);
     this.tagInput.nativeElement.value = '';
     this.expenseForm.get('tags').setValue(null);
   }
@@ -137,15 +139,17 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     if (this.isEditMode) {
-      this.store.dispatch(ExpenseActions.modifyExpense({expense: this.expenseForm.value}));
+      this.store.dispatch(ExpenseActions.modifyExpense({expense: {...this.expenseForm.value,
+                                                                  tags: this.selectedTags}}));
     } else {
-      this.store.dispatch(ExpenseActions.addExpense({expense: this.expenseForm.value}));
+      this.store.dispatch(ExpenseActions.addExpense({expense: {...this.expenseForm.value,
+                                                                tags: this.selectedTags}}));
     }
     this.router.navigate(['/expenses']);
   }
 
   resetTags() {
-    this.expenseForm.get('tags').setValue([]);
+    this.selectedTags = [];
   }
 
   onReset() {
@@ -173,5 +177,6 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.expenseFilterSubscription.unsubscribe();
     this.expenseSubscription.unsubscribe();
+    this.isEditModeSubscription.unsubscribe();
   }
 }
