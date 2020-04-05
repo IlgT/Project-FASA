@@ -1,13 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ResponsiveDesignService } from 'src/app/commons/services/responsive-design.service';
-import { Store } from '@ngrx/store';
-import * as fromExpenseFilter from './stateManagement/expense-filter.reducer';
+import { Store, select } from '@ngrx/store';
 import * as ExpenseFilterActions from './stateManagement/expense-filter.actions';
 import { MatSelectChange } from '@angular/material';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { AppState } from 'src/app/reducers/app.reducers';
 import { openAddForm } from '../../expense.actions';
+import { tap } from 'rxjs/operators';
+import { isInitialize, getFilteredReasons, getFilteredMonth, getFilteredTags, getUtilizedReasons, getUtilizedMonths, getUtilizedTags } from './stateManagement/expense-filter.selectors';
 
 @Component({
   selector: 'app-expenses-filter',
@@ -20,60 +21,56 @@ export class ExpensesFilterComponent implements OnInit, OnDestroy {
                       "Juni", "Juli", "August", "September", "Oktober",
                       "November", "Dezember"];
   
-  utilizedReasons: string[];
-  utilizedMonths: string[];
-  utilizedTags: string[];
+  utilizedReasons$: Observable<string[]>;
+  utilizedMonths$: Observable<number[]>;
+  utilizedTags$: Observable<string[]>;
   
-  reasonsControl = new FormControl();
-  monthControl = new FormControl();
-  tagsControl = new FormControl();
+  selectedReasons = new FormControl();
+  selectedMonth = new FormControl();
+  selectedTags = new FormControl();
 
-  selectedReasons: string[];
-  selectedMonth: string;
-  selectedTags: string[];
-
+  reasonsSubscription: Subscription;
+  monthSubscription: Subscription;
+  tagsSubscription: Subscription;
   initializeSubscription: Subscription;
-  expenseFilterSubscription: Subscription;
 
   constructor(public responsiveDesignService: ResponsiveDesignService,
               private store: Store<AppState>) {}
 
   ngOnInit() {
     this.initializePossibleFiltersOnce();
-    this.expenseFilterSubscription = this.store
-      .select('expenseFilter')
-      .subscribe((expenseFilterState: fromExpenseFilter.ExpenseFilterState) => {
-        this.utilizedReasons = expenseFilterState.utilizedReasons;
-        this.utilizedMonths = [];
-        for(let month of expenseFilterState.utilizedMonths) {
-          this.utilizedMonths.push(this.months[month - 1]);
-        }
-        this.utilizedTags = expenseFilterState.utilizedTags;
-        this.selectedReasons = expenseFilterState.filteredReasons;
-        this.selectedMonth = this.months[expenseFilterState.filteredMonth - 1];
-        this.selectedTags = expenseFilterState.filteredTags;
-      });
+    this.reasonsSubscription = this.store.pipe(select(getFilteredReasons))
+      .pipe(tap(filteredReasons => this.selectedReasons.setValue(filteredReasons)))
+      .subscribe();
+    this.monthSubscription = this.store.pipe(select(getFilteredMonth))
+        .pipe(tap(filteredMonth => this.selectedMonth.setValue(this.months[filteredMonth - 1])))
+        .subscribe();
+    this.tagsSubscription = this.store.pipe(select(getFilteredTags))
+          .pipe(tap(filteredTags => this.selectedTags.setValue(filteredTags)))
+          .subscribe();
+    this.utilizedReasons$ = this.store.pipe(select(getUtilizedReasons));
+    this.utilizedMonths$ = this.store.pipe(select(getUtilizedMonths));
+    this.utilizedTags$ = this.store.pipe(select(getUtilizedTags));
   }
 
   private initializePossibleFiltersOnce() {
-    let isInitialize: boolean;
-    this.initializeSubscription = this.store.select('expenseFilter')
-      .subscribe(state => isInitialize = state.isInitialize);
-    if (isInitialize) {
-      this.store.dispatch(ExpenseFilterActions.loadUtilizedValues());
-    }
+    this.initializeSubscription = this.store.pipe(select(isInitialize))
+      .pipe(tap(isInitialize =>  {if (isInitialize) {
+        this.store.dispatch(ExpenseFilterActions.loadUtilizedValues());
+      }})).subscribe();
+      this.initializeSubscription.unsubscribe();
   }
 
   onReasonsChange(event: MatSelectChange) {
-    this.store.dispatch(ExpenseFilterActions.changeReasonsFilter({reasons: this.selectedReasons}));
+    this.store.dispatch(ExpenseFilterActions.changeReasonsFilter({reasons: this.selectedReasons.value}));
   }
 
   onMonthChange() {
-    this.store.dispatch(ExpenseFilterActions.changeMonthFilter({month: this.months.indexOf(this.selectedMonth) + 1}));
+    this.store.dispatch(ExpenseFilterActions.changeMonthFilter({month: this.months.indexOf(this.selectedMonth.value) + 1}));
   }
 
   onTagsChange(event: MatSelectChange) {
-    this.store.dispatch(ExpenseFilterActions.changeTagsFilter({tags: this.selectedTags}));
+    this.store.dispatch(ExpenseFilterActions.changeTagsFilter({tags: this.selectedTags.value}));
   }
   
   onAdd() {
@@ -81,7 +78,8 @@ export class ExpensesFilterComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.initializeSubscription.unsubscribe();
-    this.expenseFilterSubscription.unsubscribe();
+    this.reasonsSubscription.unsubscribe();
+    this.monthSubscription.unsubscribe();
+    this.tagsSubscription.unsubscribe();
   }
 }

@@ -9,42 +9,47 @@ export const isLoadingExpenseFilter = createSelector(
     expenseFilterState => expenseFilterState.isLoading
 );
 
-export const utilizedTags = createSelector(
-    selectExpenseFilterState,
-    expenseFilterState => expenseFilterState.utilizedTags
-);
-
-export const utilizedMonths = createSelector(
-    selectExpenseFilterState,
-    expenseFilterState => expenseFilterState.utilizedMonths
-);
-
-export const utilizedReasons = createSelector(
-    selectExpenseFilterState,
-    expenseFilterState => expenseFilterState.utilizedReasons
-);
-
-export const filteredTags = createSelector(
-    selectExpenseFilterState,
-    expenseFilterState => expenseFilterState.filteredTags
-);
-
-export const filteredMonth = createSelector(
-    selectExpenseFilterState,
-    expenseFilterState => expenseFilterState.filteredMonth
-);
-
-export const filteredReasons = createSelector(
-    selectExpenseFilterState,
-    expenseFilterState => expenseFilterState.filteredReasons
-);
-
-export const utilizedCurrencies = createSelector(
+export const getCurrencies = createSelector(
     selectExpenseFilterState,
     expenseFilterState => expenseFilterState.currencies
 );
 
-export const isI = createSelector(
+export const getUtilizedTags = createSelector(
+    selectExpenseFilterState,
+    expenseFilterState => expenseFilterState.utilizedTags
+);
+
+export const getUtilizedMonths = createSelector(
+    selectExpenseFilterState,
+    expenseFilterState => expenseFilterState.utilizedMonths
+);
+
+export const getUtilizedReasons = createSelector(
+    selectExpenseFilterState,
+    expenseFilterState => expenseFilterState.utilizedReasons
+);
+
+export const getFilteredTags = createSelector(
+    selectExpenseFilterState,
+    expenseFilterState => expenseFilterState.filteredTags
+);
+
+export const getFilteredMonth = createSelector(
+    selectExpenseFilterState,
+    expenseFilterState => expenseFilterState.filteredMonth
+);
+
+export const getFilteredReasons = createSelector(
+    selectExpenseFilterState,
+    expenseFilterState => expenseFilterState.filteredReasons
+);
+
+export const getUtilizedCurrencies = createSelector(
+    selectExpenseFilterState,
+    expenseFilterState => expenseFilterState.currencies
+);
+
+export const isInitialize = createSelector(
     selectExpenseFilterState,
     expenseFilterState => expenseFilterState.isInitialize
 );

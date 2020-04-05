@@ -7,14 +7,12 @@ import { Observable, Subscription, of } from 'rxjs';
 import { map, startWith, tap } from 'rxjs/operators';
 import { MatSnackBar, MatChipInputEvent } from '@angular/material';
 import { Store, select } from '@ngrx/store';
-import { Expense } from '../model/Expense';
 import { ExpenseActions } from '../action-types';
 import { ExpenseFilterActions } from '../expenseOverview/expenses-filter/stateManagement/action-types';
-import { defaultExpense } from '../model/expense.defaultdata';
 import { GreaterThanZeroValidator } from 'src/app/commons/services/greaterThanZeroValidator';
 import { AppState } from 'src/app/reducers/app.reducers';
 import { getActualExpense, isEditMode, isLoadingExpenses } from '../expense.selectors';
-import { ValueConverter } from '@angular/compiler/src/render3/view/template';
+import { getUtilizedTags, getCurrencies } from '../expenseOverview/expenses-filter/stateManagement/expense-filter.selectors'
 
 @Component({
   selector: 'expenseTracker-edit',
@@ -47,7 +45,7 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
   filteredTags: Observable<string[]>;
   predefinedTags: string[];
   selectedTags: string[];
-  currencies: string[];
+  currencies$: Observable<string[]>;
 
   @ViewChild('tagInput', {static: false}) tagInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto', {static: false}) matAutocomplete: MatAutocomplete;
@@ -56,7 +54,7 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
   mode: string = "";
   isEditMode: boolean;
   isLoading$: Observable<boolean> = of(false);
-  expenseFilterSubscription: Subscription;
+  tagsSubscription: Subscription;
   expenseSubscription: Subscription;
   isEditModeSubscription: Subscription;
 
@@ -70,9 +68,9 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this. expenseFilterSubscription = this.store.select('expenseFilter')
-      .subscribe(expenseFilterState =>  {this.predefinedTags = expenseFilterState.utilizedTags;
-                                        this.currencies = expenseFilterState.currencies});
+    this.tagsSubscription = this.store.pipe(select(getUtilizedTags))
+      .pipe(tap(tags => this.predefinedTags = tags)).subscribe();
+    this.currencies$ = this.store.pipe(select(getCurrencies)); 
     if (this.predefinedTags.length === 0) {
       this.store.dispatch(ExpenseActions.loadExpenseList());
       this.store.dispatch(ExpenseFilterActions.loadUtilizedValues());
@@ -131,10 +129,11 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
     this.expenseForm.get('tags').setValue(null);
   }
 
-  private _filter(tagName: string): string[] {
-    var filterValue = tagName.toLowerCase();
-
-    return this.predefinedTags.filter(tag => tag.toLowerCase().indexOf(filterValue) === 0);
+  private _filter(tagName: any): string[] {
+    if (tagName instanceof String) {
+      var filterValue = tagName.toLowerCase();
+      return this.predefinedTags.filter(tag => tag.toLowerCase().indexOf(filterValue) === 0);
+    }
   }
 
   onSubmit() {
@@ -175,7 +174,7 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.expenseFilterSubscription.unsubscribe();
+    this.tagsSubscription.unsubscribe();
     this.expenseSubscription.unsubscribe();
     this.isEditModeSubscription.unsubscribe();
   }

@@ -1,5 +1,5 @@
 import { Component, OnInit , ViewChild, ElementRef, OnDestroy } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { Expense } from '../model/Expense';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
@@ -7,11 +7,14 @@ import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material';
 import { ResponsiveDesignService } from 'src/app/commons/services/responsive-design.service';
 import { ExpenseService } from '../services/expense-service.service';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable, of } from 'rxjs';
 import { AppState } from 'src/app/reducers/app.reducers';
-import { ExpenseState } from '../reducers/expense.reducers';
 import { loadExpenseList, openAddForm } from '../expense.actions';
 import { ContextMenuComponent } from 'src/app/commons/context-menu/context-menu.component';
+import { getExpenseTableSource, getTotalSum, isLoadingExpenses } from '../expense.selectors';
+import { Money } from '../model/Money';
+import { isLoadingExpenseFilter, isInitialize } from './expenses-filter/stateManagement/expense-filter.selectors';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'expenseTracker-overview',
@@ -23,11 +26,11 @@ export class ExpenseOverviewComponent implements OnInit, OnDestroy {
   reasons = new FormControl();
   displayedColumns: string[] = ["id", "value", "reason", "date", "originalAmount", "exchangeRate", "tag", "more"];
   expenses: MatTableDataSource<Expense>;
-  totalSum: number;
+  totalSum$: Observable<Money>;
   expenseSubscription: Subscription;
-  expenseFilterSubscription: Subscription;
-  isLoadingExpenses: boolean = false;
-  isLoadingExpensesFilter: boolean = false;
+  intizalizingSubscription: Subscription;
+  isLoadingExpenses$: Observable<boolean> = of(false);
+  isLoadingExpensesFilter$: Observable<boolean> = of(false);
   
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   
@@ -38,23 +41,20 @@ export class ExpenseOverviewComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initializeExpenseListOnce();
-    this.expenseSubscription = this.store.select('expense').subscribe(
-      (expenseState: ExpenseState) => {
-        this.expenses = new MatTableDataSource(expenseState.expenses);
-        this.totalSum = expenseState.totalSum.value;
-        this.isLoadingExpenses = expenseState.isLoading;
-      });
+    this.expenseSubscription = this.store.pipe(select(getExpenseTableSource))
+      .pipe(tap(dataSource => this.expenses = dataSource)).subscribe();
+    this.totalSum$ = this.store.pipe(select(getTotalSum));
+    this.isLoadingExpenses$ = this.store.pipe(select(isLoadingExpenses));
     this.enableTableSorting();
   }
 
   private initializeExpenseListOnce() {
-    let isInitialize: boolean;
-    this.expenseFilterSubscription = this.store.select('expenseFilter')
-      .subscribe(state => {isInitialize = state.isInitialize;
-                           this.isLoadingExpensesFilter = state.isLoading;});
-    if (isInitialize) {
-      this.store.dispatch(loadExpenseList());
-    }
+    this.isLoadingExpensesFilter$ = this.store.pipe(select(isLoadingExpenseFilter));
+    this.intizalizingSubscription = this.store.pipe(select(isInitialize))
+      .pipe(tap(isInitialize =>  {if (isInitialize) {
+        this.store.dispatch(loadExpenseList());
+      }})).subscribe();
+    this.intizalizingSubscription.unsubscribe();
   }
 
   private enableTableSorting() {
@@ -89,7 +89,6 @@ export class ExpenseOverviewComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.expenseSubscription.unsubscribe();
-    this.expenseFilterSubscription.unsubscribe();
   }
 
 }
