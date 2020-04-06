@@ -40,21 +40,12 @@ export class ExpenseOverviewComponent implements OnInit, OnDestroy {
               private expenseService: ExpenseService) {}
 
   ngOnInit() {
-    this.initializeExpenseListOnce();
+    this.isLoadingExpensesFilter$ = this.store.pipe(select(isLoadingExpenseFilter));
     this.expenseSubscription = this.store.pipe(select(getExpenseTableSource))
       .pipe(tap(dataSource => this.expenses = dataSource)).subscribe();
     this.totalSum$ = this.store.pipe(select(getTotalSum));
     this.isLoadingExpenses$ = this.store.pipe(select(isLoadingExpenses));
     this.enableTableSorting();
-  }
-
-  private initializeExpenseListOnce() {
-    this.isLoadingExpensesFilter$ = this.store.pipe(select(isLoadingExpenseFilter));
-    this.intizalizingSubscription = this.store.pipe(select(isInitialize))
-      .pipe(tap(isInitialize =>  {if (isInitialize) {
-        this.store.dispatch(loadExpenseList());
-      }})).subscribe();
-    this.intizalizingSubscription.unsubscribe();
   }
 
   private enableTableSorting() {

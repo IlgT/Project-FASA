@@ -23,9 +23,16 @@ import { ExpenseEffects } from './expenseTracker/expense.effects';
 import { appReducers } from './reducers/app.reducers';
 import { ContextMenuComponent } from './commons/context-menu/context-menu.component';
 import { NoMistakeComponent } from './commons/no-mistake/no-mistake.component';
+import { ExpenseResolver } from './expenseTracker/expense.resolver';
 
 const appRoutes: Routes = [
-  { path: 'expenses', component: ExpenseOverviewComponent },
+  {
+    path: 'expenses',
+    component: ExpenseOverviewComponent,
+    resolve: {
+      expenses: ExpenseResolver
+    }
+  },
   { path: 'expense', component: EditExpenseComponent },
   { path: '', redirectTo: '/expenses', pathMatch: 'full'},
   { path: '404', component: PageNotFoundComponent },
@@ -98,7 +105,8 @@ export const customCurrencyMaskConfig = {
   ],
   providers: [
     {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: 
-      {duration: 1500,  panelClass: ['success-snackbar']}}
+      {duration: 1500,  panelClass: ['success-snackbar']}},
+    ExpenseResolver
   ],
   bootstrap: [AppComponent]
 })

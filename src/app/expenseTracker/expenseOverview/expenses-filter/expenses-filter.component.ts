@@ -38,7 +38,6 @@ export class ExpensesFilterComponent implements OnInit, OnDestroy {
               private store: Store<AppState>) {}
 
   ngOnInit() {
-    this.initializePossibleFiltersOnce();
     this.reasonsSubscription = this.store.pipe(select(getFilteredReasons))
       .pipe(tap(filteredReasons => this.selectedReasons.setValue(filteredReasons)))
       .subscribe();
@@ -51,14 +50,6 @@ export class ExpensesFilterComponent implements OnInit, OnDestroy {
     this.utilizedReasons$ = this.store.pipe(select(getUtilizedReasons));
     this.utilizedMonths$ = this.store.pipe(select(getUtilizedMonths));
     this.utilizedTags$ = this.store.pipe(select(getUtilizedTags));
-  }
-
-  private initializePossibleFiltersOnce() {
-    this.initializeSubscription = this.store.pipe(select(isInitialize))
-      .pipe(tap(isInitialize =>  {if (isInitialize) {
-        this.store.dispatch(ExpenseFilterActions.loadUtilizedValues());
-      }})).subscribe();
-      this.initializeSubscription.unsubscribe();
   }
 
   onReasonsChange(event: MatSelectChange) {
