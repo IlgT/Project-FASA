@@ -13,6 +13,7 @@ import { GreaterThanZeroValidator } from 'src/app/commons/services/greaterThanZe
 import { AppState } from 'src/app/reducers/app.reducers';
 import { getActualExpense, isEditMode, isLoadingExpenses } from '../expense.selectors';
 import { getUtilizedTags, getCurrencies } from '../expenseOverview/expenses-filter/stateManagement/expense-filter.selectors'
+import { ExpenseService } from '../services/expense-service.service';
 
 @Component({
   selector: 'expenseTracker-edit',
@@ -61,7 +62,8 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
   constructor(private store: Store<AppState>,
               private router: Router,
               private _snackBar: MatSnackBar,
-              private formBuilder: FormBuilder) {
+              private formBuilder: FormBuilder,
+              private expenseService: ExpenseService) {
     this.filteredTags = this.expenseForm.get('tags').valueChanges.pipe(
         startWith(null),
         map((tagName: string | null) => tagName ? this._filter(tagName) : this.predefinedTags.slice()));
@@ -84,7 +86,7 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
     this.isEditModeSubscription = this.store.pipe(select(isEditMode))
       .subscribe(isEditMode => this.isEditMode = isEditMode);
     this.isLoading$ = this.store.pipe(select(isLoadingExpenses));
-    if (isEditMode) {
+    if (this.isEditMode) {
         this.mode = "Überarbeiten";
       } else {
         this.mode = "Hinzufügen";
@@ -137,26 +139,42 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    if (this.isEditMode) {
-      this.store.dispatch(ExpenseActions.modifyExpense({expense: {...this.expenseForm.value,
-                                                                  tags: this.selectedTags}}));
-    } else {
-      this.store.dispatch(ExpenseActions.addExpense({expense: {...this.expenseForm.value,
-                                                                tags: this.selectedTags}}));
-    }
-    this.router.navigate(['/expenses']);
+    var expense = {...this.expenseForm.value,
+                   tags: this.selectedTags,
+                   amount: {
+                    ...this.expenseForm.value.amount,
+                    value: null
+                    },
+                    exchangeRate: null};
+    this.router.navigateByUrl('/expenses');
+    //Ensure thate routing is happening before HTTP-Call
+    setTimeout(() => {
+      if (this.isEditMode) {
+        if (this.expenseService.isMatchingFilters(expense)) {
+          this.store.dispatch(ExpenseActions.optimisticModifyExpense({expense: {id: expense.id,
+                                                                                changes: expense}}));
+        } else {
+          this.store.dispatch(ExpenseActions.pesimisticModifyExpense({expense: expense}));
+        }
+      } else {
+        this.store.dispatch(ExpenseActions.addExpense({expense: expense}));
+      }
+    }, 0);
   }
-
+  
   resetTags() {
     this.selectedTags = [];
   }
 
   onReset() {
+    var id : number = null;
     if (this.isEditMode) {
+      id = this.expenseForm.get('id').value;
       this.store.dispatch(ExpenseActions.resetModifyForm());
     } else {
       this.store.dispatch(ExpenseActions.resetAddForm());
     }
+    this.expenseForm.reset({id: id, originalAmount: {value: 0, currency: 'EUR'}});
     this.resetingSnackBar();
   }
 

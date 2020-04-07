@@ -99,23 +99,23 @@ export const  expenseReducer = createReducer(
                             id: state.actualExpenseId}
         };
     }),
-    on(ExpenseActions.modifyExpense, (state, action) => {
-        const modifiedExpense = {
-            ...state.actualExpense,
-            ...action.expense,
-            amount: {
-                ...state.actualExpense.amount,
-                value: null
-            },
-            exchangeRate: null
-        };
-
+    on(ExpenseActions.pesimisticModifyExpense, (state, action) => {
         return {
             ...state,
-            actualExpense: modifiedExpense,
+            actualExpense: action.expense,
             isLoading: true
         };
     }),
+    on(ExpenseActions.optimisticModifyExpense,
+        (state, action) => expenseAdapter.updateOne(
+            action.expense,
+            {
+                ...state,
+                actualExpense: {...state.actualExpense,
+                                ...action.expense.changes},
+            }
+        )
+    ),
     on(ExpenseActions.modifyExpenseSuccess, (state, action) => {
         return {
             ...state,

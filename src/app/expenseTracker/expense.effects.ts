@@ -1,6 +1,6 @@
 import { Actions, ofType, Effect, createEffect } from '@ngrx/effects';
 import { ExpenseService } from './services/expense-service.service';
-import { mergeMap, map, catchError, exhaustMap, tap, switchMap } from 'rxjs/operators';
+import { mergeMap, map, catchError, exhaustMap, tap, switchMap, concatMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { ExpenseActions } from './action-types';
@@ -10,73 +10,61 @@ import { ExpenseFilterActions } from './expenseOverview/expenses-filter/stateMan
 @Injectable()
 export class ExpenseEffects {
     
-    loadExpenseList = createEffect(() => 
+    loadExpenseList$ = createEffect(() => 
         this.actions$.pipe(
             ofType(ExpenseActions.loadExpenseList, ExpenseActions.addExpenseSuccess,
                 ExpenseActions.modifyExpenseSuccess),
-            mergeMap(() => this.expenseService.loadExpenseListByFilter()
-                .pipe(
-                    map(expenses => (ExpenseActions.loadExpenseListSuccess({expenses: expenses}))),
-                    catchError(error => of(ExpenseActions.loadExpenseListFailure({error: error.message})))
-            ))
+            mergeMap(() => this.expenseService.loadExpenseListByFilter()),
+            map(expenses => (ExpenseActions.loadExpenseListSuccess({expenses: expenses}))),
+            catchError(error => of(ExpenseActions.loadExpenseListFailure({error: error.message})))
         ), { resubscribeOnError: false }
     );
 
-    addExpense = createEffect(() => 
+    addExpense$ = createEffect(() => 
         this.actions$.pipe(
             ofType(ExpenseActions.addExpense),
-            mergeMap(() => this.expenseService.addExpense()
-                .pipe(
-                    map(expense => (ExpenseActions.addExpenseSuccess({expense: expense}))),
-                    catchError(error => of(ExpenseActions.addExpenseFailure({error: error.message})))
-            ))
+            mergeMap(() => this.expenseService.addExpense()),
+            map(expense => (ExpenseActions.addExpenseSuccess({expense: expense}))),
+            catchError(error => of(ExpenseActions.addExpenseFailure({error: error.message})))
         ), { resubscribeOnError: false }
     );
 
-    modifyExpense = createEffect(() => 
+    modifyExpense$ = createEffect(() => 
         this.actions$.pipe(
-            ofType(ExpenseActions.modifyExpense),
-            mergeMap(() => this.expenseService.modifyExpense()
-                .pipe(
-                    map(expense => (ExpenseActions.modifyExpenseSuccess({expense: expense}))),
-                    catchError(error => of(ExpenseActions.modifyExpenseFailure({error: error.message})))
-            ))
+            ofType(ExpenseActions.pesimisticModifyExpense,
+                    ExpenseActions.optimisticModifyExpense),
+            concatMap(() => this.expenseService.modifyExpense()),
+            map(expense => (ExpenseActions.modifyExpenseSuccess({expense: expense}))),
+            catchError(error => of(ExpenseActions.modifyExpenseFailure({error: error.message})))
         ), { resubscribeOnError: false }
     );
 
-    deleteExpense = createEffect(() =>
+    deleteExpense$ = createEffect(() =>
         this.actions$.pipe(
             ofType(ExpenseActions.deleteExpense),
-            mergeMap(() => this.expenseService.deleteExpense()
-                .pipe(
-                    map(expense => (ExpenseActions.deleteExpenseSuccess)),
-                    catchError(error => of(ExpenseActions.deleteExpenseFailure({error: error.message})))
-            ))
+            mergeMap(() => this.expenseService.deleteExpense()),
+            map(expense => (ExpenseActions.deleteExpenseSuccess)),
+            catchError(error => of(ExpenseActions.deleteExpenseFailure({error: error.message})))
         ), { resubscribeOnError: false }
     );
 
-    filterExpenseList = createEffect(() =>
+    filterExpenseList$ = createEffect(() =>
         this.actions$.pipe(
             ofType( ExpenseFilterActions.changeReasonsFilter,
                 ExpenseFilterActions.changeMonthFilter,
                 ExpenseFilterActions.changeTagsFilter),
-            mergeMap(() => this.expenseService.loadExpenseListByFilter()
-                .pipe(
-                    map(expenses => (ExpenseActions.loadExpenseListSuccess({expenses: expenses}))),
-                    catchError(error => of(ExpenseActions.loadExpenseListFailure({error: error.message})))
-            ))
+            mergeMap(() => this.expenseService.loadExpenseListByFilter()),
+            map(expenses => (ExpenseActions.loadExpenseListSuccess({expenses: expenses}))),
+            catchError(error => of(ExpenseActions.loadExpenseListFailure({error: error.message})))
         ), { resubscribeOnError: false }
     );
 
-    loadUtiliziedValues = createEffect(() => 
+    loadUtiliziedValues$ = createEffect(() => 
         this.actions$.pipe(
             ofType( ExpenseFilterActions.loadUtilizedValues),
-            mergeMap(() => this.expenseService.loadUtilizedValuesForFilter()
-                .pipe(
-                    map(expenseFilters => (ExpenseFilterActions.loadUtilizedValuesSuccess({utilizedFilter: expenseFilters}))),
-                    catchError(error => of(ExpenseFilterActions.loadUtilizedValuesFailure({error: error.message})))
-                )
-            )
+            mergeMap(() => this.expenseService.loadUtilizedValuesForFilter()),
+            map(expenseFilters => (ExpenseFilterActions.loadUtilizedValuesSuccess({utilizedFilter: expenseFilters}))),
+            catchError(error => of(ExpenseFilterActions.loadUtilizedValuesFailure({error: error.message})))
         ), { resubscribeOnError: false }
     );
 
@@ -84,11 +72,9 @@ export class ExpenseEffects {
         this.actions$.pipe(
             ofType(ExpenseActions.addExpenseSuccess, ExpenseActions.modifyExpenseSuccess),
             mergeMap((action: {expense: Expense}) =>
-                this.expenseService.updateUtilizedValuesDueToExpensesChange(action.expense)
-                .pipe( 
-                    map(filters => (ExpenseFilterActions.updateFilterSuccess({utilizedFilter: filters}))),
-                    catchError(error => of(ExpenseFilterActions.updateFilterFailure({error: error.message})))
-            ))
+                this.expenseService.updateUtilizedValuesDueToExpensesChange(action.expense)),
+            map(filters => (ExpenseFilterActions.updateFilterSuccess({utilizedFilter: filters}))),
+            catchError(error => of(ExpenseFilterActions.updateFilterFailure({error: error.message})))
         ), { resubscribeOnError: false }
     );
 

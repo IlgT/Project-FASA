@@ -5,13 +5,15 @@ import { Observable, of } from 'rxjs';
 import { Expense } from '../model/Expense';
 import { EXPENSES } from '../model/expense.testdata';
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material';
-import { map } from 'rxjs/operators';
+import { map, tap, delay } from 'rxjs/operators';
 import { FilterSearch } from '../model/FilterSearch';
 import { UtilizedFilter } from '../model/UtilizedFilter';
 import { AppState } from 'src/app/reducers/app.reducers';
 import { ExpenseState } from '../reducers/expense.reducers';
 import { ExpenseActions } from '../action-types';
 import { selectAllExpenses } from '../expense.selectors';
+import { getFilteredMonth, getFilteredTags, getFilteredReasons } from '../expenseOverview/expenses-filter/stateManagement/expense-filter.selectors';
+import { async } from '@angular/core/testing';
 
 @Injectable({
   providedIn: 'root'
@@ -37,9 +39,30 @@ export class ExpenseService {
     let expense: Expense;
     this.store.select('expense').subscribe(
       (expenseState: ExpenseState) => {
-        expense = expenseState.actualExpense;
-      }).unsubscribe();
+        expense = expenseState.actualExpense}).unsubscribe();
     return of(expense);
+  }
+
+  isMatchingFilters(expense: Expense) : boolean {
+    var isMatching = true;
+    this.store.pipe(select(getFilteredMonth))
+      .pipe(tap(filteredMonth => {
+        if(filteredMonth !== +expense.date.substring(5, 7))
+          isMatching = isMatching && false;
+      })).subscribe().unsubscribe();
+    this.store.pipe(select(getFilteredReasons))
+      .pipe(tap(reasons => {
+        if(reasons.length !== 0
+          && !reasons.includes(this.capitalize(expense.reason.toLowerCase())))
+          isMatching = isMatching && false;
+      })).subscribe().unsubscribe();
+    this.store.pipe(select(getFilteredTags))
+        .pipe(tap(tags => {
+          if(tags.length !== 0
+            && tags.filter(tag => expense.tags.includes(tag)).length === 0)
+            isMatching = isMatching && false;
+        })).subscribe().unsubscribe();
+    return isMatching;
   }
 
   deleteExpense(): Observable<Expense> {

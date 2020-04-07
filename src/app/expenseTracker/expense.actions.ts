@@ -56,8 +56,13 @@ export const modifyExpenseCanceled = createAction(
     '[ExpenseTracker] Modify expense was canceled'
 );
 
-export const modifyExpense = createAction(
-    '[ExpenseTracker] Modify expense',
+export const pesimisticModifyExpense = createAction(
+    '[ExpenseTracker] Pesimistic Modify expense',
+    props<{expense: Expense}>()
+);
+
+export const optimisticModifyExpense = createAction(
+    '[ExpenseTracker] Optimistic Modify expense',
     props<{expense: Update<Expense>}>()
 );
 
