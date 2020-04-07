@@ -6,7 +6,6 @@ import { on, createReducer } from '@ngrx/store';
 import { EntityState, createEntityAdapter } from '@ngrx/entity';
 
 export interface ExpenseState extends EntityState<Expense> {
-    totalSum: Money;
     actualExpense: Expense | null;
     actualExpenseId: number | null;
     isLoading: boolean;
@@ -18,10 +17,6 @@ export const expenseAdapter = createEntityAdapter<Expense>({
 });
 
 export const initialExpenseState = expenseAdapter.getInitialState({
-    totalSum: {
-        value: 0.00,
-        currency: 'EUR'
-    },
     actualExpense: defaultExpense,
     actualExpenseId: null,
     isLoading: false,
@@ -37,15 +32,11 @@ export const  expenseReducer = createReducer(
         }
     }),
     on(ExpenseActions.loadExpenseListSuccess, (state, action) => {
-        var newTotalSumValue: number = action.expenses.map(expense => expense.amount.value)
-            .reduce((acc, value) => acc + value, 0);
             expenseAdapter.removeAll(state);
             return expenseAdapter.addAll(
                 action.expenses,
                 {
                 ...state,
-                totalSum: {...state.totalSum,
-                            value: newTotalSumValue},
                 isLoading: false
             })
     }),
@@ -145,17 +136,10 @@ export const  expenseReducer = createReducer(
         };
     }),
     on(ExpenseActions.deleteExpense,
-        (state, action) => {
-            var newTotalSumValue: number = state.totalSum.value - state.actualExpense.amount.value;
-    
-            return expenseAdapter.removeOne(
+        (state, action) => expenseAdapter.removeOne(
                 state.actualExpenseId,
-                {
-                ...state,
-                totalSum: {...state.totalSum,
-                            value: newTotalSumValue}
-        })
-    }),
+                state)
+    ),
     on(ExpenseActions.deleteExpenseSuccess,
         (state, action) => {
         return {

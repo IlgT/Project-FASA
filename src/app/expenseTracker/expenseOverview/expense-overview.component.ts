@@ -42,8 +42,14 @@ export class ExpenseOverviewComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.isLoadingExpensesFilter$ = this.store.pipe(select(isLoadingExpenseFilter));
     this.expenseSubscription = this.store.pipe(select(selectAllExpenses))
-      .pipe(tap(dataSource => this.expenses = new MatTableDataSource(dataSource))).subscribe();
-    this.totalSum$ = this.store.pipe(select(getTotalSum));
+      .pipe(tap((dataSource: Expense[]) => {
+        var filteredExpense = dataSource.filter(expense => this.expenseService.isMatchingFilters(expense));
+        this.expenses = new MatTableDataSource(filteredExpense);
+        var totalSumValue = filteredExpense.map(expense => expense.amount.value)
+          .reduce((acc, value) => acc + value, 0);
+        this.totalSum$ = of({value: totalSumValue,
+                             currency: 'EUR'});
+      })).subscribe();
     this.isLoadingExpenses$ = this.store.pipe(select(isLoadingExpenses));
     this.enableTableSorting();
   }
