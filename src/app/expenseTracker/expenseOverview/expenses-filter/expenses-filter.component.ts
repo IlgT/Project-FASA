@@ -7,7 +7,7 @@ import { MatSelectChange } from '@angular/material';
 import { Subscription, Observable } from 'rxjs';
 import { AppState } from 'src/app/reducers/app.reducers';
 import { openAddForm } from '../../expense.actions';
-import { tap } from 'rxjs/operators';
+import { tap, map } from 'rxjs/operators';
 import { isInitialize, getFilteredReasons, getFilteredMonth, getFilteredTags, getUtilizedReasons, getUtilizedMonths, getUtilizedTags } from './stateManagement/expense-filter.selectors';
 
 @Component({
@@ -48,7 +48,11 @@ export class ExpensesFilterComponent implements OnInit, OnDestroy {
           .pipe(tap(filteredTags => this.selectedTags.setValue(filteredTags)))
           .subscribe();
     this.utilizedReasons$ = this.store.pipe(select(getUtilizedReasons));
-    this.utilizedMonths$ = this.store.pipe(select(getUtilizedMonths));
+    this.utilizedMonths$ = this.store.pipe(select(getUtilizedMonths))
+      .pipe(map(months => {var acutalMonths = [];
+        for(let month of months){
+          acutalMonths.push(month-1);
+        }return acutalMonths}));
     this.utilizedTags$ = this.store.pipe(select(getUtilizedTags));
   }
 
