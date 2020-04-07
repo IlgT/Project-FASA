@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import * as ExpenseFilterActions from '../expenseOverview/expenses-filter/stateManagement/expense-filter.actions';
 import { Observable, of } from 'rxjs';
 import { Expense } from '../model/Expense';
@@ -11,6 +11,7 @@ import { UtilizedFilter } from '../model/UtilizedFilter';
 import { AppState } from 'src/app/reducers/app.reducers';
 import { ExpenseState } from '../reducers/expense.reducers';
 import { ExpenseActions } from '../action-types';
+import { selectAllExpenses } from '../expense.selectors';
 
 @Injectable({
   providedIn: 'root'
@@ -61,8 +62,8 @@ export class ExpenseService {
     }
 
     let expenses: Expense[];
-    this.store.select('expense')
-      .subscribe(expenseState => expenses = expenseState.expenses).unsubscribe();
+    this.store.pipe(select(selectAllExpenses))
+      .subscribe(storeExpenses => expenses = storeExpenses).unsubscribe();
 
     for (let expense of expenses) {
       if (filters.reasons

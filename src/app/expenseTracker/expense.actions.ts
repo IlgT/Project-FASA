@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { Expense } from './model/Expense';
+import { Update } from '@ngrx/entity';
 
 export const loadExpenseList = createAction(
     '[ExpenseTracker] Load expense list'
@@ -44,7 +45,7 @@ export const addExpenseFailure = createAction(
 
 export const openModifyForm = createAction(
     '[ExpenseTracker] Open form in modify mode',
-    props<{index: number}>()
+    props<{id: number}>()
 );
 
 export const resetModifyForm = createAction(
@@ -57,7 +58,7 @@ export const modifyExpenseCanceled = createAction(
 
 export const modifyExpense = createAction(
     '[ExpenseTracker] Modify expense',
-    props<{expense: Expense}>()
+    props<{expense: Update<Expense>}>()
 );
 
 export const modifyExpenseSuccess = createAction(
@@ -72,7 +73,7 @@ export const modifyExpenseFailure = createAction(
 
 export const openDeleteDialog = createAction(
     '[ExpenseTracker] Open deleting expense dialog',
-    props<{index: number}>()
+    props<{id: number}>()
 );
 
 export const deleteExpenseCanceled = createAction(

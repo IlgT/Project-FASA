@@ -1,9 +1,14 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { ExpenseState } from './reducers/expense.reducers';
+import { ExpenseState, selectAll } from './reducers/expense.reducers';
 import { MatTableDataSource } from '@angular/material';
 
 export const selectExpenseState =
     createFeatureSelector<ExpenseState>("expense");
+
+export const selectAllExpenses = createSelector(
+    selectExpenseState,
+    selectAll
+);
 
 export const isLoadingExpenses = createSelector(
     selectExpenseState,
@@ -17,7 +22,7 @@ export const getActualExpense = createSelector(
 
 export const isEditMode = createSelector(
     selectExpenseState,
-    expenseState => expenseState.actualExpenseIndex > -1
+    expenseState => expenseState.actualExpenseId !== null
 );
 
 export const getTotalSum = createSelector(
@@ -25,19 +30,14 @@ export const getTotalSum = createSelector(
     expenseState => expenseState.totalSum
 );
 
-export const getExpenseTableSource = createSelector(
-    selectExpenseState,
-    expenseState => new MatTableDataSource(expenseState.expenses)
-);
-
 export const getExpenseNoMistakeTitle = createSelector(
     selectExpenseState,
     expenseState => {var title = '';
-                        title += expenseState.expenses[this.data.index].id;
+                        title += expenseState.actualExpenseId;
                         title += " - ";
-                        title += expenseState.expenses[this.data.index].reason;
+                        title += expenseState.entities[expenseState.actualExpenseId].reason;
                         title += " im Wert von ";
-                        title += expenseState.expenses[this.data.index].amount.value;
-                        title += expenseState.expenses[this.data.index].amount.currency
+                        title += expenseState.entities[expenseState.actualExpenseId].amount.value;
+                        title += expenseState.entities[expenseState.actualExpenseId].amount.currency
                         return title;}
 );

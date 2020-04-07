@@ -11,7 +11,7 @@ import { Subscription, Observable, of } from 'rxjs';
 import { AppState } from 'src/app/reducers/app.reducers';
 import { loadExpenseList, openAddForm } from '../expense.actions';
 import { ContextMenuComponent } from 'src/app/commons/context-menu/context-menu.component';
-import { getExpenseTableSource, getTotalSum, isLoadingExpenses } from '../expense.selectors';
+import { getTotalSum, isLoadingExpenses, selectAllExpenses } from '../expense.selectors';
 import { Money } from '../model/Money';
 import { isLoadingExpenseFilter, isInitialize } from './expenses-filter/stateManagement/expense-filter.selectors';
 import { tap } from 'rxjs/operators';
@@ -41,8 +41,8 @@ export class ExpenseOverviewComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isLoadingExpensesFilter$ = this.store.pipe(select(isLoadingExpenseFilter));
-    this.expenseSubscription = this.store.pipe(select(getExpenseTableSource))
-      .pipe(tap(dataSource => this.expenses = dataSource)).subscribe();
+    this.expenseSubscription = this.store.pipe(select(selectAllExpenses))
+      .pipe(tap(dataSource => this.expenses = new MatTableDataSource(dataSource))).subscribe();
     this.totalSum$ = this.store.pipe(select(getTotalSum));
     this.isLoadingExpenses$ = this.store.pipe(select(isLoadingExpenses));
     this.enableTableSorting();
@@ -60,12 +60,12 @@ export class ExpenseOverviewComponent implements OnInit, OnDestroy {
     this.expenses.sort = this.sort;
   }
 
-  onShowDialog(event: MouseEvent, index: number): void {
+  onShowDialog(event: MouseEvent, id: number): void {
     const target = new ElementRef(event.currentTarget);
     const dialogRef = this._matDialog.open(ContextMenuComponent, {
       data: {
         trigger: target,
-        index: index
+        id: id
       }
     });
   }

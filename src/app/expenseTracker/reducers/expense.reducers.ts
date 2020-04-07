@@ -1,29 +1,32 @@
-import { Expense } from '../model/Expense';
+import { Expense, compareExpenses } from '../model/Expense';
 import { Money } from '../model/Money';
 import { defaultExpense } from '../model/expense.defaultdata';
 import { ExpenseActions } from '../action-types';
 import { on, createReducer } from '@ngrx/store';
+import { EntityState, createEntityAdapter } from '@ngrx/entity';
 
-export interface ExpenseState {
-    expenses: Expense[];
+export interface ExpenseState extends EntityState<Expense> {
     totalSum: Money;
     actualExpense: Expense | null;
-    actualExpenseIndex: number;
+    actualExpenseId: number | null;
     isLoading: boolean;
     errorMessage: string | null;
-  }
+}
 
-export const initialExpenseState: ExpenseState = {
-    expenses: [],
+export const expenseAdapter = createEntityAdapter<Expense>({
+    sortComparer: compareExpenses
+});
+
+export const initialExpenseState = expenseAdapter.getInitialState({
     totalSum: {
         value: 0.00,
         currency: 'EUR'
     },
     actualExpense: defaultExpense,
-    actualExpenseIndex: -1,
+    actualExpenseId: null,
     isLoading: false,
     errorMessage: null
-}
+});
 
 export const  expenseReducer = createReducer(
     initialExpenseState,
@@ -35,14 +38,16 @@ export const  expenseReducer = createReducer(
     }),
     on(ExpenseActions.loadExpenseListSuccess, (state, action) => {
         var newTotalSumValue: number = action.expenses.map(expense => expense.amount.value)
-            .reduce((acc, value) => acc + value, 0)
-            return {
+            .reduce((acc, value) => acc + value, 0);
+            expenseAdapter.removeAll(state);
+            return expenseAdapter.addAll(
+                action.expenses,
+                {
                 ...state,
-                expenses: action.expenses,
                 totalSum: {...state.totalSum,
                             value: newTotalSumValue},
                 isLoading: false
-            };
+            })
     }),
     on(ExpenseActions.loadExpenseListFailure, (state, action) => {
         return {
@@ -54,7 +59,8 @@ export const  expenseReducer = createReducer(
     on(ExpenseActions.openAddForm, ExpenseActions.resetAddForm, (state, action) => {
         return {
             ...state,
-            actualExpense: defaultExpense
+            actualExpense: defaultExpense,
+            actualExpenseId: null
         };
     }),
     on(ExpenseActions.addExpense, (state, action) => {
@@ -63,13 +69,15 @@ export const  expenseReducer = createReducer(
             actualExpense: action.expense
         };
     }),
-    on(ExpenseActions.addExpenseSuccess, (state, action) => {
-        return {
-            ...state,
-            actualExpense: defaultExpense,
-            isLoading: true
-        };
-    }),
+    on(ExpenseActions.addExpenseSuccess,
+        (state, action) => {
+            return {
+                ...state,
+                actualExpense: defaultExpense,
+                isLoading: true
+            }
+        }
+    ),
     on(ExpenseActions.addExpenseFailure, (state, action) => {
         return {
             ...state,
@@ -80,15 +88,15 @@ export const  expenseReducer = createReducer(
     on(ExpenseActions.openModifyForm, ExpenseActions.openDeleteDialog, (state, action) => {
         return {
             ...state,
-            actualExpenseIndex: action.index,
-            actualExpense: { ...state.expenses[action.index] }
+            actualExpenseId: action.id,
+            actualExpense: { ...state.entities[action.id] }
         };
     }),
     on(ExpenseActions.resetModifyForm, (state, action) => {
         return {
             ...state,
             actualExpense: {...defaultExpense,
-                            id: state.expenses[state.actualExpenseIndex].id}
+                            id: state.actualExpenseId}
         };
     }),
     on(ExpenseActions.modifyExpense, (state, action) => {
@@ -105,23 +113,15 @@ export const  expenseReducer = createReducer(
         return {
             ...state,
             actualExpense: modifiedExpense,
+            isLoading: true
         };
     }),
     on(ExpenseActions.modifyExpenseSuccess, (state, action) => {
-        var updatedExpenses: Expense[] = [...state.expenses];
-            updatedExpenses[state.actualExpenseIndex] = action.expense;
-        var newTotalSumValue: number = updatedExpenses.map(expense => expense.amount.value)
-            .reduce((acc, value) => acc + value, 0);
-
         return {
             ...state,
-            totalSum: {
-                ...state.totalSum,
-                value: newTotalSumValue
-            },
-            expenses: updatedExpenses,
             actualExpense: defaultExpense,
-            actualExpenseIndex: -1
+            actualExpenseId: null,
+            isLoading: true
         };
     }),
     on(ExpenseActions.modifyExpenseFailure,
@@ -130,7 +130,7 @@ export const  expenseReducer = createReducer(
         return {
             ...state,
             actualExpense: defaultExpense,
-            actualExpenseIndex: -1,
+            actualExpenseId: null,
             errorMessage: action.error
         };
     }),
@@ -141,29 +141,31 @@ export const  expenseReducer = createReducer(
         return {
             ...state,
             actualExpense: defaultExpense,
-            actualExpenseIndex: -1,
+            actualExpenseId: null,
         };
     }),
     on(ExpenseActions.deleteExpense,
         (state, action) => {
-        return {
-            ...state
-        };
+            var newTotalSumValue: number = state.totalSum.value - state.actualExpense.amount.value;
+    
+            return expenseAdapter.removeOne(
+                state.actualExpenseId,
+                {
+                ...state,
+                totalSum: {...state.totalSum,
+                            value: newTotalSumValue}
+        })
     }),
     on(ExpenseActions.deleteExpenseSuccess,
         (state, action) => {
-        var updatedExpenses: Expense[] = state.expenses.filter((expense, expenseIndex) => {
-            return expenseIndex !== state.actualExpenseIndex; });
-        var newTotalSumValue: number = updatedExpenses.map(expense => expense.amount.value)
-            .reduce((acc, value) => acc + value, 0);
-
         return {
             ...state,
-            expenses: updatedExpenses,
-            totalSum: {...state.totalSum,
-                        value: newTotalSumValue},
             actualExpense: defaultExpense,
-            actualExpenseIndex: -1
+            actualExpenseId: null
         };
     })
-)
+);
+
+export const {
+    selectAll
+} = expenseAdapter.getSelectors();

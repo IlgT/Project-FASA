@@ -12,7 +12,8 @@ export class ExpenseEffects {
     
     loadExpenseList = createEffect(() => 
         this.actions$.pipe(
-            ofType(ExpenseActions.loadExpenseList, ExpenseActions.addExpenseSuccess),
+            ofType(ExpenseActions.loadExpenseList, ExpenseActions.addExpenseSuccess,
+                ExpenseActions.modifyExpenseSuccess),
             mergeMap(() => this.expenseService.loadExpenseListByFilter()
                 .pipe(
                     map(expenses => (ExpenseActions.loadExpenseListSuccess({expenses: expenses}))),
