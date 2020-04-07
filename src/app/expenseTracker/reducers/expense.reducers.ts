@@ -90,14 +90,17 @@ export const  expenseReducer = createReducer(
                             id: state.actualExpenseId}
         };
     }),
-    on(ExpenseActions.pesimisticModifyExpense, (state, action) => {
-        return {
+    on(ExpenseActions.removeExpenseToBeModified,
+        (state, action) => expenseAdapter.removeOne(
+            action.expense.id,
+            {
             ...state,
+            actualExpenseId: action.expense.id,
             actualExpense: action.expense,
-            isLoading: true
-        };
-    }),
-    on(ExpenseActions.optimisticModifyExpense,
+            isLoading: false
+        })
+    ),
+    on(ExpenseActions.ModifyExpense,
         (state, action) => expenseAdapter.updateOne(
             action.expense,
             {

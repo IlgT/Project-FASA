@@ -15,7 +15,7 @@ export class ExpenseEffects {
             ofType(ExpenseActions.loadExpenseList, ExpenseActions.addExpenseSuccess,
                 ExpenseActions.modifyExpenseSuccess),
             mergeMap(() => this.expenseService.loadExpenseListByFilter()),
-            map(expenses => (ExpenseActions.loadExpenseListSuccess({expenses: expenses}))),
+            map(expenses => ExpenseActions.loadExpenseListSuccess({expenses: expenses})),
             catchError(error => of(ExpenseActions.loadExpenseListFailure({error: error.message})))
         ), { resubscribeOnError: false }
     );
@@ -24,17 +24,17 @@ export class ExpenseEffects {
         this.actions$.pipe(
             ofType(ExpenseActions.addExpense),
             mergeMap(() => this.expenseService.addExpense()),
-            map(expense => (ExpenseActions.addExpenseSuccess({expense: expense}))),
+            map(expense => ExpenseActions.addExpenseSuccess({expense: expense})),
             catchError(error => of(ExpenseActions.addExpenseFailure({error: error.message})))
         ), { resubscribeOnError: false }
     );
 
     modifyExpense$ = createEffect(() => 
         this.actions$.pipe(
-            ofType(ExpenseActions.pesimisticModifyExpense,
-                    ExpenseActions.optimisticModifyExpense),
+            ofType(ExpenseActions.removeExpenseToBeModified,
+                    ExpenseActions.ModifyExpense),
             concatMap(() => this.expenseService.modifyExpense()),
-            map(expense => (ExpenseActions.modifyExpenseSuccess({expense: expense}))),
+            map(expense => ExpenseActions.modifyExpenseSuccess({expense: expense})),
             catchError(error => of(ExpenseActions.modifyExpenseFailure({error: error.message})))
         ), { resubscribeOnError: false }
     );
@@ -43,7 +43,7 @@ export class ExpenseEffects {
         this.actions$.pipe(
             ofType(ExpenseActions.deleteExpense),
             mergeMap(() => this.expenseService.deleteExpense()),
-            map(expense => (ExpenseActions.deleteExpenseSuccess)),
+            map(expense => ExpenseActions.deleteExpenseSuccess),
             catchError(error => of(ExpenseActions.deleteExpenseFailure({error: error.message})))
         ), { resubscribeOnError: false }
     );
@@ -54,7 +54,7 @@ export class ExpenseEffects {
                 ExpenseFilterActions.changeMonthFilter,
                 ExpenseFilterActions.changeTagsFilter),
             mergeMap(() => this.expenseService.loadExpenseListByFilter()),
-            map(expenses => (ExpenseActions.loadExpenseListSuccess({expenses: expenses}))),
+            map(expenses => ExpenseActions.loadExpenseListSuccess({expenses: expenses})),
             catchError(error => of(ExpenseActions.loadExpenseListFailure({error: error.message})))
         ), { resubscribeOnError: false }
     );
@@ -63,7 +63,7 @@ export class ExpenseEffects {
         this.actions$.pipe(
             ofType( ExpenseFilterActions.loadUtilizedValues),
             mergeMap(() => this.expenseService.loadUtilizedValuesForFilter()),
-            map(expenseFilters => (ExpenseFilterActions.loadUtilizedValuesSuccess({utilizedFilter: expenseFilters}))),
+            map(expenseFilters => ExpenseFilterActions.loadUtilizedValuesSuccess({utilizedFilter: expenseFilters})),
             catchError(error => of(ExpenseFilterActions.loadUtilizedValuesFailure({error: error.message})))
         ), { resubscribeOnError: false }
     );
@@ -73,7 +73,7 @@ export class ExpenseEffects {
             ofType(ExpenseActions.addExpenseSuccess, ExpenseActions.modifyExpenseSuccess),
             mergeMap((action: {expense: Expense}) =>
                 this.expenseService.updateUtilizedValuesDueToExpensesChange(action.expense)),
-            map(filters => (ExpenseFilterActions.updateFilterSuccess({utilizedFilter: filters}))),
+            map(filters => ExpenseFilterActions.updateFilterSuccess({utilizedFilter: filters})),
             catchError(error => of(ExpenseFilterActions.updateFilterFailure({error: error.message})))
         ), { resubscribeOnError: false }
     );

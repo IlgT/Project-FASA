@@ -202,7 +202,9 @@ export class ExpenseService {
   }
   
   private updateUtilizedMonths(updatedUtilizedValues: UtilizedFilter, date: string) {
-    let month: number = +date.substr(6, 2);
+    console.log(date);
+    let month: number = +date.substr(5, 2);
+    console.log(month);
     if (!updatedUtilizedValues.months.includes(month)) {
       updatedUtilizedValues.months.push(month);
     }

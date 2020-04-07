@@ -151,10 +151,10 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       if (this.isEditMode) {
         if (this.expenseService.isMatchingFilters(expense)) {
-          this.store.dispatch(ExpenseActions.optimisticModifyExpense({expense: {id: expense.id,
+          this.store.dispatch(ExpenseActions.ModifyExpense({expense: {id: expense.id,
                                                                                 changes: expense}}));
         } else {
-          this.store.dispatch(ExpenseActions.pesimisticModifyExpense({expense: expense}));
+          this.store.dispatch(ExpenseActions.removeExpenseToBeModified({expense: expense}));
         }
       } else {
         this.store.dispatch(ExpenseActions.addExpense({expense: expense}));
