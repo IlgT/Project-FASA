@@ -110,7 +110,9 @@ export const  expenseReducer = createReducer(
             }
         )
     ),
-    on(ExpenseActions.modifyExpenseSuccess, (state, action) => {
+    on(ExpenseActions.modifyExpenseSuccess,
+        ExpenseActions.modifyExpenseNotMathingFiltersSuccess,
+        (state, action) => {
         return {
             ...state,
             actualExpense: defaultExpense,

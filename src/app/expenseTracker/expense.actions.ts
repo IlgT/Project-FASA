@@ -71,6 +71,11 @@ export const modifyExpenseSuccess = createAction(
     props<{expense: Expense}>()
 );
 
+export const modifyExpenseNotMathingFiltersSuccess = createAction(
+    '[ExpenseTracker] Modify expense which is not matching the filters was successful',
+    props<{expense: Expense}>()
+);
+
 export const modifyExpenseFailure = createAction(
     '[ExpenseTracker] Modify expense failed',
     props<{error: string}>()

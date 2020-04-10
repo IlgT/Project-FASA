@@ -34,7 +34,13 @@ export class ExpenseEffects {
             ofType(ExpenseActions.removeExpenseToBeModified,
                     ExpenseActions.ModifyExpense),
             concatMap(() => this.expenseService.modifyExpense()),
-            map(expense => ExpenseActions.modifyExpenseSuccess({expense: expense})),
+            map((expense) => {
+                if (this.expenseService.isMatchingFilters(expense)) {
+                    return ExpenseActions.modifyExpenseSuccess({expense: expense});
+                } else  {
+                    return ExpenseActions.modifyExpenseNotMathingFiltersSuccess({expense: expense});
+                }
+            }),
             catchError(error => of(ExpenseActions.modifyExpenseFailure({error: error.message})))
         ), { resubscribeOnError: false }
     );
