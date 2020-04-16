@@ -1,4 +1,4 @@
-package de.ilg.wg.expensetrackerbackend.configuration;
+package de.ilg.wg.expensetrackerbackend.common.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -15,7 +15,6 @@ public class DatabasePrefilling implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-
     	tagDao.save(new Tag("MONATLICH"));
     	tagDao.save(new Tag("QUARTALSWEISE"));
     	tagDao.save(new Tag("HALBJÄHRLICH"));

@@ -1,4 +1,4 @@
-package de.ilg.wg.expensetrackerbackend.configuration;
+package de.ilg.wg.expensetrackerbackend.common.configuration;
 
 import org.h2.server.web.WebServlet;
 
