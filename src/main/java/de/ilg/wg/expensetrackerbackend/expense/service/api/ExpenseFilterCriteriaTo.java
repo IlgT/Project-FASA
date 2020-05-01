@@ -1,22 +1,23 @@
 package de.ilg.wg.expensetrackerbackend.expense.service.api;
 
 import java.io.IOException;
-import java.time.LocalDate;
+
+import de.ilg.wg.expensetrackerbackend.common.exception.BusinessException;
 
 public class ExpenseFilterCriteriaTo {
 
-	private LocalDate date;
+	private String[] reasons;
 	
 	private int month;
 	
-	private String tagName;
+	private String[] tagNames;
 
-	public final LocalDate getDate() {
-		return date;
+	public final String[] getReasons() {
+		return reasons;
 	}
 
-	public final void setDate(LocalDate date) {
-		this.date = date;
+	public final void setReasons(String[] reasons) {
+		this.reasons = reasons;
 	}
 
 	public final int getMonth() {
@@ -25,16 +26,16 @@ public class ExpenseFilterCriteriaTo {
 
 	public final void setMonth(int month) throws IOException {
 		if(month >12 || month < 0) {
-			throw new IOException("Not a valid month!");
+			throw new BusinessException("Not a valid month!", null);
 		}
 		this.month = month;
 	}
 
-	public final String getTagName() {
-		return tagName;
+	public final String[] getTagName() {
+		return tagNames;
 	}
 
-	public final void setTagName(String tagName) {
-		this.tagName = tagName;
+	public final void setTagName(String[] tagNames) {
+		this.tagNames = tagNames;
 	}
 }
