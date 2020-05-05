@@ -13,10 +13,10 @@ import lombok.Value;
 public class ExpenseDto {
 
 	@ToString.Exclude
-	private long id;
+	private Long id;
 
 	@ToString.Exclude
-	private long version;
+	private Long version;
 
 	@NonNull private BigDecimal amount;
 	

@@ -2,15 +2,17 @@ package de.ilg.wg.expensetrackerbackend.tag.service.api;
 
 import java.util.List;
 
-import de.ilg.wg.expensetrackerbackend.tag.facade.api.TagDto;
+import de.ilg.wg.expensetrackerbackend.tag.dao.entity.Tag;
 
 public interface TagService {
 	
-	public TagDto addTag(String TagName);
+	public Tag addTag(Tag newTag);
 	
-	public TagDto editTag(String TagName, String newTagName);
+	public Tag editTag(Tag updatedTag);
 	
-	public TagDto deleteTag(String TagName);
+	public void deleteTag(long id);
 	
-	public List<String> getAllTags();
+	public List<Tag> getAllTags();
+	
+	public Tag findTagById(long id);
 }

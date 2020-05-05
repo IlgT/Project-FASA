@@ -8,10 +8,10 @@ import lombok.Value;
 public class TagDto {
 
 	@ToString.Exclude
-	private long id;
+	private Long id;
 
 	@ToString.Exclude
-	private long version;
+	private Long version;
 	
 	@NonNull private String name;
 }

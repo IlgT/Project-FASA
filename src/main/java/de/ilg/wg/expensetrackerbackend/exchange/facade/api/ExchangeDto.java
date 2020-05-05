@@ -11,10 +11,10 @@ import lombok.Value;
 public class ExchangeDto {
 
 	@ToString.Exclude
-	private long id;
+	private Long id;
 
 	@ToString.Exclude
-	private long version;
+	private Long version;
 	
 	@NonNull private String base;
 	
