@@ -3,11 +3,11 @@ package de.ilg.wg.expensetrackerbackend.expense.service.impl;
 import java.math.BigDecimal;
 import java.util.List;
 
-import de.ilg.wg.expensetrackerbackend.expense.service.api.ExpenseDto;
-import de.ilg.wg.expensetrackerbackend.expense.service.api.ExpenseFacade;
-import de.ilg.wg.expensetrackerbackend.expense.service.api.ExpenseFilterCriteriaTo;
+import de.ilg.wg.expensetrackerbackend.expense.facade.api.ExpenseDto;
+import de.ilg.wg.expensetrackerbackend.expense.facade.api.ExpenseFilterCriteriaTo;
+import de.ilg.wg.expensetrackerbackend.expense.service.api.ExpenseService;
 
-public class ExpenseService implements ExpenseFacade{
+public class ExpenseServiceImpl implements ExpenseService{
 
 	@Override
 	public ExpenseDto addExpense(ExpenseDto expenseDto) {

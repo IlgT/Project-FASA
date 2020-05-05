@@ -1,10 +1,13 @@
-package de.ilg.wg.expensetrackerbackend.exchange.adapter;
+package de.ilg.wg.expensetrackerbackend.exchange.adapter.impl;
 
 import java.time.LocalDate;
 
 import org.springframework.web.client.RestTemplate;
 
-public class ExchangeAdapter {
+import de.ilg.wg.expensetrackerbackend.exchange.adapter.api.ExchangeAdapter;
+import de.ilg.wg.expensetrackerbackend.exchange.adapter.api.ExchangeResponse;
+
+public class ExchangeRatesAdapterImpl implements ExchangeAdapter{
 	
 	private static final String BASE_URL = "https://api.exchangeratesapi.io/";
 	

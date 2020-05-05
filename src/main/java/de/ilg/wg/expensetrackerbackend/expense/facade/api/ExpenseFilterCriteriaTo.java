@@ -1,4 +1,4 @@
-package de.ilg.wg.expensetrackerbackend.expense.service.api;
+package de.ilg.wg.expensetrackerbackend.expense.facade.api;
 
 import java.io.IOException;
 

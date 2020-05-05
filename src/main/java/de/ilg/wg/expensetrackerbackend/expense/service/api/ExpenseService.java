@@ -3,7 +3,10 @@ package de.ilg.wg.expensetrackerbackend.expense.service.api;
 import java.math.BigDecimal;
 import java.util.List;
 
-public interface ExpenseFacade {
+import de.ilg.wg.expensetrackerbackend.expense.facade.api.ExpenseDto;
+import de.ilg.wg.expensetrackerbackend.expense.facade.api.ExpenseFilterCriteriaTo;
+
+public interface ExpenseService {
 	
 	public ExpenseDto addExpense(ExpenseDto expenseDto);
 	

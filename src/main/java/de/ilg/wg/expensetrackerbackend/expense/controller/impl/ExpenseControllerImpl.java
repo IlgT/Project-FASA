@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import de.ilg.wg.expensetrackerbackend.expense.controller.api.ExpenseControllerApi;
+import de.ilg.wg.expensetrackerbackend.expense.controller.api.ExpenseController;
 import de.ilg.wg.expensetrackerbackend.expense.dao.entity.Expense;
 
 @RestController
 @RequestMapping("/expenseTracker")
-public class ExpenseController implements ExpenseControllerApi{
+public class ExpenseControllerImpl implements ExpenseController{
 	
 	//Create Responsehandler with Exceptions which holds ResponseStatus
 	

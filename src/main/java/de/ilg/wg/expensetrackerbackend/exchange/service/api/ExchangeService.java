@@ -3,7 +3,7 @@ package de.ilg.wg.expensetrackerbackend.exchange.service.api;
 import java.math.BigDecimal;
 import java.util.List;
 
-public interface ExchangeFacade {
+public interface ExchangeService {
 
 	public List<String> getAllCurrencies();
 	

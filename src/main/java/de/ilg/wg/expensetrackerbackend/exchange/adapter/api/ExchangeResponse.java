@@ -1,4 +1,4 @@
-package de.ilg.wg.expensetrackerbackend.exchange.adapter;
+package de.ilg.wg.expensetrackerbackend.exchange.adapter.api;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

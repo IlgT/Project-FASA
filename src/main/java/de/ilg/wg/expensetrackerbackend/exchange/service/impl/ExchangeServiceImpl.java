@@ -3,9 +3,9 @@ package de.ilg.wg.expensetrackerbackend.exchange.service.impl;
 import java.math.BigDecimal;
 import java.util.List;
 
-import de.ilg.wg.expensetrackerbackend.exchange.service.api.ExchangeFacade;
+import de.ilg.wg.expensetrackerbackend.exchange.service.api.ExchangeService;
 
-public class ExchangeService implements ExchangeFacade {
+public class ExchangeServiceImpl implements ExchangeService {
 
 	@Override
 	public List<String> getAllCurrencies() {

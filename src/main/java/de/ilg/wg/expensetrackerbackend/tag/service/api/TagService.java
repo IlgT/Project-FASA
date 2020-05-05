@@ -2,7 +2,9 @@ package de.ilg.wg.expensetrackerbackend.tag.service.api;
 
 import java.util.List;
 
-public interface TagFacade {
+import de.ilg.wg.expensetrackerbackend.tag.facade.api.TagDto;
+
+public interface TagService {
 	
 	public TagDto addTag(String TagName);
 	

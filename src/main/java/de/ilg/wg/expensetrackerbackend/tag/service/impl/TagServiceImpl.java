@@ -2,10 +2,10 @@ package de.ilg.wg.expensetrackerbackend.tag.service.impl;
 
 import java.util.List;
 
-import de.ilg.wg.expensetrackerbackend.tag.service.api.TagDto;
-import de.ilg.wg.expensetrackerbackend.tag.service.api.TagFacade;
+import de.ilg.wg.expensetrackerbackend.tag.facade.api.TagDto;
+import de.ilg.wg.expensetrackerbackend.tag.service.api.TagService;
 
-public class TagService implements TagFacade{
+public class TagServiceImpl implements TagService{
 
 	@Override
 	public TagDto addTag(String TagName) {
