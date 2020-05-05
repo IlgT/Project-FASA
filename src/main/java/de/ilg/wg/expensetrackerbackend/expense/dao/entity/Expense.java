@@ -26,7 +26,7 @@ import lombok.ToString;
 public class Expense {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="EXPENSE_ID", nullable=false, unique=true)
 	@ToString.Exclude
 	private long id;

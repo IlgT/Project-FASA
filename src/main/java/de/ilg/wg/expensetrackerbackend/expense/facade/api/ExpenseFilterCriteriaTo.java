@@ -25,7 +25,7 @@ public class ExpenseFilterCriteriaTo {
 	}
 
 	public final void setMonth(int month) throws IOException {
-		if(month >12 || month < 0) {
+		if(month > 12 || month < 0) {
 			throw new BusinessException("Not a valid month!", null);
 		}
 		this.month = month;

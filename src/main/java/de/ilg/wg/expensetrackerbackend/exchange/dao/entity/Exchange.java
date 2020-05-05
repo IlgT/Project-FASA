@@ -21,7 +21,7 @@ import lombok.ToString;
 public class Exchange {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="EXCHANGE_ID", nullable=false, unique=true)
 	@ToString.Exclude
 	private long id;

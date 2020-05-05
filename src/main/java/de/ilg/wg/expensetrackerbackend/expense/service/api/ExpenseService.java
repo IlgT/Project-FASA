@@ -3,18 +3,20 @@ package de.ilg.wg.expensetrackerbackend.expense.service.api;
 import java.math.BigDecimal;
 import java.util.List;
 
-import de.ilg.wg.expensetrackerbackend.expense.facade.api.ExpenseDto;
+import de.ilg.wg.expensetrackerbackend.expense.dao.entity.Expense;
 import de.ilg.wg.expensetrackerbackend.expense.facade.api.ExpenseFilterCriteriaTo;
 
 public interface ExpenseService {
 	
-	public ExpenseDto addExpense(ExpenseDto expenseDto);
+	public Expense addExpense(Expense newExpense);
 	
-	public ExpenseDto updateExpense(ExpenseDto expenseDto);
+	public Expense updateExpense(Expense updatedExpense);
 	
-	public ExpenseDto deleteExpense(ExpenseDto expenseDto);
+	public void deleteExpense(long id);
 	
-	public List<ExpenseDto> getExpensesByFilterCriteria(ExpenseFilterCriteriaTo filter);
+	public Expense findExpenseById(long id);
 	
-	public BigDecimal calculateTotalExpense(ExpenseFilterCriteriaTo filter);
+	public List<Expense> getExpensesByFilterCriteria(ExpenseFilterCriteriaTo filter);
+	
+	public BigDecimal calculateTotalExpense(List<Expense> displayedExpenses);
 }

@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EntityScan(basePackages = {"exchange.dao.entity", "expense.dao.entity", "income.dao.entity", "tag.dao.entity"})
-@EnableJpaRepositories(basePackages = {"exchange.dao.api", "expense.dao.api", "income.dao.api", "tag.dao.api"})
+@EntityScan(basePackages = {"de.ilg.wg.expensetrackerbackend.exchange.dao.entity", "de.ilg.wg.expensetrackerbackend.expense.dao.entity", "de.ilg.wg.expensetrackerbackend.income.dao.entity", "de.ilg.wg.expensetrackerbackend.tag.dao.entity"})
+@EnableJpaRepositories(basePackages = {"de.ilg.wg.expensetrackerbackend.exchange.dao.api", "de.ilg.wg.expensetrackerbackend.expense.dao.api", "de.ilg.wg.expensetrackerbackend.income.dao.api", "de.ilg.wg.expensetrackerbackend.tag.dao.api"})
 public class ExpenseTrackerBackendApplication {
 
 	public static void main(String[] args) {
