@@ -12,7 +12,7 @@ public class DatabasePrefilling implements CommandLineRunner {
 
     @Autowired
     private TagDao tagDao;
-
+    
     @Override
     public void run(String... args) throws Exception {
     	tagDao.save(new Tag("MONATLICH"));

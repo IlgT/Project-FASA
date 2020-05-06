@@ -2,6 +2,7 @@ package de.ilg.wg.expensetrackerbackend.expense.dao.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import javax.persistence.AttributeOverride;
@@ -18,6 +19,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import de.ilg.wg.expensetrackerbackend.common.entity.Money;
 import de.ilg.wg.expensetrackerbackend.tag.dao.entity.Tag;
 import lombok.Data;
@@ -31,7 +35,7 @@ public class Expense {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="EXPENSE_ID", nullable=false, unique=true)
+	@Column(name="EXPENSE_ID", nullable=false, unique=true, insertable = false)
 	@ToString.Exclude
 	private long id;
 	
@@ -60,25 +64,24 @@ public class Expense {
 	@Embedded
 	@NonNull private Money originalAmount;
 	
-	@Column(name="EXPENSE_ORIGINAL_CURRENCYE", length=3, nullable=true, unique=false)
-	@NonNull private String originalCurrency;
-	
 	@Column(name="EXPENSE_EXCHANGE_RATE", nullable=true, unique=false)
 	@NonNull private BigDecimal exchangeRate;
 	
 	@ManyToMany
 	@JoinTable(
-	  name = "EXPENSE_TAGS", 
+	  name = "EXPENSE_TAGS", schema="EXPENSE_TRACKER",
 	  joinColumns = @JoinColumn(name = "EXPENSE_ID"), 
 	  inverseJoinColumns = @JoinColumn(name = "TAG_ID"))
 	@NonNull private Set<Tag> utilizedTags;
 
 	@Column(name="EXPENSE_CREATED_TIMESTAMP", nullable=false, unique=false)
+	@CreationTimestamp
 	@ToString.Exclude
-    private LocalDate createdTimestamp;
+    private LocalDateTime createdTimestamp;
     
-	@Column(name="EXPENSE_UPDATED_TIMESTAMP", nullable=true, unique=false)
+	@Column(name="EXPENSE_UPDATED_TIMESTAMP", nullable=true, unique=false, insertable = false)
+	@UpdateTimestamp
 	@ToString.Exclude
-    private LocalDate updatedTimestamp;
+    private LocalDateTime updatedTimestamp;
 
 }

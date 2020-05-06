@@ -64,7 +64,7 @@ public class ExchangeServiceImpl implements ExchangeService {
 	}
 
 	private BigDecimal getExchangeRateFromDatabase(String baseCurrency, LocalDate date, String targetCurrency) {
-		BigDecimal exchangeRate = exchangeDao.findByBaseAndSymbolAndDate(baseCurrency, targetCurrency, date).getRate();
+		BigDecimal exchangeRate = exchangeDao.findByBaseAndTargetAndDate(baseCurrency, targetCurrency, date).getRate();
 		return exchangeRate;
 	}
 

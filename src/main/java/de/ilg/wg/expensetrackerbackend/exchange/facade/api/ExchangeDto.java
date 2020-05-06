@@ -3,11 +3,13 @@ package de.ilg.wg.expensetrackerbackend.exchange.facade.api;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.ToString;
-import lombok.Value;
 
-@Value
+@Data
+@NoArgsConstructor
 public class ExchangeDto {
 
 	@ToString.Exclude
@@ -18,7 +20,7 @@ public class ExchangeDto {
 	
 	@NonNull private String base;
 	
-	@NonNull private String symbol;
+	@NonNull private String target;
 	
 	@NonNull private BigDecimal rate;
 	

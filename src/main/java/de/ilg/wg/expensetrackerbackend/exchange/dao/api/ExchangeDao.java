@@ -10,5 +10,5 @@ import de.ilg.wg.expensetrackerbackend.exchange.dao.entity.Exchange;
 @Repository
 public interface ExchangeDao extends JpaRepository<Exchange, Long> {
 	
-	Exchange findByBaseAndSymbolAndDate(String base, String symbol, LocalDate date);
+	Exchange findByBaseAndTargetAndDate(String base, String target, LocalDate date);
 }

@@ -15,10 +15,7 @@ import de.ilg.wg.expensetrackerbackend.tag.facade.api.TagDto;
 import de.ilg.wg.expensetrackerbackend.tag.facade.api.TagFacade;
 
 @RestController
-@RequestMapping(
-		path = "/tags",
-		consumes = "application/json",
-		produces = "application/json")
+@RequestMapping("/tags")
 public class TagControllerImpl implements TagController{
 	
 	@Autowired

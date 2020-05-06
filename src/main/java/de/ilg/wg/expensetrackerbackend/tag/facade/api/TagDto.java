@@ -1,10 +1,12 @@
 package de.ilg.wg.expensetrackerbackend.tag.facade.api;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.ToString;
-import lombok.Value;
 
-@Value
+@Data
+@NoArgsConstructor
 public class TagDto {
 
 	@ToString.Exclude
