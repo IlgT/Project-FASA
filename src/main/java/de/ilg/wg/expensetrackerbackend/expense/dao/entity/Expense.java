@@ -15,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import de.ilg.wg.expensetrackerbackend.common.entity.Money;
 import de.ilg.wg.expensetrackerbackend.tag.dao.entity.Tag;
 import lombok.Data;
 import lombok.NonNull;
@@ -37,7 +38,7 @@ public class Expense {
 	private long version;
 	
 	@Column(name="EXPENSE_AMOUNT", nullable=false, unique=false)
-	@NonNull private BigDecimal amount;
+	@NonNull private Money amount;
 	
 	@Column(name="EXPENSE_REASON", length=100, nullable=false, unique=false)
 	@NonNull private String reason;
@@ -46,7 +47,7 @@ public class Expense {
 	@NonNull private LocalDate date;
 
 	@Column(name="EXPENSE_ORIGINAL_VALUE", nullable=true, unique=false)
-	@NonNull private BigDecimal originalValue;
+	@NonNull private Money originalAmount;
 	
 	@Column(name="EXPENSE_ORIGINAL_CURRENCYE", length=3, nullable=true, unique=false)
 	@NonNull private String originalCurrency;

@@ -19,11 +19,17 @@ public class ExchangeRatesAdapterImpl implements ExchangeAdapter{
 	
 	private static final String EUR_SYMBOL = "EUR";
 	
-	public ExchangeResponse getAllExchangeRates(String baseCurrency, LocalDate date) {
+	public ExchangeResponse getExchangeRateInDefaultCurrency(String baseCurrency, LocalDate date) {
+		return getExchangeRate(baseCurrency, date, EUR_SYMBOL);
+	}
+	
+	public ExchangeResponse getExchangeRate(String baseCurrency, LocalDate date, String targetCurrency) {
         RestTemplate restTemplate = new RestTemplate();
         String url = BASE_URL + getDateInformation(date)
-        		+ BASE_CURRENCY_REQUEST + baseCurrency
-        		+ SOURCE_CURRENCY_REQUEST + EUR_SYMBOL;
+        		+ BASE_CURRENCY_REQUEST + baseCurrency;
+        if (targetCurrency != null) {
+        		url = url + SOURCE_CURRENCY_REQUEST + targetCurrency;
+        }
         ExchangeResponse exchange = restTemplate.getForObject(url, ExchangeResponse.class);
         return exchange;
 	}

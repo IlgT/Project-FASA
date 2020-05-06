@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import de.ilg.wg.expensetrackerbackend.common.exception.BusinessException;
+import de.ilg.wg.expensetrackerbackend.common.exception.IdNotExistException;
 import de.ilg.wg.expensetrackerbackend.tag.dao.api.TagDao;
 import de.ilg.wg.expensetrackerbackend.tag.dao.entity.Tag;
 import de.ilg.wg.expensetrackerbackend.tag.service.api.TagService;
@@ -38,7 +40,9 @@ public class TagServiceImpl implements TagService{
 
 	@Override
 	public Tag findTagById(long id) {
-		return tagDao.findById(id).orElse(null);
+		return tagDao.findById(id)
+				.orElseThrow(() -> new BusinessException("No tag for the given id was found",
+						new IdNotExistException("Provided id does not exist")));
 	}
 	
 }

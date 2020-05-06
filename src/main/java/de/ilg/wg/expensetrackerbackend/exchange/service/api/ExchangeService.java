@@ -1,15 +1,16 @@
 package de.ilg.wg.expensetrackerbackend.exchange.service.api;
 
 import java.math.BigDecimal;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.Set;
 
 public interface ExchangeService {
 
-	public List<String> getAllCurrencies();
-	
-	public BigDecimal getExchangeRate(String baseCurrency);
-	
-	public BigDecimal getPriceInDefaultCurrency(BigDecimal expenseValue, String baseCurrency);
-	
-	public String getDefaultCurrency();	
+	public Set<String> getAllCurrencies();
+
+	public BigDecimal getExchangeRateToTargetCurrency(String baseCurrency, LocalDate date, String targetCurrency);
+
+	public BigDecimal getExchangeRateToDefaultCurrency(String baseCurrency, LocalDate date);
+
+	public String getDefaultCurrency();
 }
