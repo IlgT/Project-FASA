@@ -1,6 +1,6 @@
 package de.ilg.wg.expensetrackerbackend.tag.controller.impl;
 
-import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,7 +41,7 @@ public class TagControllerImpl implements TagController{
 	@RequestMapping(
 			method = RequestMethod.GET)
 	@ResponseBody
-	public List<TagDto> getAllTags() {
+	public Set<TagDto> getAllTags() {
 		return tagFacade.getAllTags();
 	}
 	

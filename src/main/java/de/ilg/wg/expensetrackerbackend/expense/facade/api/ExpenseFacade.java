@@ -2,6 +2,7 @@ package de.ilg.wg.expensetrackerbackend.expense.facade.api;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 public interface ExpenseFacade {
 	
@@ -11,8 +12,12 @@ public interface ExpenseFacade {
 	
 	public void deleteExpense(long id);
 	
-	public List<ExpenseDto> getExpensesByFilterCriteria(ExpenseFilterCriteriaTo filter);
+	public List<ExpenseDto> getExpensesBySearchCriteria(ExpenseSearchCriteriaTo filter);
 	
 	public BigDecimal calculateTotalExpense(List<ExpenseDto> displayedExpenses);
+	
+	public Set<String> getUtilizedReasons();
+
+	public Set<Integer> getUtilizedMonths();
 
 }

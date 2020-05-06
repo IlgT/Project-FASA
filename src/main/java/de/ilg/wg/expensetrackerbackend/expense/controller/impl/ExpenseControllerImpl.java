@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import de.ilg.wg.expensetrackerbackend.expense.controller.api.ExpenseController;
 import de.ilg.wg.expensetrackerbackend.expense.facade.api.ExpenseDto;
 import de.ilg.wg.expensetrackerbackend.expense.facade.api.ExpenseFacade;
-import de.ilg.wg.expensetrackerbackend.expense.facade.api.ExpenseFilterCriteriaTo;
+import de.ilg.wg.expensetrackerbackend.expense.facade.api.ExpenseSearchCriteriaTo;
 
 @RestController
 @RequestMapping("/expenses")
@@ -39,8 +39,8 @@ public class ExpenseControllerImpl implements ExpenseController{
 	@RequestMapping(
 			method = RequestMethod.GET)
 	@ResponseBody
-	public List<ExpenseDto> getExpensesByFilterCriteria(@RequestBody ExpenseFilterCriteriaTo filter) {
-		return expenseFacade.getExpensesByFilterCriteria(filter);
+	public List<ExpenseDto> getExpensesBySearchCriteria(@RequestBody ExpenseSearchCriteriaTo filter) {
+		return expenseFacade.getExpensesBySearchCriteria(filter);
 	}
 	
 	@RequestMapping(

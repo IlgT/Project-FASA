@@ -2,6 +2,7 @@ package de.ilg.wg.expensetrackerbackend.expense.facade.impl;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Component;
 import de.ilg.wg.expensetrackerbackend.expense.dao.entity.Expense;
 import de.ilg.wg.expensetrackerbackend.expense.facade.api.ExpenseDto;
 import de.ilg.wg.expensetrackerbackend.expense.facade.api.ExpenseFacade;
-import de.ilg.wg.expensetrackerbackend.expense.facade.api.ExpenseFilterCriteriaTo;
+import de.ilg.wg.expensetrackerbackend.expense.facade.api.ExpenseSearchCriteriaTo;
 import de.ilg.wg.expensetrackerbackend.expense.service.api.ExpenseService;
 
 @Component
@@ -39,8 +40,8 @@ public class ExpenseFacadeImpl implements ExpenseFacade {
 		expenseService.deleteExpense(id);
 	}
 
-	public List<ExpenseDto> getExpensesByFilterCriteria(ExpenseFilterCriteriaTo filter) {
-		List<Expense> matchingExpenses = expenseService.getExpensesByFilterCriteria(filter);
+	public List<ExpenseDto> getExpensesBySearchCriteria(ExpenseSearchCriteriaTo filter) {
+		List<Expense> matchingExpenses = expenseService.getExpensesBySearchCriteria(filter);
 		return matchingExpenses.stream()
                 .map(expense -> modelMapper.map(expense, ExpenseDto.class))
                 .collect(Collectors.toList());
@@ -49,6 +50,14 @@ public class ExpenseFacadeImpl implements ExpenseFacade {
 	public BigDecimal calculateTotalExpense(List<ExpenseDto> displayedExpenses) {
 		return displayedExpenses.stream().map(expense -> expense.getAmount()).reduce(BigDecimal.ZERO,
 				(a, b) -> a.add(b));
+	}
+
+	public Set<String> getUtilizedReasons(){
+		return expenseService.getUtilizedReasons();
+	}
+
+	public Set<Integer> getUtilizedMonths(){
+		return expenseService.getUtilizedMonths();
 	}
 
 	private Expense mapToExpense(ExpenseDto updatedExpense) {

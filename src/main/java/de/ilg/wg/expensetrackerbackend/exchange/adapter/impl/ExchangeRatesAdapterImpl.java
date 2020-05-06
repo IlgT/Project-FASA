@@ -2,11 +2,13 @@ package de.ilg.wg.expensetrackerbackend.exchange.adapter.impl;
 
 import java.time.LocalDate;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import de.ilg.wg.expensetrackerbackend.exchange.adapter.api.ExchangeAdapter;
 import de.ilg.wg.expensetrackerbackend.exchange.adapter.api.ExchangeResponse;
 
+@Component
 public class ExchangeRatesAdapterImpl implements ExchangeAdapter{
 	
 	private static final String BASE_URL = "https://api.exchangeratesapi.io/";

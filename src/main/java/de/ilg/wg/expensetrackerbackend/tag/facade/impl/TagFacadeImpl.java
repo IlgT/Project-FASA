@@ -1,6 +1,6 @@
 package de.ilg.wg.expensetrackerbackend.tag.facade.impl;
 
-import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -41,11 +41,11 @@ public class TagFacadeImpl implements TagFacade {
 	}
 
 	@Override
-	public List<TagDto> getAllTags() {
-		List<Tag> availableTags = tagService.getAllTags();
+	public Set<TagDto> getAllTags() {
+		Set<Tag> availableTags = tagService.getAllTags();
 		return availableTags.stream()
                 .map(tag -> modelMapper.map(tag, TagDto.class))
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
 	}
 
 	private Tag mapToTag(TagDto updatedTag) {

@@ -5,10 +5,12 @@ import java.time.LocalDate;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import de.ilg.wg.expensetrackerbackend.exchange.facade.api.ExchangeFacade;
 import de.ilg.wg.expensetrackerbackend.exchange.service.api.ExchangeService;
 
+@Component
 public class ExchangeFacadeImpl implements ExchangeFacade {
 
 	@Autowired

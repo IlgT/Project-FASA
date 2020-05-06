@@ -1,6 +1,7 @@
 package de.ilg.wg.expensetrackerbackend.tag.service.impl;
 
-import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,8 +35,8 @@ public class TagServiceImpl implements TagService{
 	}
 
 	@Override
-	public List<Tag> getAllTags() {
-		return tagDao.findAll();
+	public Set<Tag> getAllTags() {
+		return tagDao.findAll().stream().collect(Collectors.toSet());
 	}
 
 	@Override

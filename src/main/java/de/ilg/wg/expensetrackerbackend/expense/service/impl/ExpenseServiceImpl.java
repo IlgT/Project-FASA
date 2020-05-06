@@ -5,6 +5,8 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,8 +16,11 @@ import de.ilg.wg.expensetrackerbackend.common.exception.BusinessException;
 import de.ilg.wg.expensetrackerbackend.common.exception.IdNotExistException;
 import de.ilg.wg.expensetrackerbackend.exchange.facade.api.ExchangeFacade;
 import de.ilg.wg.expensetrackerbackend.expense.dao.api.ExpenseDao;
+import de.ilg.wg.expensetrackerbackend.expense.dao.api.ExpenseDatesProjection;
+import de.ilg.wg.expensetrackerbackend.expense.dao.api.ExpenseReasonsProjection;
 import de.ilg.wg.expensetrackerbackend.expense.dao.entity.Expense;
-import de.ilg.wg.expensetrackerbackend.expense.facade.api.ExpenseFilterCriteriaTo;
+import de.ilg.wg.expensetrackerbackend.expense.dao.impl.ExpenseSpecification;
+import de.ilg.wg.expensetrackerbackend.expense.facade.api.ExpenseSearchCriteriaTo;
 import de.ilg.wg.expensetrackerbackend.expense.service.api.ExpenseService;
 
 @Service
@@ -51,15 +56,28 @@ public class ExpenseServiceImpl implements ExpenseService {
 	}
 
 	@Override
-	public List<Expense> getExpensesByFilterCriteria(ExpenseFilterCriteriaTo filter) {
-		// TODO: Use the filters
-		return expenseDao.findAll();
+	public List<Expense> getExpensesBySearchCriteria(ExpenseSearchCriteriaTo filter) {
+		return expenseDao.findAll(ExpenseSpecification.matchesOneReason(filter.getReasons())
+				.and(ExpenseSpecification.matchesMonth(filter.getMonth()))
+				.and(ExpenseSpecification.matchesAtLeastOneTag(filter.getTagNames())));
 	}
 
 	@Override
 	public BigDecimal calculateTotalExpense(List<Expense> displayedExpenses) {
 		return displayedExpenses.stream().map(expense -> expense.getAmount().getValue()).reduce(BigDecimal.ZERO,
 				(a, b) -> a.add(b));
+	}
+
+	public Set<String> getUtilizedReasons() {
+		return expenseDao.findBy(ExpenseReasonsProjection.class).stream().map(ExpenseReasonsProjection::getReason)
+				.collect(Collectors.toSet());
+	}
+
+	public Set<Integer> getUtilizedMonths() {
+		Set<ExpenseDatesProjection> dates = expenseDao.findBy(ExpenseDatesProjection.class).stream()
+				.collect(Collectors.toSet());
+		return dates.stream().map(ExpenseDatesProjection::getDate).map(LocalDate::getMonthValue)
+				.collect(Collectors.toSet());
 	}
 
 	private Expense updateExchangeValues(Expense expense) {

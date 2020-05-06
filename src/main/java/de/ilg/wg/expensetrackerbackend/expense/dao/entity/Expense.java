@@ -4,7 +4,10 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -37,7 +40,11 @@ public class Expense {
 	@ToString.Exclude
 	private long version;
 	
-	@Column(name="EXPENSE_AMOUNT", nullable=false, unique=false)
+	@AttributeOverrides({
+        @AttributeOverride(name="value", column=@Column(name="EXPENSE_VALUE")),
+        @AttributeOverride(name="currency", column=@Column(name="EXPENSE_CURRENCY"))
+    })
+	@Embedded
 	@NonNull private Money amount;
 	
 	@Column(name="EXPENSE_REASON", length=100, nullable=false, unique=false)
@@ -46,7 +53,11 @@ public class Expense {
 	@Column(name="EXPENSE_DATE", nullable=false, unique=false)
 	@NonNull private LocalDate date;
 
-	@Column(name="EXPENSE_ORIGINAL_VALUE", nullable=true, unique=false)
+	@AttributeOverrides({
+        @AttributeOverride(name="value", column=@Column(name="EXPENSE_ORIGINAL_VALUE")),
+        @AttributeOverride(name="currency", column=@Column(name="EXPENSE_ORIGINAL_CURRENCY"))
+    })
+	@Embedded
 	@NonNull private Money originalAmount;
 	
 	@Column(name="EXPENSE_ORIGINAL_CURRENCYE", length=3, nullable=true, unique=false)

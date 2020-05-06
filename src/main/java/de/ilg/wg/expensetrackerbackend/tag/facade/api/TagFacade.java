@@ -1,6 +1,6 @@
 package de.ilg.wg.expensetrackerbackend.tag.facade.api;
 
-import java.util.List;
+import java.util.Set;
 
 public interface TagFacade {
 	
@@ -10,6 +10,6 @@ public interface TagFacade {
 	
 	public void deleteTag(long id);
 	
-	public List<TagDto> getAllTags();
+	public Set<TagDto> getAllTags();
 
 }

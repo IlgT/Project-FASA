@@ -5,12 +5,14 @@ import java.time.LocalDate;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import de.ilg.wg.expensetrackerbackend.exchange.adapter.api.ExchangeAdapter;
 import de.ilg.wg.expensetrackerbackend.exchange.adapter.api.ExchangeResponse;
 import de.ilg.wg.expensetrackerbackend.exchange.dao.api.ExchangeDao;
 import de.ilg.wg.expensetrackerbackend.exchange.service.api.ExchangeService;
 
+@Service
 public class ExchangeServiceImpl implements ExchangeService {
 
 	@Autowired
