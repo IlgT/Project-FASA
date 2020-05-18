@@ -153,8 +153,7 @@ export class ExpenseService {
   }
   
   private updateUtilizedReasons(updatedUtilizedValues: UtilizedFilter, reason: string) {
-    if (updatedUtilizedValues.reasons
-      .filter(reason => reason.toLowerCase().indexOf(reason.toLowerCase()) === 0).length < 1) {
+    if (!updatedUtilizedValues.reasons.includes(reason.toLowerCase())) {
       updatedUtilizedValues.reasons.push(this.capitalize(reason.toLowerCase()));
     }
   }
