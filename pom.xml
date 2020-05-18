@@ -6,14 +6,14 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.1.5.RELEASE</version>
+		<version>2.3.0.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>de.ilg.wg</groupId>
 	<artifactId>ExpenseTrackerBackend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>ExpenseTrackerBackend</name>
-	<description>This is one of the backend for the finance utils SPA.</description>
+	<description>This is one of the backends for the FASA SPA.</description>
 	
 	<packaging>jar</packaging>
 
@@ -52,7 +52,7 @@
 		<dependency>
 			<groupId>com.okta.spring</groupId>
 			<artifactId>okta-spring-boot-starter</artifactId>
-			<version>1.2.1</version>
+			<version>1.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.flywaydb</groupId>
@@ -62,7 +62,6 @@
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<!--scope>runtime</scope-->
 		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
@@ -91,6 +90,10 @@
 		    <groupId>org.modelmapper</groupId>
 		    <artifactId>modelmapper</artifactId>
 		    <version>2.3.7</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.fasterxml.jackson.datatype</groupId>
+		    <artifactId>jackson-datatype-jsr310</artifactId>
 		</dependency>
 	</dependencies>
 

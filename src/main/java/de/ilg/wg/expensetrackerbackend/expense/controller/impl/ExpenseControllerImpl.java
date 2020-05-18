@@ -25,19 +25,20 @@ public class ExpenseControllerImpl implements ExpenseController{
 	@RequestMapping(
 			method = RequestMethod.POST)
 	@ResponseBody
-	public ExpenseDto createNewExpense(@RequestBody ExpenseDto newTag) {
-		return expenseFacade.addExpense(newTag);
+	public ExpenseDto createNewExpense(@RequestBody ExpenseDto newExpense) {
+		return expenseFacade.addExpense(newExpense);
 	}
 	
 	@RequestMapping(
 			method = RequestMethod.PUT)
 	@ResponseBody
-	public ExpenseDto updateExpense(@RequestBody ExpenseDto updatedTag) {
-		return expenseFacade.addExpense(updatedTag);
+	public ExpenseDto updateExpense(@RequestBody ExpenseDto updatedExpense) {
+		return expenseFacade.updateExpense(updatedExpense);
 	}
 	
 	@RequestMapping(
-			method = RequestMethod.GET)
+			path = "/search",
+			method = RequestMethod.POST)
 	@ResponseBody
 	public List<ExpenseDto> getExpensesBySearchCriteria(@RequestBody ExpenseSearchCriteriaTo filter) {
 		return expenseFacade.getExpensesBySearchCriteria(filter);

@@ -4,7 +4,13 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Set;
 
-import de.ilg.wg.expensetrackerbackend.tag.facade.api.TagDto;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+
+import de.ilg.wg.expensetrackerbackend.common.entity.Money;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -20,17 +26,18 @@ public class ExpenseDto {
 	@ToString.Exclude
 	private Long version;
 
-	@NonNull private BigDecimal amount;
+	@NonNull private Money amount;
 	
 	@NonNull private String reason;
 	
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	@JsonDeserialize(using = LocalDateDeserializer.class)
+	@JsonSerialize(using = LocalDateSerializer.class)
 	@NonNull private LocalDate date;
 
-	@NonNull private BigDecimal originalValue;
+	@NonNull private Money originalAmount;
 	
-	@NonNull private String originalCurrency;
+	private BigDecimal exchangeRate;
 	
-	@NonNull private BigDecimal exchangeRate;
-	
-	@NonNull private Set<TagDto> utilizedTags;
+	@NonNull private Set<String> tags;
 }

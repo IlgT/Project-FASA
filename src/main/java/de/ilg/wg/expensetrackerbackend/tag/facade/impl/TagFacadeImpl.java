@@ -47,6 +47,11 @@ public class TagFacadeImpl implements TagFacade {
                 .map(tag -> modelMapper.map(tag, TagDto.class))
                 .collect(Collectors.toSet());
 	}
+	
+	@Override
+	public Tag findTagByNameIgnoreCase(String tagName) {
+		return tagService.findTagByNameIgnoreCase(tagName);
+	}
 
 	private Tag mapToTag(TagDto updatedTag) {
 		Tag updatedTagEntity = modelMapper.map(updatedTag, Tag.class);

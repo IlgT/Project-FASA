@@ -14,6 +14,12 @@ spring:
    mvc:
       servlet:
          path: /api
+   jackson:
+      serialization:
+         WRITE_DATES_AS_TIMESTAMPS: false
 server:
    servlet:
       contextPath: /FASA
+
+hibernate:
+   dialect: org.hibernate.dialect.H2Dialect

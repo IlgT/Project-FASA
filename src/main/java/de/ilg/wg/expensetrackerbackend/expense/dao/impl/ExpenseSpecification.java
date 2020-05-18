@@ -10,6 +10,7 @@ import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import de.ilg.wg.expensetrackerbackend.common.util.StreamsUtil;
 import de.ilg.wg.expensetrackerbackend.expense.dao.entity.Expense;
 import de.ilg.wg.expensetrackerbackend.expense.dao.entity.Expense_;
 import de.ilg.wg.expensetrackerbackend.tag.dao.entity.Tag;
@@ -21,7 +22,7 @@ public class ExpenseSpecification {
 	    return new Specification<Expense>() {
 	    	@Override
 	    	public Predicate toPredicate(Root<Expense> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-	    		Predicate[] reasonPredicates = reasons.stream()
+	    		Predicate[] reasonPredicates = StreamsUtil.getNullableStream(reasons)
 	    				.map(reason -> builder.equal(root.get(Expense_.reason), reason))
 	    				.toArray(Predicate[]::new);
 	    		return builder.or(reasonPredicates);
@@ -33,7 +34,7 @@ public class ExpenseSpecification {
 	    return new Specification<Expense>() {
 	    	@Override
 	    	public Predicate toPredicate(Root<Expense> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-	    		Expression<Integer> monthExpression = builder.function("month", Integer.class, root.get(Expense_.date));
+	    		Expression<Integer> monthExpression = builder.function("MONTH", Integer.class, root.get(Expense_.date));
 	    		if (month != null) {
 	    			return builder.equal(monthExpression, month);
 	    		} else {
@@ -47,7 +48,7 @@ public class ExpenseSpecification {
 	    return new Specification<Expense>() {
 	    	@Override
 	    	public Predicate toPredicate(Root<Expense> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-	    		Predicate[] tagPredicates = tagNames.stream()
+	    		Predicate[] tagPredicates = StreamsUtil.getNullableStream(tagNames)
 	    				.map(tagName -> new Tag(tagName))
 	    				.map(tag -> builder.equal(root.get(Expense_.utilizedTags), tag))
 	    				.toArray(Predicate[]::new);

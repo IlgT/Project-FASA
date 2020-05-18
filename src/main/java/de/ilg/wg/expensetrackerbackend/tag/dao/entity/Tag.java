@@ -17,6 +17,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import de.ilg.wg.expensetrackerbackend.expense.dao.entity.Expense;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -43,8 +44,9 @@ public class Tag {
     @Column(name="TAG_NAME", length=50, nullable=false, unique=true)
     @NonNull private String name;
     
-    @ManyToMany(mappedBy = "utilizedTags")
+    @ManyToMany(mappedBy = "tags")
 	@ToString.Exclude
+	@EqualsAndHashCode.Exclude
     private Set<Expense> expenses;
     
 	@Column(name="TAG_CREATED_TIMESTAMP", nullable=false, unique=false)
@@ -56,4 +58,9 @@ public class Tag {
 	@UpdateTimestamp
 	@ToString.Exclude
     private LocalDateTime updatedTimestamp;
+	
+	@Override
+	public String toString() {
+		return this.name;
+	}
 }

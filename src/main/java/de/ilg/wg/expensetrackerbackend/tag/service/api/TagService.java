@@ -15,4 +15,6 @@ public interface TagService {
 	public Set<Tag> getAllTags();
 	
 	public Tag findTagById(long id);
+	
+	public Tag findTagByNameIgnoreCase(String tagName);
 }

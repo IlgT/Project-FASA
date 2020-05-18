@@ -1,8 +1,6 @@
 package de.ilg.wg.expensetrackerbackend.expense.service.impl;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
@@ -57,9 +55,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 
 	@Override
 	public List<Expense> getExpensesBySearchCriteria(ExpenseSearchCriteriaTo filter) {
-		return expenseDao.findAll(ExpenseSpecification.matchesOneReason(filter.getReasons())
-				.and(ExpenseSpecification.matchesMonth(filter.getMonth()))
-				.and(ExpenseSpecification.matchesAtLeastOneTag(filter.getTagNames())));
+		return expenseDao.findAll(ExpenseSpecification.matchesMonth(filter.getMonth()));
 	}
 
 	@Override
@@ -92,7 +88,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 	}
 
 	private Money calculateAmountWithExchangeRate(BigDecimal expenseOriginalValue, BigDecimal exchangeRate) {
-		BigDecimal expenseValue = expenseOriginalValue.multiply(exchangeRate, new MathContext(2, RoundingMode.HALF_UP));
+		BigDecimal expenseValue = expenseOriginalValue.multiply(exchangeRate).setScale(2);
 		String defaultCurrency = getDefaultCurrency();
 		return new Money(expenseValue, defaultCurrency);
 	}

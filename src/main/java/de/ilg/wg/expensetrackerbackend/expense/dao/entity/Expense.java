@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -25,24 +26,28 @@ import org.hibernate.annotations.UpdateTimestamp;
 import de.ilg.wg.expensetrackerbackend.common.entity.Money;
 import de.ilg.wg.expensetrackerbackend.tag.dao.entity.Tag;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 @Entity(name="expense")
 @Table(name="EXPENSE", schema="EXPENSE_TRACKER")
 @Data
+@NoArgsConstructor
+@RequiredArgsConstructor
 public class Expense {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="EXPENSE_ID", nullable=false, unique=true, insertable = false)
 	@ToString.Exclude
-	private long id;
+	private Long id;
 	
 	@Version
 	@Column(name="EXPENSE_VERSION", nullable=false, unique=false)
 	@ToString.Exclude
-	private long version;
+	private Long version;
 	
 	@AttributeOverrides({
         @AttributeOverride(name="value", column=@Column(name="EXPENSE_VALUE")),
@@ -65,14 +70,14 @@ public class Expense {
 	@NonNull private Money originalAmount;
 	
 	@Column(name="EXPENSE_EXCHANGE_RATE", nullable=true, unique=false)
-	@NonNull private BigDecimal exchangeRate;
+	private BigDecimal exchangeRate;
 	
-	@ManyToMany
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(
 	  name = "EXPENSE_TAGS", schema="EXPENSE_TRACKER",
 	  joinColumns = @JoinColumn(name = "EXPENSE_ID"), 
 	  inverseJoinColumns = @JoinColumn(name = "TAG_ID"))
-	@NonNull private Set<Tag> utilizedTags;
+	@NonNull private Set<Tag> tags;
 
 	@Column(name="EXPENSE_CREATED_TIMESTAMP", nullable=false, unique=false)
 	@CreationTimestamp

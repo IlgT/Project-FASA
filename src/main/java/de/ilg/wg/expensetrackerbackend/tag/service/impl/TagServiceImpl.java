@@ -46,4 +46,9 @@ public class TagServiceImpl implements TagService{
 						new IdNotExistException("Provided id does not exist")));
 	}
 	
+	@Override
+	public Tag findTagByNameIgnoreCase(String tagName) {
+		return tagDao.findTagByNameIgnoreCase(tagName);
+	}
+	
 }

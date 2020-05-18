@@ -1,5 +1,6 @@
 package de.ilg.wg.expensetrackerbackend.filter.service.impl;
 
+import java.time.LocalDate;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -28,6 +29,7 @@ public class FilterServiceImpl implements FilterService {
 	public UtilizedFilterDto getAllUtilizedFilter() {
 		Set<String> reasons = expenseFacade.getUtilizedReasons();
 		Set<Integer> months = expenseFacade.getUtilizedMonths();
+		months.add(LocalDate.now().getMonthValue());
 		Set<String> tags = tagFacade.getAllTags().stream().map(tag -> tag.getName()).collect(Collectors.toSet());
 		Set<String> currencies = exchangeFacade.getAllCurrencies();
 		return new UtilizedFilterDto(reasons, months, tags, currencies);
