@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { COMMA, ENTER, SPACE } from '@angular/cdk/keycodes';
 import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material/autocomplete';
 import { Observable, Subscription, of } from 'rxjs';
@@ -34,14 +34,14 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
       currency: ['EUR', Validators.required]
     }),
     exchangeRate: [],
-    tags: [[]]
+    tags: []
   });
   
   visible = true;
   selectable = true;
   removable = true;
   addOnBlur = true;
-  separatorKeysCodes: number[] = [ENTER, COMMA];
+  separatorKeysCodes: number[] = [ENTER, COMMA, SPACE];
   
   filteredTags: Observable<string[]>;
   predefinedTags: string[];
@@ -135,10 +135,8 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
   }
 
   private _filter(tagName: any): string[] {
-    if (tagName instanceof String) {
       var filterValue = tagName.toLowerCase();
       return this.predefinedTags.filter(tag => tag.toLowerCase().indexOf(filterValue) === 0);
-    }
   }
 
   onSubmit() {
