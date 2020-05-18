@@ -1,6 +1,7 @@
 package de.ilg.wg.expensetrackerbackend.expense.service.impl;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
@@ -88,7 +89,8 @@ public class ExpenseServiceImpl implements ExpenseService {
 	}
 
 	private Money calculateAmountWithExchangeRate(BigDecimal expenseOriginalValue, BigDecimal exchangeRate) {
-		BigDecimal expenseValue = expenseOriginalValue.multiply(exchangeRate).setScale(2);
+		BigDecimal expenseValue = expenseOriginalValue.multiply(exchangeRate);
+		expenseValue.setScale(2, RoundingMode.HALF_UP);
 		String defaultCurrency = getDefaultCurrency();
 		return new Money(expenseValue, defaultCurrency);
 	}
