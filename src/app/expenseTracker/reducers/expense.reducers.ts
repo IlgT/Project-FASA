@@ -1,4 +1,4 @@
-import { Expense, compareExpenses } from '../model/Expense';
+import { Expense, compareExpensesDate } from '../model/Expense';
 import { Money } from '../model/Money';
 import { defaultExpense } from '../model/expense.defaultdata';
 import { ExpenseActions } from '../action-types';
@@ -13,7 +13,7 @@ export interface ExpenseState extends EntityState<Expense> {
 }
 
 export const expenseAdapter = createEntityAdapter<Expense>({
-    sortComparer: compareExpenses
+    sortComparer: compareExpensesDate
 });
 
 export const initialExpenseState = expenseAdapter.getInitialState({

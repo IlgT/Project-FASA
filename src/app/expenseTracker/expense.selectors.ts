@@ -25,11 +25,6 @@ export const isEditMode = createSelector(
     expenseState => expenseState.actualExpenseId !== null
 );
 
-export const getTotalSum = createSelector(
-    selectExpenseState,
-    expenseState => expenseState.totalSum
-);
-
 export const getExpenseNoMistakeTitle = createSelector(
     selectExpenseState,
     expenseState => {var title = '';

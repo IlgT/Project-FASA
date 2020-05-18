@@ -24,6 +24,7 @@ import { appReducers } from './reducers/app.reducers';
 import { ContextMenuComponent } from './commons/context-menu/context-menu.component';
 import { NoMistakeComponent } from './commons/no-mistake/no-mistake.component';
 import { ExpenseResolver } from './expenseTracker/expense.resolver';
+import { HttpClientModule } from '@angular/common/http';
 
 const appRoutes: Routes = [
   {
@@ -65,6 +66,7 @@ export const customCurrencyMaskConfig = {
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     MatTableModule,
     MatSortModule,
     MatIconModule,

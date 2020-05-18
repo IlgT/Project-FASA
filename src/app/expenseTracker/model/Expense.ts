@@ -2,6 +2,7 @@ import { Money } from './Money';
 
 export class Expense {
     id: number;
+    version: number;
     amount: Money;
     reason: string;
     date: string;
@@ -10,7 +11,7 @@ export class Expense {
     tags: string[];
 }
 
-export function compareExpenses(e1:Expense, e2: Expense) {
+export function compareExpensesDate(e1:Expense, e2: Expense) {
     if (e1.date > e2.date) {
       return 1;
     }

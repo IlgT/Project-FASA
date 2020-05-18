@@ -3,6 +3,7 @@ import { Expense } from './expense';
 export const EXPENSES: Expense[] = [
   {
     id: 1,
+    version: 1,
     amount: {
       value: 85.86,
       currency: "EUR"
@@ -18,6 +19,7 @@ export const EXPENSES: Expense[] = [
   },
   {
     id: 2,
+    version: 1,
     amount: {
       value: 132.90,
       currency: "EUR"
@@ -34,6 +36,7 @@ export const EXPENSES: Expense[] = [
   },
   {
     id: 3,
+    version: 1,
     amount: {
       value: 114.14,
       currency: "EUR"
@@ -49,6 +52,7 @@ export const EXPENSES: Expense[] = [
   },
   {
     id: 4,
+    version: 1,
     amount: {
       value: 114.14,
       currency: "EUR"
@@ -64,6 +68,7 @@ export const EXPENSES: Expense[] = [
   },
   {
     id: 5,
+    version: 1,
     amount: {
       value: 120.00,
       currency: "EUR"
@@ -79,6 +84,7 @@ export const EXPENSES: Expense[] = [
   },
   {
     id: 6,
+    version: 1,
     amount: {
       value: 32.00,
       currency: "EUR"
@@ -94,6 +100,7 @@ export const EXPENSES: Expense[] = [
   },
   {
     id: 7,
+    version: 1,
     amount: {
       value: 70.00,
       currency: "EUR"
@@ -109,6 +116,7 @@ export const EXPENSES: Expense[] = [
   },
   {
     id: 8,
+    version: 1,
     amount: {
       value: 114.14,
       currency: "EUR"
@@ -124,6 +132,7 @@ export const EXPENSES: Expense[] = [
   },
   {
     id: 9,
+    version: 1,
     amount: {
       value: 114.14,
       currency: "EUR"
@@ -139,6 +148,7 @@ export const EXPENSES: Expense[] = [
   },
   {
     id: 10,
+    version: 1,
     amount: {
       value: 114.14,
       currency: "EUR"
@@ -154,6 +164,7 @@ export const EXPENSES: Expense[] = [
   },
   {
     id: 11,
+    version: 1,
     amount: {
       value: 114.14,
       currency: "EUR"
@@ -169,6 +180,7 @@ export const EXPENSES: Expense[] = [
   },
   {
     id: 12,
+    version: 1,
     amount: {
       value: 114.14,
       currency: "EUR"
@@ -184,6 +196,7 @@ export const EXPENSES: Expense[] = [
   },
   {
     id: 13,
+    version: 1,
     amount: {
       value: 114.14,
       currency: "EUR"

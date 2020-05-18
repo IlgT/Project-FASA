@@ -1,19 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Store, select } from '@ngrx/store';
-import * as ExpenseFilterActions from '../expenseOverview/expenses-filter/stateManagement/expense-filter.actions';
-import { Observable, of } from 'rxjs';
-import { Expense } from '../model/Expense';
-import { EXPENSES } from '../model/expense.testdata';
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material';
-import { map, tap, delay } from 'rxjs/operators';
+import { select, Store } from '@ngrx/store';
+import { Observable, of } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { AppState } from 'src/app/reducers/app.reducers';
+import { ExpenseActions } from '../action-types';
+import * as ExpenseFilterActions from '../expenseOverview/expenses-filter/stateManagement/expense-filter.actions';
+import { getFilteredMonth, getFilteredReasons, getFilteredTags } from '../expenseOverview/expenses-filter/stateManagement/expense-filter.selectors';
+import { Expense } from '../model/Expense';
 import { FilterSearch } from '../model/FilterSearch';
 import { UtilizedFilter } from '../model/UtilizedFilter';
-import { AppState } from 'src/app/reducers/app.reducers';
-import { ExpenseState } from '../reducers/expense.reducers';
-import { ExpenseActions } from '../action-types';
-import { selectAllExpenses } from '../expense.selectors';
-import { getFilteredMonth, getFilteredTags, getFilteredReasons } from '../expenseOverview/expenses-filter/stateManagement/expense-filter.selectors';
-import { async } from '@angular/core/testing';
+import { ExpenseHttpService } from './expense-http.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,28 +18,34 @@ import { async } from '@angular/core/testing';
 export class ExpenseService {
 
   constructor(private store: Store<AppState>,
+              private httpService: ExpenseHttpService,
               private _snackBar: MatSnackBar) { }
- 
+
   loadExpenseListByFilter(): Observable<Expense[]> {
-    const filter: FilterSearch = this.generateExpenseFilter();
-    console.log("HTTP-CALL for loading all expense by filter");
-    return of(EXPENSES);
+    return this.httpService.loadExpenseListByFilter(this.generateExpenseFilter());
   }
 
   addExpense(): Observable<Expense> {
-    console.log("HTTP-CALL for adding a expense");
-    return of(null).pipe(map(() => {throw new Error("404 - Service not found")}));
+    return this.httpService.addExpense(this.getActualExpense());
   }
 
   modifyExpense(): Observable<Expense> {
-    console.log("HTTP-CALL for modifying a expense");
-    let expense: Expense;
-    this.store.select('expense').subscribe(
-      (expenseState: ExpenseState) => {
-        expense = expenseState.actualExpense}).unsubscribe();
-    return of(expense);
+    return this.httpService.modifyExpense(this.getActualExpense());
   }
 
+  deleteExpense(): Observable<any> {
+    this.httpService.deleteExpense(this.getActualExpenseId());
+    return of(null);
+  }
+
+  loadUtilizedValuesForFilter(): Observable<UtilizedFilter> {
+    return this.httpService.loadUtilizedValuesForFilter();
+  }
+
+  getDefaultCurrency(): Observable<string> {
+    return this.httpService.getDefaultCurrency();
+  }
+ 
   isMatchingFilters(expense: Expense) : boolean {
     var isMatching = true;
     this.store.pipe(select(getFilteredMonth))
@@ -65,51 +68,6 @@ export class ExpenseService {
     return isMatching;
   }
 
-  deleteExpense(): Observable<Expense> {
-    let expense: Expense;
-    this.store.select('expense').subscribe(
-    (expenseState: ExpenseState) => {
-      expense = expenseState.actualExpense;
-    }).unsubscribe();
-    console.log("HTTP-CALL for deleting a expense");
-    return of(null);
-  }
-
-  loadUtilizedValuesForFilter(): Observable<UtilizedFilter> {
-    console.log("HTTP-CALL for loading all utilized reasons, months and tags for filter dropdowns");
-    let filters: UtilizedFilter = {
-      reasons: [],
-      months: [],
-      tags: [],
-      currencies: ["EUR", "USD"]
-    }
-
-    let expenses: Expense[];
-    this.store.pipe(select(selectAllExpenses))
-      .subscribe(storeExpenses => expenses = storeExpenses).unsubscribe();
-
-    for (let expense of expenses) {
-      if (filters.reasons
-        .filter(reason => reason.toLowerCase().indexOf(expense.reason.toLowerCase()) === 0).length < 1) {
-        filters.reasons.push(this.capitalize(expense.reason.toLowerCase()));
-      }
-      let month: number = +expense.date.substr(5, 2);
-      if (!filters.months.includes(month)) {
-        filters.months.push(month);
-      }
-      for (let expenseTag of expense.tags) {
-        if(filters.tags
-          .filter(tag => tag.toLowerCase().indexOf(expenseTag.toLowerCase()) === 0).length < 1) {
-          filters.tags.push(this.capitalize(expenseTag.toLowerCase()));
-        }
-      }
-    }
-    filters.reasons.sort();
-    filters.months.sort((a, b) => a - b);
-    filters.tags.sort();
-    return of(filters);
-  }
-  
   updatefilteredTagsDueToTagClick(tagName: string) {
     let updatedFilteredTags: string[] = this.getFilteredTags();
     if (updatedFilteredTags
@@ -234,6 +192,29 @@ export class ExpenseService {
   }
 
   private generateExpenseFilter(): FilterSearch {
-    return null;
+    let usedFilters: FilterSearch;
+    this.store.select('expenseFilter')
+      .subscribe(expenseFilterState => usedFilters = {
+        reasons: [...expenseFilterState.filteredReasons],
+        month: expenseFilterState.filteredMonth,
+        tags: [...expenseFilterState.filteredTags],
+      }).unsubscribe();
+    return usedFilters;
+  }
+
+  private getActualExpense(): Expense {
+    let expense: Expense;
+    this.store.select('expense')
+      .subscribe(expenseState => expense = expenseState.actualExpense)
+      .unsubscribe();
+    return expense;
+  }
+
+  private getActualExpenseId(): number {
+    let id: number;
+    this.store.select('expense')
+      .subscribe(expenseState => id = expenseState.actualExpenseId)
+      .unsubscribe();
+    return id;
   }
 }

@@ -1,20 +1,20 @@
-import { Component, OnInit , ViewChild, ElementRef, OnDestroy } from '@angular/core';
-import { Store, select } from '@ngrx/store';
-import { Expense } from '../model/Expense';
-import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material';
-import { ResponsiveDesignService } from 'src/app/commons/services/responsive-design.service';
-import { ExpenseService } from '../services/expense-service.service';
-import { Subscription, Observable, of } from 'rxjs';
-import { AppState } from 'src/app/reducers/app.reducers';
-import { loadExpenseList, openAddForm } from '../expense.actions';
-import { ContextMenuComponent } from 'src/app/commons/context-menu/context-menu.component';
-import { getTotalSum, isLoadingExpenses, selectAllExpenses } from '../expense.selectors';
-import { Money } from '../model/Money';
-import { isLoadingExpenseFilter, isInitialize } from './expenses-filter/stateManagement/expense-filter.selectors';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { select, Store } from '@ngrx/store';
+import { Observable, of, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { ContextMenuComponent } from 'src/app/commons/context-menu/context-menu.component';
+import { ResponsiveDesignService } from 'src/app/commons/services/responsive-design.service';
+import { AppState } from 'src/app/reducers/app.reducers';
+import { openAddForm } from '../expense.actions';
+import { isLoadingExpenses, selectAllExpenses } from '../expense.selectors';
+import { Expense } from '../model/Expense';
+import { Money } from '../model/Money';
+import { ExpenseService } from '../services/expense-service.service';
+import { isLoadingExpenseFilter } from './expenses-filter/stateManagement/expense-filter.selectors';
 
 @Component({
   selector: 'expenseTracker-overview',

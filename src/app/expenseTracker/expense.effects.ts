@@ -49,7 +49,7 @@ export class ExpenseEffects {
         this.actions$.pipe(
             ofType(ExpenseActions.deleteExpense),
             mergeMap(() => this.expenseService.deleteExpense()),
-            map(expense => ExpenseActions.deleteExpenseSuccess),
+            map(() => ExpenseActions.deleteExpenseSuccess),
             catchError(error => of(ExpenseActions.deleteExpenseFailure({error: error.message})))
         ), { resubscribeOnError: false }
     );

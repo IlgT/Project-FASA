@@ -90,6 +90,9 @@ export class EditExpenseComponent implements OnInit, OnDestroy {
         this.mode = "Überarbeiten";
       } else {
         this.mode = "Hinzufügen";
+        this.expenseService.getDefaultCurrency().subscribe(
+          (currency: string) => this.expenseForm.get('originalAmount.currency').setValue(currency)
+        );
       }
     this.title = "Ausgabe " + this.mode;
   }
