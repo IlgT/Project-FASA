@@ -27,7 +27,7 @@ export const initialExpenseFilterState: ExpenseFilterState = {
     errorMessage: null
 }
 
-const expenseFilterReducer = createReducer(
+export const expenseFilterReducer = createReducer(
     initialExpenseFilterState,
     on(ExpenseFilterActions.changeReasonsFilter, (state, action) => {
         return {
