@@ -22,7 +22,7 @@ export const initialExpenseState = expenseAdapter.getInitialState({
     errorMessage: null
 });
 
-export const  expenseReducer = createReducer(
+const  expenseReducer = createReducer(
     initialExpenseState,
     on(ExpenseActions.loadExpenseList, (state, action) => {
         return {
