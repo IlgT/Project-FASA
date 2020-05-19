@@ -1,9 +1,10 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Expense } from '../model/Expense';
 import { FilterSearch } from '../model/FilterSearch';
 import { UtilizedFilter } from '../model/UtilizedFilter';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class ExpenseHttpService {
 
   constructor(private http: HttpClient) { }
 
-  private baseUrl: string = "http://localhost:8080/FASA/api";
+  private baseUrl: string = environment.baseUrl;
 
   private expenseResource: string = "/expenses";
   private filterResource: string = "/filter";

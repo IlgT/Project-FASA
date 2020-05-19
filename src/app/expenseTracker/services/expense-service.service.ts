@@ -153,7 +153,7 @@ export class ExpenseService {
   }
   
   private updateUtilizedReasons(updatedUtilizedValues: UtilizedFilter, reason: string) {
-    if (!updatedUtilizedValues.reasons.includes(reason.toLowerCase())) {
+    if (!updatedUtilizedValues.reasons.includes(this.capitalize(reason))) {
       updatedUtilizedValues.reasons.push(this.capitalize(reason.toLowerCase()));
     }
   }
@@ -168,10 +168,9 @@ export class ExpenseService {
   }
   
   private updateUtilizedTags(updatedUtilizedValues: UtilizedFilter, tags: string[]) {
-    for (let expenseTag of tags) {
-      if (updatedUtilizedValues.tags
-        .filter(tag => tag.toLowerCase().indexOf(expenseTag.toLowerCase()) === 0).length < 1) {
-        updatedUtilizedValues.tags.push(this.capitalize(expenseTag.toLowerCase()));
+    for (let tag of tags) {
+      if (!updatedUtilizedValues.tags.includes(this.capitalize(tag))) {
+        updatedUtilizedValues.tags.push(this.capitalize(tag.toLowerCase()));
       }
     }
   }
