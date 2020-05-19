@@ -1,5 +1,5 @@
 import * as ExpenseFilterActions from './expense-filter.actions';
-import { on, createReducer } from '@ngrx/store';
+import { on, createReducer, Action } from '@ngrx/store';
 
 export interface ExpenseFilterState {
     isInitialize: boolean;
@@ -82,3 +82,7 @@ export const expenseFilterReducer = createReducer(
             isLoading: false
         }
     }))
+
+export function reducer(state: ExpenseFilterState | undefined, action: Action) {
+    return expenseFilterReducer(state, action);
+}

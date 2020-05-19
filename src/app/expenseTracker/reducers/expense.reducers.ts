@@ -1,9 +1,8 @@
-import { Expense, compareExpensesDate } from '../model/Expense';
-import { Money } from '../model/Money';
-import { defaultExpense } from '../model/expense.defaultdata';
+import { createEntityAdapter, EntityState } from '@ngrx/entity';
+import { createReducer, on, Action } from '@ngrx/store';
 import { ExpenseActions } from '../action-types';
-import { on, createReducer } from '@ngrx/store';
-import { EntityState, createEntityAdapter } from '@ngrx/entity';
+import { compareExpensesDate, Expense } from '../model/Expense';
+import { defaultExpense } from '../model/expense.defaultdata';
 
 export interface ExpenseState extends EntityState<Expense> {
     actualExpense: Expense | null;
@@ -154,6 +153,10 @@ export const  expenseReducer = createReducer(
         };
     })
 );
+
+export function reducer(state: ExpenseState | undefined, action: Action) {
+    return expenseReducer(state, action);
+}
 
 export const {
     selectAll
