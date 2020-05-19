@@ -7,3 +7,7 @@ spring:
         database-platform: org.hibernate.dialect.PostgreSQLDialect
         hibernate:
             ddl-auto: none
+
+app:
+   cors:
+      allowedOrigin: ${CORS_ALLOWED_ORIGIN}

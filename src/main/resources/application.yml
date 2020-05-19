@@ -23,3 +23,7 @@ server:
 
 hibernate:
    dialect: org.hibernate.dialect.H2Dialect
+
+app:
+   cors:
+      allowedOrigins: http://localhost:4200
