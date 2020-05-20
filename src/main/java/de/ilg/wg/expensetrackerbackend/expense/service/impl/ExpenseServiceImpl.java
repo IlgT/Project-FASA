@@ -8,7 +8,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import de.ilg.wg.expensetrackerbackend.common.entity.Money;
 import de.ilg.wg.expensetrackerbackend.common.exception.BusinessException;
@@ -56,7 +58,14 @@ public class ExpenseServiceImpl implements ExpenseService {
 
 	@Override
 	public List<Expense> getExpensesBySearchCriteria(ExpenseSearchCriteriaTo filter) {
-		return expenseDao.findAll(ExpenseSpecification.matchesMonth(filter.getMonth()));
+		Specification<Expense> specification = ExpenseSpecification.matchesMonth(filter.getMonth());
+		if (!CollectionUtils.isEmpty(filter.getReasons())) {
+			specification = specification.and(ExpenseSpecification.matchesOneReason(filter.getReasons()));
+		}
+		if (!CollectionUtils.isEmpty(filter.getTagNames())) {
+			specification = specification.and(ExpenseSpecification.matchesAtLeastOneTag(filter.getTagNames()));
+		}
+		return expenseDao.findAll(specification);
 	}
 
 	@Override
