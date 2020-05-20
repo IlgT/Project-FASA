@@ -1,6 +1,6 @@
 spring:
     datasource:
-        url: postgres://kppgamflbpwwxd:a5d0699c1f5a7d47afa891a4dadf6feedcf993194988832f9b797e02609d4649@ec2-54-247-169-129.eu-west-1.compute.amazonaws.com:5432/d2766s3ondcgqi
+        url: ${DATABASE_URL}
         username: kppgamflbpwwxd
         password: a5d0699c1f5a7d47afa891a4dadf6feedcf993194988832f9b797e02609d4649
         dirverClassName: org.ostgresql.Driver
