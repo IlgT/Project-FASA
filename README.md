@@ -13,10 +13,9 @@ Finance and Shopping Assistant
 ## Features
 | Feature                | State                                                                       |
 | ---------------------- | --------------------------------------------------------------------------- |
-| **Expense**            | **75,00%**                                                                  |   
+| **Expense**            | **62,50%**                                                                  |   
 | Add                    | DONE                                                                        |
 | Edit                   | DONE                                                                        |
-| Delete                 | DONE                                                                        |
 | Delete                 | DONE                                                                        |
 | Search by Filter       | DONE                                                                        |
 | Calculate TotalSum     | DONE                                                                        |
@@ -31,4 +30,4 @@ Finance and Shopping Assistant
 | Add                    | NOT STARTED                                                                 |
 | Edit                   | NOT STARTED                                                                 |
 | Delete                 | NOT STARTED                                                                 |
-| Delete                 | NOT STARTED                                                                 |
+| Get All                | DONE                                                                |
