@@ -13,4 +13,4 @@ spring:
 
 app:
    cors:
-      allowedOrigin: https://ilgt.github.io/Project-FASA
+      allowedOrigin: https://ilgt.github.io
