@@ -13,4 +13,4 @@ spring:
 
 app:
    cors:
-      allowedOrigin: https://ilgt.github.io
+      allowedOrigins: https://ilgt.github.io
