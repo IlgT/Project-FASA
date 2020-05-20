@@ -1,9 +1,6 @@
 spring:
     datasource:
-        url: ${DATABASE_URL}
-        username: kppgamflbpwwxd
-        password: a5d0699c1f5a7d47afa891a4dadf6feedcf993194988832f9b797e02609d4649
-        dirverClassName: org.ostgresql.Driver
+        dirverClassName: org.postgresql.Driver
         maxActive: 20
         maxIdle: 5
         minIdle: 2
