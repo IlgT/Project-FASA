@@ -13,7 +13,8 @@ Finance and Shopping Assistant
 ## Features
 | Feature                | State                                                                       |
 | ---------------------- | --------------------------------------------------------------------------- |
-| **Expense**            | **62,50%**                                                                  |   
+| ***EXPENSE-TRACKER***  | ***47,37%***                                                                |  
+| **EXPENSE**            | **62,50%**                                                                  |   
 | Add                    | DONE                                                                        |
 | Edit                   | DONE                                                                        |
 | Delete                 | DONE                                                                        |
@@ -22,12 +23,19 @@ Finance and Shopping Assistant
 | Compare MonthlyExpenses| NOT STARTED                                                                 |
 | Mail Monthly Overview  | NOT STARTED                                                                 |
 | Add automatically frequently raised Expenses| NOT STARTED                                            |
-| **Exchange**           | **100,00%**                                                                 |
+| **EXCHANGE**           | **100,00%**                                                                 |
 | All Currencies         | DONE                                                                        |
 | Exchange Value         | DONE                                                                        |   
 | Default Currency       | DONE                                                                        | 
-| **Tag**                | **25,00%**                                                                  |
+| **TAG**                | **25,00%**                                                                  |
 | Add                    | NOT STARTED                                                                 |
 | Edit                   | NOT STARTED                                                                 |
 | Delete                 | NOT STARTED                                                                 |
-| Get All                | DONE                                                                |
+| Get All                | DONE                                                                        |
+| **SECURITY**           | **00,00%**                                                                  |
+| Registration & Login   | NOT STARTED                                                                 |
+| Google Login           | NOT STARTED                                                                 |
+| GitHub Login           | NOT STARTED                                                                 |
+| Roles (Admin, User)    | NOT STARTED                                                                 |
+| ***SHOPPING-LIST***    | ***00,00%***                                                                |
+| ***RECIPE-BOOK***      | ***00,00%***                                                                |
