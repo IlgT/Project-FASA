@@ -45,13 +45,13 @@ export class ExpenseOverviewComponent implements OnInit, OnDestroy {
       .pipe(tap((dataSource: Expense[]) => {
         var filteredExpense = dataSource.filter(expense => this.expenseService.isMatchingFilters(expense));
         this.expenses = new MatTableDataSource(filteredExpense);
+        this.enableTableSorting();
         var totalSumValue = filteredExpense.map(expense => expense.amount.value)
           .reduce((acc, value) => acc + value, 0);
         this.totalSum$ = of({value: totalSumValue,
                              currency: 'EUR'});
       })).subscribe();
     this.isLoadingExpenses$ = this.store.pipe(select(isLoadingExpenses));
-    this.enableTableSorting();
   }
 
   private enableTableSorting() {
