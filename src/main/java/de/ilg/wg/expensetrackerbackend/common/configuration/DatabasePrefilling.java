@@ -15,17 +15,20 @@ public class DatabasePrefilling implements CommandLineRunner {
     
     @Override
     public void run(String... args) throws Exception {
-    	tagDao.save(new Tag("Monatlich"));
-    	tagDao.save(new Tag("Quartalsweise"));
-    	tagDao.save(new Tag("Halbjährlich"));
-    	tagDao.save(new Tag("Jährlich"));
-    	tagDao.save(new Tag("Wohnen"));
-    	tagDao.save(new Tag("Wocheneinkauf"));
-    	tagDao.save(new Tag("Essen"));
-    	tagDao.save(new Tag("Mobilität"));
-    	tagDao.save(new Tag("Medien"));
-    	tagDao.save(new Tag("Versicherung"));
-    	tagDao.save(new Tag("Ausgehen"));
-    	tagDao.save(new Tag("Sonstiges"));
+    	
+    	if(tagDao.findTagByNameIgnoreCase("Monatlich") == null) {
+	    	tagDao.save(new Tag("Monatlich"));
+	    	tagDao.save(new Tag("Quartalsweise"));
+	    	tagDao.save(new Tag("Halbjährlich"));
+	    	tagDao.save(new Tag("Jährlich"));
+	    	tagDao.save(new Tag("Wohnen"));
+	    	tagDao.save(new Tag("Wocheneinkauf"));
+	    	tagDao.save(new Tag("Essen"));
+	    	tagDao.save(new Tag("Mobilität"));
+	    	tagDao.save(new Tag("Medien"));
+	    	tagDao.save(new Tag("Versicherung"));
+	    	tagDao.save(new Tag("Ausgehen"));
+	    	tagDao.save(new Tag("Sonstiges"));
+    	}
     }
 }
