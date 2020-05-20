@@ -2,6 +2,8 @@
 
 Finance and Shopping Assistant
 
+Can be tested under: https://ilgt.github.io/Project-FASA
+
 ## Branches
 
 | Branch                 | Content                                                                     |
