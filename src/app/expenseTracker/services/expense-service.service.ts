@@ -51,19 +51,19 @@ export class ExpenseService {
     this.store.pipe(select(getFilteredMonth))
       .pipe(tap(filteredMonth => {
         if(filteredMonth !== +expense.date.substring(5, 7))
-          isMatching = isMatching && false;
+          isMatching = false;
       })).subscribe().unsubscribe();
     this.store.pipe(select(getFilteredReasons))
       .pipe(tap(reasons => {
         if(reasons.length !== 0
-          && !reasons.includes(this.capitalize(expense.reason.toLowerCase())))
-          isMatching = isMatching && false;
+          && reasons.filter(reason => expense.reason === reason).length === 0)
+          isMatching = false;
       })).subscribe().unsubscribe();
     this.store.pipe(select(getFilteredTags))
         .pipe(tap(tags => {
           if(tags.length !== 0
             && tags.filter(tag => expense.tags.includes(tag)).length === 0)
-            isMatching = isMatching && false;
+            isMatching = false;
         })).subscribe().unsubscribe();
     return isMatching;
   }
