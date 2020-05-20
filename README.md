@@ -13,7 +13,7 @@ Finance and Shopping Assistant
 ## Features
 | Feature                | State                                                                       |
 | ---------------------- | --------------------------------------------------------------------------- |
-| Expense                | 75,00%                                                                      |   
+| **Expense              | 75,00%**                                                                    |   
 | Add                    | DONE                                                                        |
 | Edit                   | DONE                                                                        |
 | Delete                 | DONE                                                                        |
@@ -23,11 +23,11 @@ Finance and Shopping Assistant
 | Compare MonthlyExpenses| NOT STARTED                                                                 |
 | Mail Monthly Overview  | NOT STARTED                                                                 |
 | Add automatically frequently raised Expenses| NOT STARTED                                            |
-| Exchange               | 100,00%                                                                     |
+| **Exchange             | 100,00%**                                                                   |
 | All Currencies         | DONE                                                                        |
 | Exchange Value         | DONE                                                                        |   
 | Default Currency       | DONE                                                                        | 
-| Tag                    | 25,00%                                                                      |
+| **Tag                  | 25,00%**                                                                    |
 | Add                    | NOT STARTED                                                                 |
 | Edit                   | NOT STARTED                                                                 |
 | Delete                 | NOT STARTED                                                                 |
